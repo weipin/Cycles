@@ -66,7 +66,7 @@ class TextProcessor : Processor {
     var readEncoding: NSStringEncoding?
     var textEncoding: NSStringEncoding?
 
-    class func textEncodingFromResponse(response: Response) -> NSStringEncoding? {
+    class func textEncodingFromResponse(response: Response) -> NSStringEncoding {
         var contentType = response.valueForHTTPHeaderField("content-type")
         var charset: String?
 

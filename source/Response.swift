@@ -31,7 +31,7 @@ class Response {
     var textReadEncoding: NSStringEncoding?
 
     @lazy var textEncoding: NSStringEncoding = {
-        return TextProcessor.textEncodingFromResponse(self)!
+        return TextProcessor.textEncodingFromResponse(self)
     }()
 
     @lazy var text: String = {
