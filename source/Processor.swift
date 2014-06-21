@@ -34,6 +34,10 @@ class Processor {
         assert(false)
         return false
     }
+
+    init() {
+
+    }
 }
 
 class DataProcessor : Processor {
@@ -117,7 +121,9 @@ class TextProcessor : Processor {
         var encoding = self.readEncoding
         if !encoding {
             encoding = TextProcessor.textEncodingFromResponse(response)
-            response.textEncoding = encoding
+            if encoding {
+                response.textEncoding = encoding!
+            }
         }
         if !encoding {
             encoding = NSUTF8StringEncoding

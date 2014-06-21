@@ -30,11 +30,11 @@ class Response {
     var timestamp: NSDate?
     var textReadEncoding: NSStringEncoding?
 
-    @lazy var textEncoding: NSStringEncoding? = {
-        return TextProcessor.textEncodingFromResponse(self)
+    @lazy var textEncoding: NSStringEncoding = {
+        return TextProcessor.textEncodingFromResponse(self)!
     }()
 
-    @lazy var text: String? = {
+    @lazy var text: String = {
         var encoding = self.textReadEncoding
         if !encoding {
             encoding = self.textEncoding

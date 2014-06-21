@@ -230,7 +230,6 @@ NSURLSessionDataDelegate {
     }
 
     // NSURLSessionDataDelegate
-
     func URLSession(session: NSURLSession!, dataTask: NSURLSessionDataTask!,
     didReceiveData data: NSData!) {
         var cycle = self.cycleForTask(dataTask)!

@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var cycle = Cycle(requestURL: URL)
         cycle.start {(cycle: Cycle, error: NSError?) in
             var text = cycle.response.text
+            println(text)
         }
 
         return true
