@@ -164,7 +164,7 @@ class JSONProcessor : Processor {
 
 class FORMProcessor : Processor {
     override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
-        if let object = request.object as? NSDictionary {
+        if let object = request.object as? Dictionary<String, String[]> {
             request.object = FormencodeDictionary(object)
             request.core.setValue("application/x-www-form-urlencoded",
                                   forHTTPHeaderField: "Content-Type")

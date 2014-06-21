@@ -62,27 +62,17 @@ func UnescapeStringFromURLArgumentString(str: String) -> String {
     return s
 }
 
-func FormencodeDictionary(dict: NSDictionary) -> String {
+func FormencodeDictionary(dict: Dictionary<String, String[]>) -> String {
     var result = String[]()
-    for (var k: AnyObject, v: AnyObject) in dict {
-        var key = k as? NSString
-        if !key {
-            continue
-        }
+    var keys = Array(dict.keys)
+    keys = sort(keys) {(s1: String, s2: String) -> Bool in
+        return s1.localizedCaseInsensitiveCompare(s2) == NSComparisonResult.OrderedAscending
+    }
 
-        if let value = v as? NSArray {
-            for i : AnyObject in value {
-                if let str = i as? NSString {
-                    var escaped = EscapeStringToURLArgumentString(str)
-                    result.append("\(key)=\(escaped)")
-                }
-            }
-        } else if let value = v as? NSString {
-            var escaped = EscapeStringToURLArgumentString(value)
-            result.append("\(key)=\(escaped)")
-
-        } else {
-
+    for (var k, v) in dict {
+        for i in v {
+            var escaped = EscapeStringToURLArgumentString(i)
+            result.append("\(k)=\(escaped)")
         }
     }
 

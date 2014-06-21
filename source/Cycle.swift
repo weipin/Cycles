@@ -165,9 +165,9 @@ class Cycle {
                     }
                 }
             }
-//            RunOnThread(originalThread, NO, {
-//                completionHandler(result)
-//            });
+            RunOnThread(originalThread, false, {
+                completionHandler(result: result)
+            });
         }
     }
 

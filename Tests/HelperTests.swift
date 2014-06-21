@@ -52,11 +52,8 @@ class HelperTests: XCTestCase {
     }
 
     func testFormencodeDictionaryShouldWork() {
-        var dict = NSMutableDictionary()
-        dict.setObject("v1", forKey:"k1")
-        dict.setObject(["&;", "hello"], forKey:"k2")
-        dict.setObject(["world"], forKey:"k3")
+        var dict = ["k1": ["v1"], "k2": ["&;", "hello"], "k3": ["world"]]
         var str = FormencodeDictionary(dict)
-        XCTAssertEqualObjects(str, "k3=world&k2=%26%3B&k2=hello&k1=v1", "")
+        XCTAssertEqualObjects(str, "k1=v1&k2=%26%3B&k2=hello&k3=world", "")
     }
 }
