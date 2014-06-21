@@ -115,7 +115,7 @@ NSURLSessionDataDelegate {
     }
 
     func shouldRetry(solicited: Bool, retriedCount: Int, request: Request,
-    response:Response, error: NSError) -> Bool {
+    response:Response, error: NSError!) -> Bool {
         if solicited {
             return true
         }
@@ -124,8 +124,10 @@ NSURLSessionDataDelegate {
             return false
         }
 
-        if error.domain == NSURLErrorDomain && error.code == NSURLErrorTimedOut {
-            return true
+        if error {
+            if error.domain == NSURLErrorDomain && error.code == NSURLErrorTimedOut {
+                return true
+            }
         }
 
         if response.statusCode == 408 || response.statusCode == 503 {
@@ -145,18 +147,21 @@ NSURLSessionDataDelegate {
         assert(cycle.response.core != nil)
         cycle.response.timestamp = NSDate()
 
-        if error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled {
-            self.delegateQueue.addOperationWithBlock {
-                if !cycle.explicitlyCanceling {
-                    cycle.completionHandler(cycle: cycle, error: error)
+        if error {
+            if error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled {
+                self.delegateQueue.addOperationWithBlock {
+                    if !cycle.explicitlyCanceling {
+                        cycle.completionHandler(cycle: cycle, error: error)
+                    }
                 }
                 self.removeCycle(cycle)
+                return
             }
-            return
         }
 
         var retry = self.shouldRetry(cycle.solicited, retriedCount: cycle.retriedCount,
-            request: cycle.request, response: cycle.response, error: error)
+                                     request: cycle.request, response: cycle.response,
+                                     error: error)
         if retry {
             ++cycle.retriedCount
             dispatch_after(self.retryDelay, self.delegateQueue.underlyingQueue) {
@@ -173,7 +178,7 @@ NSURLSessionDataDelegate {
             return
         }
 
-        self.workerQueue .addOperationWithBlock {
+        self.workerQueue.addOperationWithBlock {
             var error: NSError?
             for i in cycle.responseProcessors {
                 if !i.processResponse(cycle.response, error: &error) {
@@ -182,7 +187,9 @@ NSURLSessionDataDelegate {
             }
             self.delegateQueue.addOperationWithBlock {
                 cycle.completionHandler(cycle: cycle, error: error)
-                self.removeCycle(cycle)
+                self.core.delegateQueue.addOperationWithBlock {
+                    self.removeCycle(cycle)
+                }
             }
         }
 

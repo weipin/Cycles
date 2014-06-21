@@ -19,6 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         self.window!.backgroundColor = UIColor.whiteColor()
         self.window!.makeKeyAndVisible()
+
+        var URL = NSURL(string: "http://127.0.0.1:8000/test/hello")
+        var cycle = Cycle(requestURL: URL)
+        cycle.start {(cycle: Cycle, error: NSError?) in
+            var text = cycle.response.text
+        }
+
         return true
     }
 

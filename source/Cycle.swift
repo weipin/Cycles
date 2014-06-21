@@ -70,7 +70,7 @@ class Cycle {
         self._responseProcessors = newValue
     }
     }
-    var completionHandler: CycleCompletionHandler
+    var completionHandler: CycleCompletionHandler!
 
     var solicited = false
     var _authentications: Authentication[]?
@@ -97,25 +97,33 @@ class Cycle {
     var retriedCount = 0
     var explicitlyCanceling = false
 
-    init(requestURL: NSURL, completionHandler: CycleCompletionHandler,
+    init(requestURL: NSURL,
     taskType: CycleType = CycleType.Data,
-    session: Session,
+    session: Session? = nil,
     requestMethod: String = "GET",
     requestObject: AnyObject? = nil,
     requestProcessors: Processor[]? = nil,
     responseProcessors: Processor[]? = nil) {
         self.taskType = taskType
-        self.completionHandler = completionHandler
 
         var r = NSURLRequest(URL: requestURL)
         self.request = Request(core: r)
         self.request.core.HTTPMethod = self.requestMethod
         self.request.object = self.requestObject
 
-        self.session = session
+        if session {
+            self.session = session!
+        } else {
+            self.session = Session.defaultSession()
+        }
+
         self.requestObject = requestObject
-        self.requestProcessors = requestProcessors!
-        self.responseProcessors = responseProcessors!
+        if requestProcessors {
+            self.requestProcessors = requestProcessors!
+        }
+        if responseProcessors {
+            self.responseProcessors = responseProcessors!
+        }
 
         self.session.addCycle(self)
     }
@@ -171,7 +179,12 @@ class Cycle {
         }
     }
 
-    func start() -> Bool {
+    func start(completionHandler: CycleCompletionHandler? = nil) -> Bool {
+        if completionHandler {
+            self.completionHandler = completionHandler
+        }
+        assert(self.completionHandler)
+
         var index = self.session.indexOfCycle(self)
         if !index {
             // Cancelled. 

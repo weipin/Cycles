@@ -20,10 +20,18 @@
 		1613F9E31955AA5800CDD9FD /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9DA1955AA5800CDD9FD /* Session.swift */; };
 		1613F9E51955AA6B00CDD9FD /* HelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9E41955AA6B00CDD9FD /* HelperTests.swift */; };
 		1613F9E91955AACE00CDD9FD /* Bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9E81955AACE00CDD9FD /* Bridge.m */; };
+		1613F9EB1955E29200CDD9FD /* CycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9EA1955E29200CDD9FD /* CycleTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		1613F9C21955AA2500CDD9FD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1613F9AC1955AA2500CDD9FD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1613F9B31955AA2500CDD9FD;
+			remoteInfo = CyclesTouch;
+		};
+		1613F9EC1955F98D00CDD9FD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1613F9AC1955AA2500CDD9FD /* Project object */;
 			proxyType = 1;
@@ -52,6 +60,7 @@
 		1613F9E61955AACD00CDD9FD /* CyclesTouch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CyclesTouch-Bridging-Header.h"; sourceTree = "<group>"; };
 		1613F9E71955AACE00CDD9FD /* Bridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bridge.h; path = ../source/Bridge.h; sourceTree = "<group>"; };
 		1613F9E81955AACE00CDD9FD /* Bridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Bridge.m; path = ../source/Bridge.m; sourceTree = "<group>"; };
+		1613F9EA1955E29200CDD9FD /* CycleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CycleTests.swift; path = ../../tests/CycleTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,8 +84,8 @@
 		1613F9AB1955AA2500CDD9FD = {
 			isa = PBXGroup;
 			children = (
-				1613F9D11955AA4F00CDD9FD /* Cycles */,
 				1613F9B61955AA2500CDD9FD /* CyclesTouch */,
+				1613F9D11955AA4F00CDD9FD /* Cycles */,
 				1613F9C41955AA2500CDD9FD /* CyclesTouchTests */,
 				1613F9B51955AA2500CDD9FD /* Products */,
 			);
@@ -112,6 +121,7 @@
 		1613F9C41955AA2500CDD9FD /* CyclesTouchTests */ = {
 			isa = PBXGroup;
 			children = (
+				1613F9EA1955E29200CDD9FD /* CycleTests.swift */,
 				1613F9E41955AA6B00CDD9FD /* HelperTests.swift */,
 				1613F9C51955AA2500CDD9FD /* Supporting Files */,
 			);
@@ -177,6 +187,7 @@
 			);
 			dependencies = (
 				1613F9C31955AA2500CDD9FD /* PBXTargetDependency */,
+				1613F9ED1955F98D00CDD9FD /* PBXTargetDependency */,
 			);
 			name = CyclesTouchTests;
 			productName = CyclesTouchTests;
@@ -260,6 +271,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1613F9EB1955E29200CDD9FD /* CycleTests.swift in Sources */,
 				1613F9E51955AA6B00CDD9FD /* HelperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -271,6 +283,11 @@
 			isa = PBXTargetDependency;
 			target = 1613F9B31955AA2500CDD9FD /* CyclesTouch */;
 			targetProxy = 1613F9C21955AA2500CDD9FD /* PBXContainerItemProxy */;
+		};
+		1613F9ED1955F98D00CDD9FD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1613F9B31955AA2500CDD9FD /* CyclesTouch */;
+			targetProxy = 1613F9EC1955F98D00CDD9FD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -434,6 +451,7 @@
 				1613F9CD1955AA2500CDD9FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1613F9CE1955AA2500CDD9FD /* Build configuration list for PBXNativeTarget "CyclesTouchTests" */ = {
 			isa = XCConfigurationList;
@@ -442,6 +460,7 @@
 				1613F9D01955AA2500CDD9FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
