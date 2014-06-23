@@ -38,6 +38,34 @@
 			remoteGlobalIDString = 1613F9B31955AA2500CDD9FD;
 			remoteInfo = CyclesTouch;
 		};
+		1613F9EE1955F98D00CDD9FD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1613F9AC1955AA2500CDD9FD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1613F9B31955AA2500CDD9FD;
+			remoteInfo = CyclesTouch;
+		};
+		1613F9F01955F99000CDD9FD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1613F9AC1955AA2500CDD9FD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1613F9B31955AA2500CDD9FD;
+			remoteInfo = CyclesTouch;
+		};
+		1613F9F21955FBCF00CDD9FD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1613F9AC1955AA2500CDD9FD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1613F9B31955AA2500CDD9FD;
+			remoteInfo = CyclesTouch;
+		};
+		1613F9F4195611F800CDD9FD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1613F9AC1955AA2500CDD9FD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1613F9B31955AA2500CDD9FD;
+			remoteInfo = CyclesTouch;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -188,6 +216,10 @@
 			dependencies = (
 				1613F9C31955AA2500CDD9FD /* PBXTargetDependency */,
 				1613F9ED1955F98D00CDD9FD /* PBXTargetDependency */,
+				1613F9EF1955F98D00CDD9FD /* PBXTargetDependency */,
+				1613F9F11955F99000CDD9FD /* PBXTargetDependency */,
+				1613F9F31955FBCF00CDD9FD /* PBXTargetDependency */,
+				1613F9F5195611F800CDD9FD /* PBXTargetDependency */,
 			);
 			name = CyclesTouchTests;
 			productName = CyclesTouchTests;
@@ -288,6 +320,26 @@
 			isa = PBXTargetDependency;
 			target = 1613F9B31955AA2500CDD9FD /* CyclesTouch */;
 			targetProxy = 1613F9EC1955F98D00CDD9FD /* PBXContainerItemProxy */;
+		};
+		1613F9EF1955F98D00CDD9FD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1613F9B31955AA2500CDD9FD /* CyclesTouch */;
+			targetProxy = 1613F9EE1955F98D00CDD9FD /* PBXContainerItemProxy */;
+		};
+		1613F9F11955F99000CDD9FD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1613F9B31955AA2500CDD9FD /* CyclesTouch */;
+			targetProxy = 1613F9F01955F99000CDD9FD /* PBXContainerItemProxy */;
+		};
+		1613F9F31955FBCF00CDD9FD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1613F9B31955AA2500CDD9FD /* CyclesTouch */;
+			targetProxy = 1613F9F21955FBCF00CDD9FD /* PBXContainerItemProxy */;
+		};
+		1613F9F5195611F800CDD9FD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1613F9B31955AA2500CDD9FD /* CyclesTouch */;
+			targetProxy = 1613F9F4195611F800CDD9FD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -408,6 +460,11 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Applications/Xcode6-Beta2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
+					"$(SRCROOT)/../source/",
+				);
 				INFOPLIST_FILE = CyclesTouchTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				METAL_ENABLE_DEBUG_INFO = YES;
@@ -423,6 +480,11 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Applications/Xcode6-Beta2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
+					"$(SRCROOT)/../source/",
 				);
 				INFOPLIST_FILE = CyclesTouchTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

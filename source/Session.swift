@@ -144,7 +144,6 @@ NSURLSessionDataDelegate {
         assert(cycle != nil)
 
         cycle.response.core = task.response as? NSHTTPURLResponse
-        assert(cycle.response.core != nil)
         cycle.response.timestamp = NSDate()
 
         if error {
@@ -178,6 +177,12 @@ NSURLSessionDataDelegate {
             return
         }
 
+        if error {
+            cycle.completionHandler(cycle: cycle, error: error)
+            self.removeCycle(cycle)
+            return
+        }
+
         self.workerQueue.addOperationWithBlock {
             var error: NSError?
             for i in cycle.responseProcessors {
@@ -201,7 +206,7 @@ NSURLSessionDataDelegate {
         var cycle = self.cycleForTask(task)
         assert(cycle)
 
-        cycle!.didSendBodyDataHandler?(cycle: cycle!, bytesSent: bytesSent,
+        cycle?.didSendBodyDataHandler?(cycle: cycle!, bytesSent: bytesSent,
                                        totalBytesSent: totalBytesSent,
                                        totalBytesExpectedToSend: totalBytesExpectedToSend)
     }

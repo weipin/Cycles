@@ -43,7 +43,12 @@ class Cycle {
         return self.request.core.URL
     }
     var requestMethod: String {
+    get {
         return self.request.core.HTTPMethod
+    }
+    set {
+        self.request.core.HTTPMethod = newValue
+    }
     }
     var requestObject: AnyObject?
     var _requestProcessors: Processor[]?
@@ -105,11 +110,10 @@ class Cycle {
     requestProcessors: Processor[]? = nil,
     responseProcessors: Processor[]? = nil) {
         self.taskType = taskType
-
         var r = NSURLRequest(URL: requestURL)
         self.request = Request(core: r)
-        self.request.core.HTTPMethod = self.requestMethod
         self.request.object = self.requestObject
+        self.requestMethod = requestMethod
 
         if session {
             self.session = session!

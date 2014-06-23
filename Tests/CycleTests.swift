@@ -28,8 +28,9 @@ import CyclesTouch
 let Timeout = 20.0
 
 func URLByAppendingPathComponent(lastComponent: String) -> NSURL {
-    var URL = NSURL(string: "http://127.0.0.1:8000/test")
-    URL = URL.URLByAppendingPathComponent(lastComponent)
+    let base = "http://127.0.0.1:8000/test/"
+    var str = base + lastComponent
+    var URL = NSURL(string: str)
 
     return URL
 }
@@ -59,4 +60,85 @@ class CycleTests: XCTestCase {
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
     }
+
+    func testGETTextEncodingFromHeaderShouldWork() {
+        var expection = self.expectationWithDescription("get")
+        var URL = URLByAppendingPathComponent("echo?header=Content-Type%3Atext%2Fhtml%3B%20charset%3Dgb2312")
+        var cycle = Cycle(requestURL: URL)
+
+        cycle.start {(cycle: Cycle, error: NSError?) in
+            XCTAssertFalse(error)
+
+            var enc = CFStringEncoding(CFStringEncodings.EUC_CN.toRaw())
+            var encoding = cycle.response.textEncoding
+            XCTAssertTrue(encoding == CFStringConvertEncodingToNSStringEncoding(enc));
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
+
+    func testGetTextEncodingWhenContentTypeContainsTextAndCharsetIsMissingShouldWork() {
+        var expection = self.expectationWithDescription("get")
+        var URL = URLByAppendingPathComponent("echo?header=Content-Type%3Atext%2Fhtml")
+        var cycle = Cycle(requestURL: URL)
+
+        cycle.start {(cycle: Cycle, error: NSError?) in
+            XCTAssertFalse(error)
+
+            var enc = CFStringEncoding(CFStringBuiltInEncodings.ISOLatin1.toRaw())
+            var encoding = cycle.response.textEncoding
+            XCTAssertTrue(encoding == CFStringConvertEncodingToNSStringEncoding(enc));
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
+
+    func testGetTextEncodingWithDetectionShouldWork() {
+        var expection = self.expectationWithDescription("get")
+        var URL = URLByAppendingPathComponent("echo?header=Content-Type%3AXXXXXXX&content=%E4%BD%A0%E5%A5%BD&encoding=gb2312")
+        var cycle = Cycle(requestURL: URL)
+
+        cycle.start {(cycle: Cycle, error: NSError?) in
+            XCTAssertFalse(error)
+
+            var enc = CFStringEncoding(CFStringEncodings.GB_18030_2000.toRaw())
+            var encoding = cycle.response.textEncoding
+            XCTAssertTrue(encoding == CFStringConvertEncodingToNSStringEncoding(enc));
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
+
+    func testGetTextEncodingWithLastFallBackShouldWork() {
+        var expection = self.expectationWithDescription("get")
+        var URL = URLByAppendingPathComponent("echo?header=Content-Type%3AXXXXXXX")
+        var cycle = Cycle(requestURL: URL)
+
+        cycle.start {(cycle: Cycle, error: NSError?) in
+            XCTAssertFalse(error)
+
+            var encoding = cycle.response.textEncoding
+            XCTAssertTrue(encoding == NSUTF8StringEncoding);
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
+
+
+    func testUploadDataShouldWork() {
+        var data = "Hello World".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+        var expection = self.expectationWithDescription("post")
+        var URL = URLByAppendingPathComponent("dumpupload/")
+        var cycle = Cycle(requestURL: URL, taskType: .Upload, requestMethod: "POST")
+        cycle.dataToUpload = data
+
+        cycle.start {(cycle: Cycle, error: NSError?) in
+            XCTAssertFalse(error)
+
+            XCTAssertEqualObjects(cycle.response.text, "Hello World")
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
 }
+
