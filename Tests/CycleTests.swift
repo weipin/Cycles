@@ -25,7 +25,6 @@ import XCTest
 
 import CyclesTouch
 
-let Timeout = 20.0
 
 func URLByAppendingPathComponent(lastComponent: String) -> NSURL {
     let base = "http://127.0.0.1:8000/test/"
@@ -61,6 +60,7 @@ class CycleTests: XCTestCase {
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
     }
 
+    // encoding
     func testGETTextEncodingFromHeaderShouldWork() {
         var expection = self.expectationWithDescription("get")
         var URL = URLByAppendingPathComponent("echo?header=Content-Type%3Atext%2Fhtml%3B%20charset%3Dgb2312")
@@ -124,10 +124,10 @@ class CycleTests: XCTestCase {
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
     }
 
-
+    // requests
     func testUploadDataShouldWork() {
         var data = "Hello World".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-        var expection = self.expectationWithDescription("post")
+        var expection = self.expectationWithDescription("upload")
         var URL = URLByAppendingPathComponent("dumpupload/")
         var cycle = Cycle(requestURL: URL, taskType: .Upload, requestMethod: "POST")
         cycle.dataToUpload = data
@@ -140,5 +140,44 @@ class CycleTests: XCTestCase {
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
     }
+
+    func testUploadFileShouldWork() {
+        var bundle = NSBundle(identifier: TestBundleIdentifier)
+        var file = bundle.URLForResource("upload", withExtension: "txt")
+
+        var expection = self.expectationWithDescription("upload")
+        var URL = URLByAppendingPathComponent("dumpupload/")
+        var cycle = Cycle(requestURL: URL, taskType: .Upload, requestMethod: "POST")
+        cycle.fileToUpload = file
+
+        cycle.start {(cycle: Cycle, error: NSError?) in
+            XCTAssertFalse(error)
+
+            XCTAssertEqualObjects(cycle.response.text, "Hello World File")
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
+
+    func testDownloadShouldWork() {
+        var expection = self.expectationWithDescription("download")
+        var URL = URLByAppendingPathComponent("echo?content=helloworld")
+        var cycle = Cycle(requestURL: URL, taskType: .Download)
+        cycle.downloadFileHandler = {(cycle: Cycle, location: NSURL?) in
+            XCTAssertTrue(location)
+            var content = NSString(contentsOfURL: location, encoding: NSUTF8StringEncoding, error: nil)
+            XCTAssertEqualObjects(content, "helloworld")
+        }
+        cycle.start {(cycle: Cycle, error: NSError?) in
+            XCTAssertFalse(error)
+
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
+
+    // Auth
+    
+    // Retry
 }
 

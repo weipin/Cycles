@@ -21,6 +21,8 @@
 		1613F9E51955AA6B00CDD9FD /* HelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9E41955AA6B00CDD9FD /* HelperTests.swift */; };
 		1613F9E91955AACE00CDD9FD /* Bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9E81955AACE00CDD9FD /* Bridge.m */; };
 		1613F9EB1955E29200CDD9FD /* CycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9EA1955E29200CDD9FD /* CycleTests.swift */; };
+		16FAA01E19589E1C00CE1F47 /* upload.txt in Resources */ = {isa = PBXBuildFile; fileRef = 16FAA01D19589E1C00CE1F47 /* upload.txt */; };
+		16FAA0261958A17400CE1F47 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FAA0251958A17400CE1F47 /* Tests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,27 @@
 			remoteGlobalIDString = 1613F9B31955AA2500CDD9FD;
 			remoteInfo = CyclesTouch;
 		};
+		16FAA01F19589FE700CE1F47 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1613F9AC1955AA2500CDD9FD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1613F9B31955AA2500CDD9FD;
+			remoteInfo = CyclesTouch;
+		};
+		16FAA02119589FE700CE1F47 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1613F9AC1955AA2500CDD9FD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1613F9B31955AA2500CDD9FD;
+			remoteInfo = CyclesTouch;
+		};
+		16FAA02319589FEC00CE1F47 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1613F9AC1955AA2500CDD9FD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1613F9B31955AA2500CDD9FD;
+			remoteInfo = CyclesTouch;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -89,6 +112,8 @@
 		1613F9E71955AACE00CDD9FD /* Bridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bridge.h; path = ../source/Bridge.h; sourceTree = "<group>"; };
 		1613F9E81955AACE00CDD9FD /* Bridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Bridge.m; path = ../source/Bridge.m; sourceTree = "<group>"; };
 		1613F9EA1955E29200CDD9FD /* CycleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CycleTests.swift; path = ../../tests/CycleTests.swift; sourceTree = "<group>"; };
+		16FAA01D19589E1C00CE1F47 /* upload.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = upload.txt; sourceTree = "<group>"; };
+		16FAA0251958A17400CE1F47 /* Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tests.swift; path = ../../tests/Tests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +174,8 @@
 		1613F9C41955AA2500CDD9FD /* CyclesTouchTests */ = {
 			isa = PBXGroup;
 			children = (
+				16FAA01C19589E1C00CE1F47 /* data */,
+				16FAA0251958A17400CE1F47 /* Tests.swift */,
 				1613F9EA1955E29200CDD9FD /* CycleTests.swift */,
 				1613F9E41955AA6B00CDD9FD /* HelperTests.swift */,
 				1613F9C51955AA2500CDD9FD /* Supporting Files */,
@@ -181,6 +208,15 @@
 				1613F9E61955AACD00CDD9FD /* CyclesTouch-Bridging-Header.h */,
 			);
 			name = Cycles;
+			sourceTree = "<group>";
+		};
+		16FAA01C19589E1C00CE1F47 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				16FAA01D19589E1C00CE1F47 /* upload.txt */,
+			);
+			name = data;
+			path = ../../tests/data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -220,6 +256,9 @@
 				1613F9F11955F99000CDD9FD /* PBXTargetDependency */,
 				1613F9F31955FBCF00CDD9FD /* PBXTargetDependency */,
 				1613F9F5195611F800CDD9FD /* PBXTargetDependency */,
+				16FAA02019589FE700CE1F47 /* PBXTargetDependency */,
+				16FAA02219589FE700CE1F47 /* PBXTargetDependency */,
+				16FAA02419589FEC00CE1F47 /* PBXTargetDependency */,
 			);
 			name = CyclesTouchTests;
 			productName = CyclesTouchTests;
@@ -276,6 +315,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16FAA01E19589E1C00CE1F47 /* upload.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +345,7 @@
 			files = (
 				1613F9EB1955E29200CDD9FD /* CycleTests.swift in Sources */,
 				1613F9E51955AA6B00CDD9FD /* HelperTests.swift in Sources */,
+				16FAA0261958A17400CE1F47 /* Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +381,21 @@
 			isa = PBXTargetDependency;
 			target = 1613F9B31955AA2500CDD9FD /* CyclesTouch */;
 			targetProxy = 1613F9F4195611F800CDD9FD /* PBXContainerItemProxy */;
+		};
+		16FAA02019589FE700CE1F47 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1613F9B31955AA2500CDD9FD /* CyclesTouch */;
+			targetProxy = 16FAA01F19589FE700CE1F47 /* PBXContainerItemProxy */;
+		};
+		16FAA02219589FE700CE1F47 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1613F9B31955AA2500CDD9FD /* CyclesTouch */;
+			targetProxy = 16FAA02119589FE700CE1F47 /* PBXContainerItemProxy */;
+		};
+		16FAA02419589FEC00CE1F47 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1613F9B31955AA2500CDD9FD /* CyclesTouch */;
+			targetProxy = 16FAA02319589FEC00CE1F47 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

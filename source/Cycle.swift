@@ -34,7 +34,7 @@ typealias CycleDidSendBodyDataHandler = (cycle: Cycle, bytesSent: Int64,
 typealias CycleDidWriteBodyDataHandler = (cycle: Cycle, bytesWritten: Int64,
                                           totalBytesWritten: Int64,
                                           totalBytesExpectedToWrite: Int64) -> Void
-typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL) -> Void
+typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
 
 class Cycle {
     var taskType: CycleType
