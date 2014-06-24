@@ -69,13 +69,72 @@ func FormencodeDictionary(dict: Dictionary<String, String[]>) -> String {
         return s1.localizedCaseInsensitiveCompare(s2) == NSComparisonResult.OrderedAscending
     }
 
-    for (var k, v) in dict {
-        for i in v {
+    for (let k, v) in dict {
+        var sorted = sort(v) {(s1: String, s2: String) -> Bool in
+            return s1.localizedCaseInsensitiveCompare(s2) == NSComparisonResult.OrderedAscending
+        }
+        for i in sorted {
             var escaped = EscapeStringToURLArgumentString(i)
             result.append("\(k)=\(escaped)")
         }
     }
 
     return result.bridgeToObjectiveC().componentsJoinedByString("&")
+}
+
+func ParseURLWithQueryParameters(URL: String) -> (URL: String?,
+parameters: Dictionary<String, String[]>) {
+    var base: String?
+    var query: String
+    var parameters = Dictionary<String, String[]>()
+    if let loc = find(URL, "?") {
+        base = URL[URL.startIndex..loc]
+        query = URL[advance(loc, 1)..URL.endIndex]
+    } else {
+        query = URL
+    }
+    var set = NSCharacterSet(charactersInString: "&;")
+    var ary = query.componentsSeparatedByCharactersInSet(set)
+    for str in ary {
+        if let loc = find(str, "=") {
+            var k = str[str.startIndex..loc]
+            if countElements(k) == 0 {
+                continue
+            }
+            k = k.lowercaseString
+            var v = str[advance(loc, 1)..str.endIndex]
+            if var values = parameters[k] {
+                values.append(v)
+                parameters[k] = values
+            } else {
+                parameters[k] = [v]
+            }
+        }
+    }
+
+    return (base, parameters)
+}
+
+func MergeParametersToURL(URL: String, parameters: Dictionary<String, String[]>) -> String {
+    var (base, existing_params) = ParseURLWithQueryParameters(URL)
+    for (var k, var v) in parameters {
+        k = k.lowercaseString
+        if var values = existing_params[k] {
+            values.extend(v)
+            existing_params[k] = values
+        } else {
+            existing_params[k] = v
+        }
+    }
+
+    let query = FormencodeDictionary(existing_params)
+    var ary = String[]()
+    if base {
+        ary.append(base!)
+    }
+    if !query.isEmpty {
+        ary.append(query)
+    }
+    return ary.bridgeToObjectiveC().componentsJoinedByString("?")
 }
 

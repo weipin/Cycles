@@ -54,6 +54,25 @@ class HelperTests: XCTestCase {
     func testFormencodeDictionaryShouldWork() {
         var dict = ["k1": ["v1"], "k2": ["&;", "hello"], "k3": ["world"]]
         var str = FormencodeDictionary(dict)
-        XCTAssertEqualObjects(str, "k1=v1&k2=%26%3B&k2=hello&k3=world", "")
+        XCTAssertEqualObjects(str, "k1=v1&k2=%26%3B&k2=hello&k3=world")
+    }
+
+    func testParseURLWithQueryParametersShouldWork() {
+        var (base, parameters) = ParseURLWithQueryParameters("http://mydomain.com?k1=v1&k1=v11&k2=v2")
+        XCTAssertEqualObjects(base, "http://mydomain.com")
+        XCTAssertEqualObjects(FormencodeDictionary(parameters), "k1=v1&k1=v11&k2=v2")
+
+        (base, parameters) = ParseURLWithQueryParameters("k1=v1&k1=v11&k2=v2")
+        XCTAssertFalse(base)
+        XCTAssertEqualObjects(FormencodeDictionary(parameters), "k1=v1&k1=v11&k2=v2")
+    }
+
+    func testMergeParametersToURLShouldWork() {
+        var URL = MergeParametersToURL("http://domain.com?k1=v1&K2=v2", ["k3": ["v3"]]);
+        XCTAssertEqualObjects(URL, "http://domain.com?k1=v1&k2=v2&k3=v3")
+
+        // keys in both URL and parameters ("k1")
+        URL = MergeParametersToURL("http://domain.com?k1=v1&K2=v2", ["k3": ["v3"], "k1": ["v11"]]);
+        XCTAssertEqualObjects(URL, "http://domain.com?k1=v1&k1=v11&k2=v2&k3=v3")
     }
 }
