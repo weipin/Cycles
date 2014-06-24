@@ -29,6 +29,7 @@ extension Cycle {
     requestObject: AnyObject? = nil,
     requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
     authentications: Authentication[]? = nil,
+    solicited: Bool = false,
     completionHandler: CycleCompletionHandler) {
         var str = URLString
         if parameters {
@@ -44,18 +45,158 @@ extension Cycle {
         if (authentications) {
             cycle.authentications = authentications!
         }
+        cycle.solicited = solicited
         cycle.start(completionHandler: completionHandler)
     }
 
     class func get(URLString: String, parameters: Dictionary<String, String[]>? = nil,
     requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
     authentications: Authentication[]? = nil,
+    solicited: Bool = false,
     completionHandler: CycleCompletionHandler) {
         return self.createAndStartCycle(URLString, method: "GET", parameters: parameters,
                                         requestProcessors: requestProcessors,
                                         responseProcessors: responseProcessors,
                                         authentications: authentications,
+                                        solicited: solicited,
                                         completionHandler: completionHandler);
+    }
+
+    class func head(URLString: String, parameters: Dictionary<String, String[]>? = nil,
+    requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
+    authentications: Authentication[]? = nil,
+    solicited: Bool = false,
+    completionHandler: CycleCompletionHandler) {
+        return self.createAndStartCycle(URLString, method: "HEAD", parameters: parameters,
+            requestProcessors: requestProcessors,
+            responseProcessors: responseProcessors,
+            authentications: authentications,
+            solicited: solicited,
+            completionHandler: completionHandler);
+    }
+
+    class func post(URLString: String, parameters: Dictionary<String, String[]>? = nil,
+    requestObject: AnyObject? = nil,
+    requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
+    authentications: Authentication[]? = nil,
+    solicited: Bool = false,
+    completionHandler: CycleCompletionHandler) {
+        return self.createAndStartCycle(URLString, method: "POST", parameters: parameters,
+            requestObject: requestObject,
+            requestProcessors: requestProcessors,
+            responseProcessors: responseProcessors,
+            authentications: authentications,
+            solicited: solicited,
+            completionHandler: completionHandler);
+    }
+
+    class func put(URLString: String, parameters: Dictionary<String, String[]>? = nil,
+    requestObject: AnyObject? = nil,
+    requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
+    authentications: Authentication[]? = nil,
+    solicited: Bool = false,
+    completionHandler: CycleCompletionHandler) {
+        return self.createAndStartCycle(URLString, method: "PUT", parameters: parameters,
+            requestObject: requestObject,
+            requestProcessors: requestProcessors,
+            responseProcessors: responseProcessors,
+            authentications: authentications,
+            solicited: solicited,
+            completionHandler: completionHandler);
+    }
+
+    class func patch(URLString: String, parameters: Dictionary<String, String[]>? = nil,
+    requestObject: AnyObject? = nil,
+    requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
+    authentications: Authentication[]? = nil,
+    solicited: Bool = false,
+    completionHandler: CycleCompletionHandler) {
+        return self.createAndStartCycle(URLString, method: "PATCH", parameters: parameters,
+            requestObject: requestObject,
+            requestProcessors: requestProcessors,
+            responseProcessors: responseProcessors,
+            authentications: authentications,
+            solicited: solicited,
+            completionHandler: completionHandler);
+    }
+
+    class func delete(URLString: String, parameters: Dictionary<String, String[]>? = nil,
+    requestObject: AnyObject? = nil,
+    requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
+    authentications: Authentication[]? = nil,
+    solicited: Bool = false,
+    completionHandler: CycleCompletionHandler) {
+        return self.createAndStartCycle(URLString, method: "DELETE", parameters: parameters,
+            requestObject: requestObject,
+            requestProcessors: requestProcessors,
+            responseProcessors: responseProcessors,
+            authentications: authentications,
+            solicited: solicited,
+            completionHandler: completionHandler);
+    }
+
+    class func upload(URLString: String, dataToUpload: NSData,
+    parameters: Dictionary<String, String[]>? = nil,
+    authentications: Authentication[]? = nil,
+    didSendBodyDataHandler: CycleDidSendBodyDataHandler? = nil,
+    completionHandler: CycleCompletionHandler) {
+        var str = URLString
+        if parameters {
+            str = MergeParametersToURL(URLString, parameters!)
+        }
+        var URL = NSURL(string: str)
+        var cycle = Cycle(requestURL: URL,
+                          taskType: CycleType.Upload,
+                          requestMethod: "POST")
+        if (authentications) {
+            cycle.authentications = authentications!
+        }
+        cycle.dataToUpload = dataToUpload
+        cycle.didSendBodyDataHandler = didSendBodyDataHandler
+        cycle.start(completionHandler: completionHandler)
+    }
+
+    class func upload(URLString: String, fileToUpload: NSURL,
+    parameters: Dictionary<String, String[]>? = nil,
+    authentications: Authentication[]? = nil,
+    didSendBodyDataHandler: CycleDidSendBodyDataHandler? = nil,
+    completionHandler: CycleCompletionHandler) {
+        var str = URLString
+        if parameters {
+            str = MergeParametersToURL(URLString, parameters!)
+        }
+        var URL = NSURL(string: str)
+        var cycle = Cycle(requestURL: URL,
+                          taskType: CycleType.Upload,
+                          requestMethod: "POST")
+        if (authentications) {
+            cycle.authentications = authentications!
+        }
+        cycle.fileToUpload = fileToUpload
+        cycle.didSendBodyDataHandler = didSendBodyDataHandler
+        cycle.start(completionHandler: completionHandler)
+    }
+
+    class func download(URLString: String,
+    parameters: Dictionary<String, String[]>? = nil,
+    authentications: Authentication[]? = nil,
+    didWriteDataHandler: CycleDidWriteBodyDataHandler? = nil,
+    downloadFileHandler: CycleDownloadFileHander,
+    completionHandler: CycleCompletionHandler) {
+        var str = URLString
+        if parameters {
+            str = MergeParametersToURL(URLString, parameters!)
+        }
+        var URL = NSURL(string: str)
+        var cycle = Cycle(requestURL: URL,
+                          taskType: CycleType.Download,
+                          requestMethod: "GET")
+        if (authentications) {
+            cycle.authentications = authentications!
+        }
+        cycle.didWriteDataHandler = didWriteDataHandler
+        cycle.downloadFileHandler = downloadFileHandler
+        cycle.start(completionHandler: completionHandler)
     }
 
 }
