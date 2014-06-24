@@ -25,3 +25,18 @@ import Foundation
 
 let Timeout = 20.0
 let TestBundleIdentifier = "com.cocoahope.CyclesTests"
+
+func t_(lastComponent: String) -> String {
+    let base = "http://127.0.0.1:8000/test/"
+    var str = base + lastComponent
+
+    return str
+}
+
+func tu_(lastComponent: String) -> NSURL {
+    var str = t_(lastComponent)
+    var URL = NSURL(string: str)
+
+    return URL
+}
+

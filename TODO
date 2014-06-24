@@ -1,5 +1,6 @@
 - Add preservation ability
 - Extend XCTestCase for HTTP testing
+- Use Activity for error logging, not NSLog
 - Support network activity indicator
 - Add ability of customizing retry logic, status error logic.
 - Add logging routes

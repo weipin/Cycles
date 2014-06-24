@@ -35,6 +35,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            println("\(t)")
 //        }
 
+//        Cycle.get("http://127.0.0.1:8000/test/echo/",
+//                  parameters: ["content": ["helloworld"]],
+//            completionHandler: {(cycle: Cycle, error: NSError?) in
+//                var text = cycle.response.text
+//                println(text)
+//            })
+
         return true
     }
 

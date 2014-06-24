@@ -82,16 +82,16 @@ func FormencodeDictionary(dict: Dictionary<String, String[]>) -> String {
     return result.bridgeToObjectiveC().componentsJoinedByString("&")
 }
 
-func ParseURLWithQueryParameters(URL: String) -> (URL: String?,
+func ParseURLWithQueryParameters(URLString: String) -> (URL: String?,
 parameters: Dictionary<String, String[]>) {
     var base: String?
     var query: String
     var parameters = Dictionary<String, String[]>()
-    if let loc = find(URL, "?") {
-        base = URL[URL.startIndex..loc]
-        query = URL[advance(loc, 1)..URL.endIndex]
+    if let loc = find(URLString, "?") {
+        base = URLString[URLString.startIndex..loc]
+        query = URLString[advance(loc, 1)..URLString.endIndex]
     } else {
-        query = URL
+        query = URLString
     }
     var set = NSCharacterSet(charactersInString: "&;")
     var ary = query.componentsSeparatedByCharactersInSet(set)
@@ -112,11 +112,14 @@ parameters: Dictionary<String, String[]>) {
         }
     }
 
+    if !base && parameters.count == 0 {
+        base = URLString
+    }
     return (base, parameters)
 }
 
-func MergeParametersToURL(URL: String, parameters: Dictionary<String, String[]>) -> String {
-    var (base, existing_params) = ParseURLWithQueryParameters(URL)
+func MergeParametersToURL(URLString: String, parameters: Dictionary<String, String[]>) -> String {
+    var (base, existing_params) = ParseURLWithQueryParameters(URLString)
     for (var k, var v) in parameters {
         k = k.lowercaseString
         if var values = existing_params[k] {

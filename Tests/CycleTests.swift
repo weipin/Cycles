@@ -26,13 +26,6 @@ import XCTest
 import CyclesTouch
 
 
-func URLByAppendingPathComponent(lastComponent: String) -> NSURL {
-    let base = "http://127.0.0.1:8000/test/"
-    var str = base + lastComponent
-    var URL = NSURL(string: str)
-
-    return URL
-}
 
 class CycleTests: XCTestCase {
     
@@ -48,7 +41,7 @@ class CycleTests: XCTestCase {
 
     func testGETShouldWork() {
         var expection = self.expectationWithDescription("get")
-        var URL = URLByAppendingPathComponent("hello")
+        var URL = tu_("hello")
         var cycle = Cycle(requestURL: URL)
 
         cycle.start {(cycle: Cycle, error: NSError?) in
@@ -63,7 +56,7 @@ class CycleTests: XCTestCase {
     // encoding
     func testGETTextEncodingFromHeaderShouldWork() {
         var expection = self.expectationWithDescription("get")
-        var URL = URLByAppendingPathComponent("echo?header=Content-Type%3Atext%2Fhtml%3B%20charset%3Dgb2312")
+        var URL = tu_("echo?header=Content-Type%3Atext%2Fhtml%3B%20charset%3Dgb2312")
         var cycle = Cycle(requestURL: URL)
 
         cycle.start {(cycle: Cycle, error: NSError?) in
@@ -79,7 +72,7 @@ class CycleTests: XCTestCase {
 
     func testGetTextEncodingWhenContentTypeContainsTextAndCharsetIsMissingShouldWork() {
         var expection = self.expectationWithDescription("get")
-        var URL = URLByAppendingPathComponent("echo?header=Content-Type%3Atext%2Fhtml")
+        var URL = tu_("echo?header=Content-Type%3Atext%2Fhtml")
         var cycle = Cycle(requestURL: URL)
 
         cycle.start {(cycle: Cycle, error: NSError?) in
@@ -95,7 +88,7 @@ class CycleTests: XCTestCase {
 
     func testGetTextEncodingWithDetectionShouldWork() {
         var expection = self.expectationWithDescription("get")
-        var URL = URLByAppendingPathComponent("echo?header=Content-Type%3AXXXXXXX&content=%E4%BD%A0%E5%A5%BD&encoding=gb2312")
+        var URL = tu_("echo?header=Content-Type%3AXXXXXXX&content=%E4%BD%A0%E5%A5%BD&encoding=gb2312")
         var cycle = Cycle(requestURL: URL)
 
         cycle.start {(cycle: Cycle, error: NSError?) in
@@ -111,7 +104,7 @@ class CycleTests: XCTestCase {
 
     func testGetTextEncodingWithLastFallBackShouldWork() {
         var expection = self.expectationWithDescription("get")
-        var URL = URLByAppendingPathComponent("echo?header=Content-Type%3AXXXXXXX")
+        var URL = tu_("echo?header=Content-Type%3AXXXXXXX")
         var cycle = Cycle(requestURL: URL)
 
         cycle.start {(cycle: Cycle, error: NSError?) in
@@ -128,7 +121,7 @@ class CycleTests: XCTestCase {
     func testUploadDataShouldWork() {
         var data = "Hello World".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
         var expection = self.expectationWithDescription("upload")
-        var URL = URLByAppendingPathComponent("dumpupload/")
+        var URL = tu_("dumpupload/")
         var cycle = Cycle(requestURL: URL, taskType: .Upload, requestMethod: "POST")
         cycle.dataToUpload = data
 
@@ -146,7 +139,7 @@ class CycleTests: XCTestCase {
         var file = bundle.URLForResource("upload", withExtension: "txt")
 
         var expection = self.expectationWithDescription("upload")
-        var URL = URLByAppendingPathComponent("dumpupload/")
+        var URL = tu_("dumpupload/")
         var cycle = Cycle(requestURL: URL, taskType: .Upload, requestMethod: "POST")
         cycle.fileToUpload = file
 
@@ -161,7 +154,7 @@ class CycleTests: XCTestCase {
 
     func testDownloadShouldWork() {
         var expection = self.expectationWithDescription("download")
-        var URL = URLByAppendingPathComponent("echo?content=helloworld")
+        var URL = tu_("echo?content=helloworld")
         var cycle = Cycle(requestURL: URL, taskType: .Download)
         cycle.downloadFileHandler = {(cycle: Cycle, location: NSURL?) in
             XCTAssertTrue(location)
@@ -179,7 +172,7 @@ class CycleTests: XCTestCase {
     // Auth
     func testBasicAuthShouldFail() {
         var expection = self.expectationWithDescription("get")
-        var URL = URLByAppendingPathComponent("hello_with_basic_auth")
+        var URL = tu_("hello_with_basic_auth")
         var cycle = Cycle(requestURL: URL)
 
         cycle.start {(cycle: Cycle, error: NSError?) in
@@ -193,7 +186,7 @@ class CycleTests: XCTestCase {
     func testBasicAuthShouldWork() {
         var auth = BasicAuthentication(username: "test", password: "12345")
         var expection = self.expectationWithDescription("get")
-        var URL = URLByAppendingPathComponent("hello_with_basic_auth")
+        var URL = tu_("hello_with_basic_auth")
         var cycle = Cycle(requestURL: URL)
         cycle.authentications = [auth]
 
@@ -208,7 +201,7 @@ class CycleTests: XCTestCase {
 
     func testDigestAuthShouldFail() {
         var expection = self.expectationWithDescription("get")
-        var URL = URLByAppendingPathComponent("hello_with_digest_auth")
+        var URL = tu_("hello_with_digest_auth")
         var cycle = Cycle(requestURL: URL)
 
         cycle.start {(cycle: Cycle, error: NSError?) in
@@ -222,7 +215,7 @@ class CycleTests: XCTestCase {
     func testDigestAuthShouldWork() {
         var auth = BasicAuthentication(username: "test", password: "12345")
         var expection = self.expectationWithDescription("get")
-        var URL = URLByAppendingPathComponent("hello_with_digest_auth")
+        var URL = tu_("hello_with_digest_auth")
         var cycle = Cycle(requestURL: URL)
         cycle.authentications = [auth]
 
@@ -237,7 +230,7 @@ class CycleTests: XCTestCase {
 
     // Retry
     func testRetryForSolicitedShouldWork() {
-        var URL = URLByAppendingPathComponent("echo?code=500")
+        var URL = tu_("echo?code=500")
         var cycle = Cycle(requestURL: URL)
         cycle.solicited = true
 
@@ -252,7 +245,7 @@ class CycleTests: XCTestCase {
 
     func testRetryAboveMaxCountShouldFail() {
         var expection = self.expectationWithDescription("get")
-        var URL = URLByAppendingPathComponent("echo?code=408")
+        var URL = tu_("echo?code=408")
         var cycle = Cycle(requestURL: URL)
 
         cycle.start {(cycle: Cycle, error: NSError?) in
@@ -269,7 +262,7 @@ class CycleTests: XCTestCase {
         configuration.timeoutIntervalForResource = 1
         var session = Session(configuration: configuration)
 
-        var URL = URLByAppendingPathComponent("echo?delay=2")
+        var URL = tu_("echo?delay=2")
         var cycle = Cycle(requestURL: URL, session: session)
 
         cycle.start {(cycle: Cycle, error: NSError?) in
@@ -286,7 +279,7 @@ class CycleTests: XCTestCase {
     // processor
     func testJSONProcessorShouldWork() {
         var expection = self.expectationWithDescription("JSON cycle")
-        var URL = URLByAppendingPathComponent("dumpupload/")
+        var URL = tu_("dumpupload/")
         var cycle = Cycle(requestURL: URL, requestMethod: "POST",
                           requestObject: NSDictionary(object: "v1", forKey: "k1"),
                           requestProcessors: [JSONProcessor()],
