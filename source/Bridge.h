@@ -25,3 +25,7 @@
 
 void RunOnThread(NSThread *thread, BOOL wait, void (^block)(void));
 
+/*
+ For situations that we want timeout to be treated as a test success.
+ */
+BOOL WaitForWithTimeout(NSTimeInterval timeout, BOOL (^block)(void));

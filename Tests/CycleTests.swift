@@ -177,7 +177,111 @@ class CycleTests: XCTestCase {
     }
 
     // Auth
-    
+    func testBasicAuthShouldFail() {
+        var expection = self.expectationWithDescription("get")
+        var URL = URLByAppendingPathComponent("hello_with_basic_auth")
+        var cycle = Cycle(requestURL: URL)
+
+        cycle.start {(cycle: Cycle, error: NSError?) in
+            XCTAssertTrue(error)
+            XCTAssertEqual(cycle.response.statusCode!, NSInteger(401))
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
+
+    func testBasicAuthShouldWork() {
+        var auth = BasicAuthentication(username: "test", password: "12345")
+        var expection = self.expectationWithDescription("get")
+        var URL = URLByAppendingPathComponent("hello_with_basic_auth")
+        var cycle = Cycle(requestURL: URL)
+        cycle.authentications = [auth]
+
+        cycle.start {(cycle: Cycle, error: NSError?) in
+            XCTAssertFalse(error)
+            XCTAssertEqual(cycle.response.statusCode!, NSInteger(200))
+            XCTAssertEqualObjects(cycle.response.text, "Hello World")
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
+
+    func testDigestAuthShouldFail() {
+        var expection = self.expectationWithDescription("get")
+        var URL = URLByAppendingPathComponent("hello_with_digest_auth")
+        var cycle = Cycle(requestURL: URL)
+
+        cycle.start {(cycle: Cycle, error: NSError?) in
+            XCTAssertTrue(error)
+            XCTAssertEqual(cycle.response.statusCode!, NSInteger(401))
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
+
+    func testDigestAuthShouldWork() {
+        var auth = BasicAuthentication(username: "test", password: "12345")
+        var expection = self.expectationWithDescription("get")
+        var URL = URLByAppendingPathComponent("hello_with_digest_auth")
+        var cycle = Cycle(requestURL: URL)
+        cycle.authentications = [auth]
+
+        cycle.start {(cycle: Cycle, error: NSError?) in
+            XCTAssertFalse(error)
+            XCTAssertEqual(cycle.response.statusCode!, NSInteger(200))
+            XCTAssertEqualObjects(cycle.response.text, "Hello World")
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
+
     // Retry
+    func testRetryForSolicitedShouldWork() {
+        var URL = URLByAppendingPathComponent("echo?code=500")
+        var cycle = Cycle(requestURL: URL)
+        cycle.solicited = true
+
+        cycle.start {(cycle: Cycle, error: NSError?) in
+
+        }
+        WaitForWithTimeout(2.0) {
+            return false
+        }
+        XCTAssertTrue(cycle.retriedCount > cycle.session.RetryPolicyMaximumRetryCount);
+    }
+
+    func testRetryAboveMaxCountShouldFail() {
+        var expection = self.expectationWithDescription("get")
+        var URL = URLByAppendingPathComponent("echo?code=408")
+        var cycle = Cycle(requestURL: URL)
+
+        cycle.start {(cycle: Cycle, error: NSError?) in
+            XCTAssertEqual(cycle.response.statusCode!, NSInteger(408));
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(2.0, handler: nil)
+    }
+
+    func testRetryOnTimeoutAboveMaxCountShouldFail() {
+        var expection = self.expectationWithDescription("get")
+        var configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        configuration.timeoutIntervalForRequest = 1;
+        configuration.timeoutIntervalForResource = 1
+        var session = Session(configuration: configuration)
+
+        var URL = URLByAppendingPathComponent("echo?delay=2")
+        var cycle = Cycle(requestURL: URL, session: session)
+
+        cycle.start {(cycle: Cycle, error: NSError?) in
+            XCTAssertTrue(error)
+            XCTAssertEqualObjects(error!.domain, NSURLErrorDomain)
+            XCTAssertEqual(error!.code, NSURLErrorTimedOut)
+            XCTAssertTrue(cycle.retriedCount > cycle.session.RetryPolicyMaximumRetryCount)
+
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(20.0, handler: nil)
+    }
+
 }
 

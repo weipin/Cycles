@@ -42,6 +42,10 @@ class Authentication : NSObject {
     weak var cycle: Cycle! = nil
     var interacting = false
 
+    init() {
+
+    }
+
     func perform(action: AuthenticationAction) {
         switch (action) {
         case .ProvidingCredentials:
@@ -105,11 +109,17 @@ class Authentication : NSObject {
 }
 
 class BasicAuthentication : Authentication, UIAlertViewDelegate {
-    var username = ""
-    var password = ""
+    var username :String
+    var password :String
     var interactionCompletionHandler: AuthenticationInteractionCompletionHandler! = nil
     let Methods = [NSURLAuthenticationMethodHTTPBasic, NSURLAuthenticationMethodHTTPDigest,
         NSURLAuthenticationMethodNTLM] // TODO: use Type Variable once available
+
+    init(username: String, password: String) {
+        self.username = username
+        self.password = password
+        super.init()
+    }
 
     override func canHandleAuthenticationChallenge(challenge: NSURLAuthenticationChallenge,
         cycle: Cycle) -> Bool {

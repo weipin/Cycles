@@ -28,8 +28,7 @@
  */
 @implementation NSObject (CyclesBridging)
 
-- (void)cyclesbridging_callBlock
-{
+- (void)cyclesbridging_callBlock {
     void (^block)(void) = (id)self;
     block();
 }
@@ -42,3 +41,13 @@ void RunOnThread(NSThread *thread, BOOL wait, void (^block)(void)) {
                 withObject:nil
              waitUntilDone:wait];
 }
+
+// http://www.mikeash.com/pyblog/friday-qa-2011-07-22-writing-unit-tests.html
+BOOL WaitForWithTimeout(NSTimeInterval timeout, BOOL (^block)(void)) {
+    NSTimeInterval start = [[NSProcessInfo processInfo] systemUptime];
+    while(!block() && [[NSProcessInfo processInfo] systemUptime] - start <= timeout) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate date]];
+    }
+    return block();
+}
+
