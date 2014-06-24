@@ -283,5 +283,25 @@ class CycleTests: XCTestCase {
         self.waitForExpectationsWithTimeout(20.0, handler: nil)
     }
 
+    // processor
+    func testJSONProcessorShouldWork() {
+        var expection = self.expectationWithDescription("JSON cycle")
+        var URL = URLByAppendingPathComponent("dumpupload/")
+        var cycle = Cycle(requestURL: URL, requestMethod: "POST",
+                          requestObject: NSDictionary(object: "v1", forKey: "k1"),
+                          requestProcessors: [JSONProcessor()],
+                          responseProcessors: [JSONProcessor()])
+        cycle.start {(cycle: Cycle, error: NSError?) in
+            XCTAssertFalse(error)
+            var dict = cycle.response.object as? NSDictionary
+            XCTAssertTrue(dict)
+            var value = dict!.objectForKey("k1") as? String
+            XCTAssertTrue(value)
+            XCTAssertEqualObjects(value, "v1")
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
+
 }
 

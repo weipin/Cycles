@@ -46,9 +46,11 @@ class DataProcessor : Processor {
             request.data = object
 
         } else {
-            error.memory = NSError(domain: CycleErrorDomain,
-                                   code: CycleErrorCode.ObjectKindNotMatch.toRaw(),
-                                   userInfo: nil)
+            if error {
+                error.memory = NSError(domain: CycleErrorDomain,
+                    code: CycleErrorCode.ObjectKindNotMatch.toRaw(),
+                    userInfo: nil)
+            }
             return false
         }
 
@@ -103,15 +105,19 @@ class TextProcessor : Processor {
             if let data = object.dataUsingEncoding(self.writeEncoding) {
                 request.data = data
             } else {
-                error.memory = NSError(domain: NSCocoaErrorDomain,
-                    code: NSFileWriteInapplicableStringEncodingError,
-                    userInfo: nil)
+                if (error) {
+                    error.memory = NSError(domain: NSCocoaErrorDomain,
+                        code: NSFileWriteInapplicableStringEncodingError,
+                        userInfo: nil)
+                }
             }
 
         } else {
-            error.memory = NSError(domain: CycleErrorDomain,
-                code: CycleErrorCode.ObjectKindNotMatch.toRaw(),
-                userInfo: nil)
+            if (error) {
+                error.memory = NSError(domain: CycleErrorDomain,
+                    code: CycleErrorCode.ObjectKindNotMatch.toRaw(),
+                    userInfo: nil)
+            }
         }
 
         return true
@@ -141,14 +147,18 @@ class JSONProcessor : Processor {
             var e: NSError?
             request.data = NSJSONSerialization.dataWithJSONObject(object, options: nil, error: &e)
             if e {
-                error.memory = e
+                if (error) {
+                    error.memory = e
+                }
                 return false
             }
 
         } else {
-            error.memory = NSError(domain: CycleErrorDomain,
-                                   code: CycleErrorCode.ObjectKindNotMatch.toRaw(),
-                                   userInfo: nil)
+            if (error) {
+                error.memory = NSError(domain: CycleErrorDomain,
+                    code: CycleErrorCode.ObjectKindNotMatch.toRaw(),
+                    userInfo: nil)
+            }
             return false
         }
 
@@ -161,7 +171,9 @@ class JSONProcessor : Processor {
                                                                  options: .AllowFragments,
                                                                  error: &e)
         if e {
-            error.memory = e
+            if (error) {
+                error.memory = e
+            }
             return false
         }
         return true
@@ -176,9 +188,11 @@ class FORMProcessor : Processor {
                                   forHTTPHeaderField: "Content-Type")
 
         } else {
-            error.memory = NSError(domain: CycleErrorDomain,
-                code: CycleErrorCode.ObjectKindNotMatch.toRaw(),
-                userInfo: nil)
+            if (error) {
+                error.memory = NSError(domain: CycleErrorDomain,
+                    code: CycleErrorCode.ObjectKindNotMatch.toRaw(),
+                    userInfo: nil)
+            }
             return false
         }
 

@@ -173,13 +173,12 @@ NSURLSessionDataDelegate {
             var error = NSError(domain: CycleErrorDomain,
                                 code: CycleErrorCode.StatusCodeSeemsToHaveErred.toRaw(),
                                 userInfo: nil)
-            cycle.completionHandler(cycle: cycle, error: error)
+            self.onCycleDidFinish(cycle, error: error)
             return
         }
 
         if error {
-            cycle.completionHandler(cycle: cycle, error: error)
-            self.removeCycle(cycle)
+            self.onCycleDidFinish(cycle, error: error)
             return
         }
 
@@ -190,12 +189,7 @@ NSURLSessionDataDelegate {
                     break
                 }
             }
-            self.delegateQueue.addOperationWithBlock {
-                cycle.completionHandler(cycle: cycle, error: error)
-                self.core.delegateQueue.addOperationWithBlock {
-                    self.removeCycle(cycle)
-                }
-            }
+            self.onCycleDidFinish(cycle, error: error)
         }
 
     }
@@ -261,6 +255,15 @@ NSURLSessionDataDelegate {
         cycle.didWriteDataHandler?(cycle: cycle, bytesWritten: bytesWritten,
                                    totalBytesWritten: totalBytesWritten,
                                    totalBytesExpectedToWrite: totalBytesExpectedToWrite);
+    }
+
+    func onCycleDidFinish(cycle: Cycle, error: NSError?) {
+        self.delegateQueue.addOperationWithBlock {
+            cycle.completionHandler(cycle: cycle, error: error)
+            self.core.delegateQueue.addOperationWithBlock {
+                self.removeCycle(cycle)
+            }
+        }
     }
 
     // ---

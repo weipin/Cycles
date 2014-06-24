@@ -50,7 +50,6 @@ class Cycle {
         self.request.core.HTTPMethod = newValue
     }
     }
-    var requestObject: AnyObject?
     var _requestProcessors: Processor[]?
     var requestProcessors: Processor[] {
     get{
@@ -112,7 +111,7 @@ class Cycle {
         self.taskType = taskType
         var r = NSURLRequest(URL: requestURL)
         self.request = Request(core: r)
-        self.request.object = self.requestObject
+        self.request.object = requestObject
         self.requestMethod = requestMethod
 
         if session {
@@ -121,7 +120,6 @@ class Cycle {
             self.session = Session.defaultSession()
         }
 
-        self.requestObject = requestObject
         if requestProcessors {
             self.requestProcessors = requestProcessors!
         }
@@ -183,7 +181,7 @@ class Cycle {
         }
     }
 
-    func start(completionHandler: CycleCompletionHandler? = nil) -> Bool {
+    func start(completionHandler: CycleCompletionHandler? = nil) {
         if completionHandler {
             self.completionHandler = completionHandler
         }
@@ -193,13 +191,15 @@ class Cycle {
         if !index {
             // Cancelled. 
             // For example, cancelled when the cycle is waiting for a retry
-            return true
+            return
         }
 
-        var result = true
         self.prepare {
             if !$0 {
-                result = false
+                var e = NSError(domain: CycleErrorDomain,
+                    code: CycleErrorCode.PreparationFailure.toRaw(),
+                    userInfo: nil)
+                self.session.onCycleDidFinish(self, error: e)
                 return
             }
 
@@ -207,7 +207,7 @@ class Cycle {
             self.request.timestamp = NSDate()
             self.core!.resume()
         }
-        return result
+        return
     }
 
     func reset() {

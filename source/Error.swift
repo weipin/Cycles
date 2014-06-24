@@ -13,4 +13,5 @@ let CycleErrorDomain = "CycleError"
 enum CycleErrorCode: Int {
     case ObjectKindNotMatch = 1
     case StatusCodeSeemsToHaveErred
+    case PreparationFailure
 }
