@@ -8,3 +8,4 @@
 - Add higher level "service" classes
 - Add reachability support
 - Add workflow support
+- Add background download support
