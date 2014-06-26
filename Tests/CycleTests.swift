@@ -44,7 +44,7 @@ class CycleTests: XCTestCase {
         var URL = tu_("hello")
         var cycle = Cycle(requestURL: URL)
 
-        cycle.start {(cycle: Cycle, error: NSError?) in
+        cycle.start {(cycle, error) in
             XCTAssertFalse(error)
             XCTAssertEqualObjects(cycle.response.text, "Hello World");
             XCTAssertEqual(cycle.response!.statusCode!, 200);
@@ -59,7 +59,7 @@ class CycleTests: XCTestCase {
         var URL = tu_("echo?header=Content-Type%3Atext%2Fhtml%3B%20charset%3Dgb2312")
         var cycle = Cycle(requestURL: URL)
 
-        cycle.start {(cycle: Cycle, error: NSError?) in
+        cycle.start {(cycle, error) in
             XCTAssertFalse(error)
 
             var enc = CFStringEncoding(CFStringEncodings.EUC_CN.toRaw())
@@ -75,7 +75,7 @@ class CycleTests: XCTestCase {
         var URL = tu_("echo?header=Content-Type%3Atext%2Fhtml")
         var cycle = Cycle(requestURL: URL)
 
-        cycle.start {(cycle: Cycle, error: NSError?) in
+        cycle.start {(cycle, error) in
             XCTAssertFalse(error)
 
             var enc = CFStringEncoding(CFStringBuiltInEncodings.ISOLatin1.toRaw())
@@ -91,7 +91,7 @@ class CycleTests: XCTestCase {
         var URL = tu_("echo?header=Content-Type%3AXXXXXXX&content=%E4%BD%A0%E5%A5%BD&encoding=gb2312")
         var cycle = Cycle(requestURL: URL)
 
-        cycle.start {(cycle: Cycle, error: NSError?) in
+        cycle.start {(cycle, error) in
             XCTAssertFalse(error)
 
             var enc = CFStringEncoding(CFStringEncodings.GB_18030_2000.toRaw())
@@ -107,7 +107,7 @@ class CycleTests: XCTestCase {
         var URL = tu_("echo?header=Content-Type%3AXXXXXXX")
         var cycle = Cycle(requestURL: URL)
 
-        cycle.start {(cycle: Cycle, error: NSError?) in
+        cycle.start {(cycle, error) in
             XCTAssertFalse(error)
 
             var encoding = cycle.response.textEncoding
@@ -125,7 +125,7 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL, taskType: .Upload, requestMethod: "POST")
         cycle.dataToUpload = data
 
-        cycle.start {(cycle: Cycle, error: NSError?) in
+        cycle.start {(cycle, error) in
             XCTAssertFalse(error)
 
             XCTAssertEqualObjects(cycle.response.text, "Hello World")
@@ -143,7 +143,7 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL, taskType: .Upload, requestMethod: "POST")
         cycle.fileToUpload = file
 
-        cycle.start {(cycle: Cycle, error: NSError?) in
+        cycle.start {(cycle, error) in
             XCTAssertFalse(error)
 
             XCTAssertEqualObjects(cycle.response.text, "Hello World File")
@@ -161,7 +161,7 @@ class CycleTests: XCTestCase {
             var content = NSString(contentsOfURL: location, encoding: NSUTF8StringEncoding, error: nil)
             XCTAssertEqualObjects(content, "helloworld")
         }
-        cycle.start {(cycle: Cycle, error: NSError?) in
+        cycle.start {(cycle, error) in
             XCTAssertFalse(error)
 
             expection.fulfill()
@@ -175,7 +175,7 @@ class CycleTests: XCTestCase {
         var URL = tu_("hello_with_basic_auth")
         var cycle = Cycle(requestURL: URL)
 
-        cycle.start {(cycle: Cycle, error: NSError?) in
+        cycle.start {(cycle, error) in
             XCTAssertTrue(error)
             XCTAssertEqual(cycle.response.statusCode!, NSInteger(401))
             expection.fulfill()
@@ -190,7 +190,7 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL)
         cycle.authentications = [auth]
 
-        cycle.start {(cycle: Cycle, error: NSError?) in
+        cycle.start {(cycle, error) in
             XCTAssertFalse(error)
             XCTAssertEqual(cycle.response.statusCode!, NSInteger(200))
             XCTAssertEqualObjects(cycle.response.text, "Hello World")
@@ -204,7 +204,7 @@ class CycleTests: XCTestCase {
         var URL = tu_("hello_with_digest_auth")
         var cycle = Cycle(requestURL: URL)
 
-        cycle.start {(cycle: Cycle, error: NSError?) in
+        cycle.start {(cycle, error) in
             XCTAssertTrue(error)
             XCTAssertEqual(cycle.response.statusCode!, NSInteger(401))
             expection.fulfill()
@@ -219,7 +219,7 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL)
         cycle.authentications = [auth]
 
-        cycle.start {(cycle: Cycle, error: NSError?) in
+        cycle.start {(cycle, error) in
             XCTAssertFalse(error)
             XCTAssertEqual(cycle.response.statusCode!, NSInteger(200))
             XCTAssertEqualObjects(cycle.response.text, "Hello World")
@@ -234,7 +234,7 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL)
         cycle.solicited = true
 
-        cycle.start {(cycle: Cycle, error: NSError?) in
+        cycle.start {(cycle, error) in
 
         }
         WaitForWithTimeout(2.0) {
@@ -248,7 +248,7 @@ class CycleTests: XCTestCase {
         var URL = tu_("echo?code=408")
         var cycle = Cycle(requestURL: URL)
 
-        cycle.start {(cycle: Cycle, error: NSError?) in
+        cycle.start {(cycle, error) in
             XCTAssertEqual(cycle.response.statusCode!, NSInteger(408));
             expection.fulfill()
         }
@@ -265,7 +265,7 @@ class CycleTests: XCTestCase {
         var URL = tu_("echo?delay=2")
         var cycle = Cycle(requestURL: URL, session: session)
 
-        cycle.start {(cycle: Cycle, error: NSError?) in
+        cycle.start {(cycle, error) in
             XCTAssertTrue(error)
             XCTAssertEqualObjects(error!.domain, NSURLErrorDomain)
             XCTAssertEqual(error!.code, NSURLErrorTimedOut)
@@ -284,7 +284,7 @@ class CycleTests: XCTestCase {
                           requestObject: NSDictionary(object: "v1", forKey: "k1"),
                           requestProcessors: [JSONProcessor()],
                           responseProcessors: [JSONProcessor()])
-        cycle.start {(cycle: Cycle, error: NSError?) in
+        cycle.start {(cycle, error) in
             XCTAssertFalse(error)
             var dict = cycle.response.object as? NSDictionary
             XCTAssertTrue(dict)

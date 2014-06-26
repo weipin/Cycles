@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 //        var URL = NSURL(string: "http://127.0.0.1:8000/test/hello")
 //        var cycle = Cycle(requestURL: URL)
-//        cycle.start {(cycle: Cycle, error: NSError?) in
+//        cycle.start {(cycle, error) in
 //            var text = cycle.response.text
 //        }
 
@@ -30,14 +30,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        var URL = NSURL(string: "http://127.0.0.1:8000/test/dumpupload/")
 //        var cycle = Cycle(requestURL: URL, taskType: .Upload, requestMethod: "POST")
 //        cycle.dataToUpload = data
-//        cycle.start {(cycle: Cycle, error: NSError?) in
+//        cycle.start {(cycle, error) in
 //            var t = cycle.response.text
 //            println("\(t)")
 //        }
 
 //        Cycle.get("http://127.0.0.1:8000/test/echo/",
 //                  parameters: ["content": ["helloworld"]],
-//            completionHandler: {(cycle: Cycle, error: NSError?) in
+//            completionHandler: {(cycle, error) in
 //                var text = cycle.response.text
 //                println(text)
 //            })

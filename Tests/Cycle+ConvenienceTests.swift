@@ -41,7 +41,7 @@ class CycleConvenienceTests: XCTestCase {
     func testGETShouldWork() {
         var expection = self.expectationWithDescription("get")
         var URLString = t_("hello")
-        Cycle.get(URLString, completionHandler: {(cycle: Cycle, error: NSError?) in
+        Cycle.get(URLString, completionHandler: {(cycle, error) in
             XCTAssertFalse(error)
             XCTAssertEqualObjects(cycle.response.text, "Hello World");
             XCTAssertEqual(cycle.response!.statusCode!, 200);
@@ -55,7 +55,7 @@ class CycleConvenienceTests: XCTestCase {
         var expection = self.expectationWithDescription("get")
         var URLString = t_("echo")
         Cycle.get(URLString, parameters: ["content": ["helloworld"]],
-                  completionHandler: {(cycle: Cycle, error: NSError?) in
+                  completionHandler: {(cycle, error) in
                     XCTAssertFalse(error)
                     XCTAssertEqualObjects(cycle.response.text, "helloworld");
                     XCTAssertEqual(cycle.response!.statusCode!, 200);
@@ -65,5 +65,54 @@ class CycleConvenienceTests: XCTestCase {
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
     }
 
+    func testPOSTShouldWork() {
+        var expection = self.expectationWithDescription("post")
+        var URLStrng = t_("dumpupload/")
+        var requestObject = NSDictionary(object: "v1", forKey: "k1")
+        Cycle.post(URLStrng, requestObject: requestObject,
+                   requestProcessors: [JSONProcessor()],
+                   responseProcessors: [JSONProcessor()],
+                   completionHandler: {(cycle, error) in
+                        XCTAssertFalse(error)
+                        var dict = cycle.response.object as? NSDictionary
+                        XCTAssertTrue(dict)
+                        var value = dict!.objectForKey("k1") as? String
+                        XCTAssertTrue(value)
+                        XCTAssertEqualObjects(value, "v1")
+                        expection.fulfill()
+                })
+
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
+
+    func testUploadShouldWork() {
+        var data = "Hello World".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+        var expection = self.expectationWithDescription("upload")
+        var URLString = t_("dumpupload/")
+        Cycle.upload(URLString, dataToUpload: data, completionHandler: {
+            (cycle, error) in
+            XCTAssertFalse(error)
+
+            XCTAssertEqualObjects(cycle.response.text, "Hello World")
+            expection.fulfill()
+        })
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
+
+    func testDownloadShouldWork() {
+        var expection = self.expectationWithDescription("download")
+        var URLString = t_("echo?content=helloworld")
+        Cycle.download(URLString,
+            downloadFileHandler: {(cycle, location) in
+                XCTAssertTrue(location)
+                var content = NSString(contentsOfURL: location, encoding: NSUTF8StringEncoding, error: nil)
+                XCTAssertEqualObjects(content, "helloworld")
+            },
+            completionHandler: {(cycle, error) in
+                XCTAssertFalse(error)
+                expection.fulfill()
+            })
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
 }
 
