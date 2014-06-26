@@ -71,7 +71,7 @@ NSURLSessionDataDelegate {
 
         super.init()
         self.core = NSURLSession(configuration: c, delegate: self,
-                                 delegateQueue: delegateQueue)
+                                 delegateQueue: self.delegateQueue)
     }
 
     func indexOfCycle(cycle: Cycle) -> Int? {
