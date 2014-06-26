@@ -30,7 +30,7 @@ extension Cycle {
     requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
     authentications: Authentication[]? = nil,
     solicited: Bool = false,
-    completionHandler: CycleCompletionHandler) {
+    completionHandler: CycleCompletionHandler) -> Cycle {
         var str = URLString
         if parameters {
             str = MergeParametersToURL(URLString, parameters!)
@@ -47,13 +47,14 @@ extension Cycle {
         }
         cycle.solicited = solicited
         cycle.start(completionHandler: completionHandler)
+        return cycle
     }
 
     class func get(URLString: String, parameters: Dictionary<String, String[]>? = nil,
     requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
     authentications: Authentication[]? = nil,
     solicited: Bool = false,
-    completionHandler: CycleCompletionHandler) {
+    completionHandler: CycleCompletionHandler) -> Cycle {
         return self.createAndStartCycle(URLString, method: "GET", parameters: parameters,
                                         requestProcessors: requestProcessors,
                                         responseProcessors: responseProcessors,
@@ -66,7 +67,7 @@ extension Cycle {
     requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
     authentications: Authentication[]? = nil,
     solicited: Bool = false,
-    completionHandler: CycleCompletionHandler) {
+    completionHandler: CycleCompletionHandler) -> Cycle {
         return self.createAndStartCycle(URLString, method: "HEAD", parameters: parameters,
             requestProcessors: requestProcessors,
             responseProcessors: responseProcessors,
@@ -80,7 +81,7 @@ extension Cycle {
     requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
     authentications: Authentication[]? = nil,
     solicited: Bool = false,
-    completionHandler: CycleCompletionHandler) {
+    completionHandler: CycleCompletionHandler) -> Cycle {
         return self.createAndStartCycle(URLString, method: "POST", parameters: parameters,
             requestObject: requestObject,
             requestProcessors: requestProcessors,
@@ -95,7 +96,7 @@ extension Cycle {
     requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
     authentications: Authentication[]? = nil,
     solicited: Bool = false,
-    completionHandler: CycleCompletionHandler) {
+    completionHandler: CycleCompletionHandler) -> Cycle {
         return self.createAndStartCycle(URLString, method: "PUT", parameters: parameters,
             requestObject: requestObject,
             requestProcessors: requestProcessors,
@@ -110,7 +111,7 @@ extension Cycle {
     requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
     authentications: Authentication[]? = nil,
     solicited: Bool = false,
-    completionHandler: CycleCompletionHandler) {
+    completionHandler: CycleCompletionHandler) -> Cycle {
         return self.createAndStartCycle(URLString, method: "PATCH", parameters: parameters,
             requestObject: requestObject,
             requestProcessors: requestProcessors,
@@ -125,7 +126,7 @@ extension Cycle {
     requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
     authentications: Authentication[]? = nil,
     solicited: Bool = false,
-    completionHandler: CycleCompletionHandler) {
+    completionHandler: CycleCompletionHandler) -> Cycle {
         return self.createAndStartCycle(URLString, method: "DELETE", parameters: parameters,
             requestObject: requestObject,
             requestProcessors: requestProcessors,
@@ -139,7 +140,7 @@ extension Cycle {
     parameters: Dictionary<String, String[]>? = nil,
     authentications: Authentication[]? = nil,
     didSendBodyDataHandler: CycleDidSendBodyDataHandler? = nil,
-    completionHandler: CycleCompletionHandler) {
+    completionHandler: CycleCompletionHandler) -> Cycle {
         var str = URLString
         if parameters {
             str = MergeParametersToURL(URLString, parameters!)
@@ -154,13 +155,14 @@ extension Cycle {
         cycle.dataToUpload = dataToUpload
         cycle.didSendBodyDataHandler = didSendBodyDataHandler
         cycle.start(completionHandler: completionHandler)
+        return cycle
     }
 
     class func upload(URLString: String, fileToUpload: NSURL,
     parameters: Dictionary<String, String[]>? = nil,
     authentications: Authentication[]? = nil,
     didSendBodyDataHandler: CycleDidSendBodyDataHandler? = nil,
-    completionHandler: CycleCompletionHandler) {
+    completionHandler: CycleCompletionHandler) -> Cycle {
         var str = URLString
         if parameters {
             str = MergeParametersToURL(URLString, parameters!)
@@ -175,6 +177,7 @@ extension Cycle {
         cycle.fileToUpload = fileToUpload
         cycle.didSendBodyDataHandler = didSendBodyDataHandler
         cycle.start(completionHandler: completionHandler)
+        return cycle
     }
 
     class func download(URLString: String,
@@ -182,7 +185,7 @@ extension Cycle {
     authentications: Authentication[]? = nil,
     didWriteDataHandler: CycleDidWriteBodyDataHandler? = nil,
     downloadFileHandler: CycleDownloadFileHander,
-    completionHandler: CycleCompletionHandler) {
+    completionHandler: CycleCompletionHandler) -> Cycle {
         var str = URLString
         if parameters {
             str = MergeParametersToURL(URLString, parameters!)
@@ -197,6 +200,7 @@ extension Cycle {
         cycle.didWriteDataHandler = didWriteDataHandler
         cycle.downloadFileHandler = downloadFileHandler
         cycle.start(completionHandler: completionHandler)
+        return cycle
     }
 
 }
