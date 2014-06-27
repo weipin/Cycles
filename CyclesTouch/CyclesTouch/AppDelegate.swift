@@ -52,17 +52,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                println("\(text)")
 //            })
 
-        Cycle.get("https://api.github.com/user",
-            requestProcessors: [BasicAuthProcessor(username: "user", password: "pass")],
-            responseProcessors: [JSONProcessor()],
-            completionHandler: { (cycle, error) in
-                println("\(cycle.response.statusCode)")
-                var header = cycle.response.valueForHTTPHeaderField("content-type")
-                println("\(header)")
-                println("\(cycle.response.textEncoding)")
-                println("\(cycle.response.text)")
-                println("\(cycle.response.object)")
-            })
+//        Cycle.get("https://api.github.com/user",
+//            requestProcessors: [BasicAuthProcessor(username: "user", password: "pass")],
+//            responseProcessors: [JSONProcessor()],
+//            completionHandler: { (cycle, error) in
+//                println("\(cycle.response.statusCode)")
+//                var header = cycle.response.valueForHTTPHeaderField("content-type")
+//                println("\(header)")
+//                println("\(cycle.response.textEncoding)")
+//                println("\(cycle.response.text)")
+//                println("\(cycle.response.object)")
+//            })
 
         return true
     }

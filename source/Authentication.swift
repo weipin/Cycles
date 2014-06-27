@@ -24,18 +24,32 @@
 import UIKit
 
 enum AuthenticationAction {
-    case ProvidingCredentials
-    case ProvidingCredentialsWithInteraction
-    case PerformDefaultHandling
-    case RejectProtectionSpace
-    case CancelingConnection
+    case ProvidingCredentials /* Use the specified credential */
+    case ProvidingCredentialsWithInteraction /* Display an interface for user to input the credential */
+    case PerformDefaultHandling /* Default handling for the challenge - as if this handler were not implemented; the credential parameter is ignored */
+    case RejectProtectionSpace /* This challenge is rejected and the next authentication protection space should be tried;the credential parameter is ignored */
+    case CancelingConnection /* The entire request will be canceled; the credential parameter is ignored */
 }
 
 typealias AuthenticationCompletionHandler = (disposition: NSURLSessionAuthChallengeDisposition,
     credential: NSURLCredential!) -> Void
 typealias AuthenticationInteractionCompletionHandler = (action: AuthenticationAction) -> Void
 
+/*!
+ @discussion This class is an abstract class you use to
+ encapsulate the code and data associated with HTTP authentication. Because
+ it is abstract, you do not use this class directly but instead subclass or
+ use one of the existing subclasses (BasicAuthentication) to perform the
+ actual handling.
 
+ The methods subclass should override include:
+ <ul>
+ <li>actionForAuthenticationChallenge</li>
+ <li>canHandleAuthenticationChallenge</li>
+ <li>startInteraction</li>
+ <li>createAndUseCredential</li>
+ </ul>
+ */
 class Authentication {
     var challenge: NSURLAuthenticationChallenge! = nil
     var completionHandler: AuthenticationCompletionHandler! = nil
@@ -74,6 +88,14 @@ class Authentication {
         }
     }
 
+/*!
+ @abstract Perform an action for a specified authentication
+ @param action The AuthenticationAction is the type of action to perform.
+ @param challenge The NSURLAuthenticationChallenge to use.
+ @param completionHandler The AuthenticationCompletionHandler closure to 
+ execute when the action is complete.
+ @param cycle The Cycle requires authentication.
+ */
     func performAction(action: AuthenticationAction, challenge: NSURLAuthenticationChallenge,
     completionHandler: AuthenticationCompletionHandler, cycle: Cycle) {
         self.challenge = challenge
@@ -83,6 +105,13 @@ class Authentication {
         self.perform(action)
     }
 
+/*!
+ @abstract Determine the action to take for a specified authentication
+ @discussion The result will be passed to the method performAction as action.
+ @param challenge The NSURLAuthenticationChallenge to use.
+ @param cycle The Cycle requires authentication.
+ @result a AuthenticationAction value.
+ */
     func actionForAuthenticationChallenge(challenge: NSURLAuthenticationChallenge,
     cycle: Cycle) -> AuthenticationAction {
         if challenge.previousFailureCount == 0 {
@@ -92,6 +121,12 @@ class Authentication {
         return .ProvidingCredentialsWithInteraction;
     }
 
+/*!
+ @abstract Determine if the Authentication can be used to handle a specified authentication
+ @param challenge The NSURLAuthenticationChallenge to use.
+ @param cycle The Cycle requires the authentication handling.
+ @result true or false. The determination result.
+*/
     func canHandleAuthenticationChallenge(challenge: NSURLAuthenticationChallenge,
     cycle: Cycle) -> Bool {
         assert(false)
@@ -107,6 +142,17 @@ class Authentication {
     }
 }
 
+/*!
+ @discussion A Authentication subclass handles the below basic HTTP
+ authentication challenges:
+ <ul>
+ <li>NSURLAuthenticationMethodHTTPBasic</li>
+ <li>NSURLAuthenticationMethodHTTPDigest</li>
+ <li>NSURLAuthenticationMethodNTLM</li>
+ </ul>
+ 
+ This class could present an alert view for user to input username and password.
+ */
 class BasicAuthentication : Authentication {
     var username: String
     var password: String

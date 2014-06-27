@@ -50,6 +50,18 @@ extension Cycle {
         return cycle
     }
 
+/*!
+ @abstract Send a GET request and retrieve the content of the given URL.
+ @param URLString The URL for the request.
+ @param parameters The parameters of the query.
+ @param requestProcessors An array of Processor subclass objects.
+ @param responseProcessors An array of Processor subclass objects.
+ @param authentications An array of Authentication objects.
+ @param solicited Affect the Cycle's retry logic. If solicited is YES, the 
+ number of retries is unlimited until the transfer finishes successfully.
+ @param completionHandler Called when the content of the given URL is retrieved 
+ or an error occurs.
+ */
     class func get(URLString: String, parameters: Dictionary<String, String[]>? = nil,
     requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
     authentications: Authentication[]? = nil,
@@ -63,6 +75,9 @@ extension Cycle {
                                         completionHandler: completionHandler);
     }
 
+/*!
+ @discussion Send a HEAD request and retrieve the content of the given URL. 
+ */
     class func head(URLString: String, parameters: Dictionary<String, String[]>? = nil,
     requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
     authentications: Authentication[]? = nil,
@@ -76,6 +91,9 @@ extension Cycle {
             completionHandler: completionHandler);
     }
 
+/*!
+ @discussion Send a POST request and retrieve the content of the given URL.
+ */
     class func post(URLString: String, parameters: Dictionary<String, String[]>? = nil,
     requestObject: AnyObject? = nil,
     requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
@@ -91,6 +109,9 @@ extension Cycle {
             completionHandler: completionHandler);
     }
 
+/*!
+ @discussion Send a PUT request and retrieve the content of the given URL.
+ */
     class func put(URLString: String, parameters: Dictionary<String, String[]>? = nil,
     requestObject: AnyObject? = nil,
     requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
@@ -106,6 +127,9 @@ extension Cycle {
             completionHandler: completionHandler);
     }
 
+/*!
+ @discussion Send a PATCH request and retrieve the content of the given URL.
+ */
     class func patch(URLString: String, parameters: Dictionary<String, String[]>? = nil,
     requestObject: AnyObject? = nil,
     requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
@@ -121,6 +145,9 @@ extension Cycle {
             completionHandler: completionHandler);
     }
 
+/*!
+ @discussion Send a DELETE request and retrieve the content of the given URL.
+ */
     class func delete(URLString: String, parameters: Dictionary<String, String[]>? = nil,
     requestObject: AnyObject? = nil,
     requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil,
@@ -136,6 +163,16 @@ extension Cycle {
             completionHandler: completionHandler);
     }
 
+/*!
+ @abstract Upload data to the given URL.
+ @param URLString The URL for the request.
+ @param dataToUpload The data to upload.
+ @param parameters The parameters of the query.
+ @param authentications An array of Authentication objects.
+ @param didSendDataHandler Called with upload progress information.
+ @param completionHandler Called when the content of the given URL is retrieved 
+ or an error occurs.
+ */
     class func upload(URLString: String, dataToUpload: NSData,
     parameters: Dictionary<String, String[]>? = nil,
     authentications: Authentication[]? = nil,
@@ -158,6 +195,10 @@ extension Cycle {
         return cycle
     }
 
+/*!
+ @abstract Upload a local file to the given URL.
+ @param fileToUpload The URL of the file to upload for a upload task.
+ */
     class func upload(URLString: String, fileToUpload: NSURL,
     parameters: Dictionary<String, String[]>? = nil,
     authentications: Authentication[]? = nil,
@@ -180,6 +221,17 @@ extension Cycle {
         return cycle
     }
 
+/*!
+ @abstract Download data from the given URL.
+ @param URLString The URL for the request.
+ @param parameters The parameters of the query.
+ @param authentications An array of Authentication objects.
+ @param didWriteDataHandler Called with download progress information.
+ @param downloadFileHandler Called with the URL to a temporary file where the 
+ downloaded content is stored.
+ @param completionHandler Called when the content of the given URL is retrieved 
+ or an error occurs.
+ */
     class func download(URLString: String,
     parameters: Dictionary<String, String[]>? = nil,
     authentications: Authentication[]? = nil,
