@@ -69,7 +69,7 @@ class HelperTests: XCTestCase {
         (base, parameters) = ParseURLWithQueryParameters("http://mydomain.com")
         XCTAssertEqualObjects(base, "http://mydomain.com")
         XCTAssertEqualObjects(FormencodeDictionary(parameters), "")
-}
+    }
 
     func testMergeParametersToURLShouldWork() {
         var URL = MergeParametersToURL("http://domain.com?k1=v1&K2=v2", ["k3": ["v3"]]);

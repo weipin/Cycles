@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         // Override point for customization after application launch.
         self.window!.backgroundColor = UIColor.whiteColor()
+        self.window!.rootViewController = UIViewController()
         self.window!.makeKeyAndVisible()
 
 //        var URL = NSURL(string: "http://127.0.0.1:8000/test/hello")
@@ -25,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        cycle.start {(cycle, error) in
 //            var text = cycle.response.text
 //        }
-
+//
 //        var data = "Hello World".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
 //        var URL = NSURL(string: "http://127.0.0.1:8000/test/dumpupload/")
 //        var cycle = Cycle(requestURL: URL, taskType: .Upload, requestMethod: "POST")
@@ -34,13 +35,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            var t = cycle.response.text
 //            println("\(t)")
 //        }
-
+//
 //        Cycle.get("http://127.0.0.1:8000/test/echo/",
 //                  parameters: ["content": ["helloworld"]],
 //            completionHandler: {(cycle, error) in
 //                var text = cycle.response.text
 //                println(text)
 //            })
+
+//        var auth = BasicAuthentication()
+//        auth.presentingViewController = self.window!.rootViewController
+//        Cycle.get("http://127.0.0.1:8000/test/hello_with_basic_auth/",
+//            authentications: [auth], completionHandler: {
+//                (cycle, error) in
+//                var text = cycle.response.text
+//                println("\(text)")
+//            })
+
+        Cycle.get("https://api.github.com/user",
+            requestProcessors: [BasicAuthProcessor(username: "user", password: "pass")],
+            responseProcessors: [JSONProcessor()],
+            completionHandler: { (cycle, error) in
+                println("\(cycle.response.statusCode)")
+                var header = cycle.response.valueForHTTPHeaderField("content-type")
+                println("\(header)")
+                println("\(cycle.response.textEncoding)")
+                println("\(cycle.response.text)")
+                println("\(cycle.response.object)")
+            })
 
         return true
     }

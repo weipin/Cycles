@@ -40,6 +40,36 @@ class Processor {
     }
 }
 
+class BasicAuthProcessor : Processor {
+    var username: String
+    var password: String
+
+    init(username: String, password: String) {
+        self.username = username
+        self.password = password
+        super.init()
+    }
+
+    class func headerForUsernamePassword(username: String, password: String) -> String {
+        var str = "\(username):\(password)"
+        var data = str.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
+        str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(0))
+        return "Basic \(str)"
+    }
+
+    override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
+        var header = BasicAuthProcessor.headerForUsernamePassword(self.username,
+                        password: self.password)
+        request.core.setValue(header, forHTTPHeaderField: "Authorization")
+        return true
+    }
+
+    override func processResponse(response: Response, error: NSErrorPointer) -> Bool {
+        assert(false)
+        return false
+    }
+}
+
 class DataProcessor : Processor {
     override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
         if let object = request.object as? NSData {

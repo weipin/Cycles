@@ -1,5 +1,5 @@
 //
-//  Cycles.strings
+//  ProcessorTests.swift
 //
 //  Copyright (c) 2014 Weipin Xia
 //
@@ -21,14 +21,26 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+import XCTest
 
-"OK" = "OK";
-"Cancel" = "Cancel";
+import CyclesTouch
 
-"BasicAuthentication_LoginAlert_Title" = "Authentication Required";
-"BasicAuthentication_LoginAlert_OK" = "Log In";
-"BasicAuthentication_LoginAlert_Cancel" = "Cancel";
-"BasicAuthentication_Login_UsernameField_Placeholder" = "Username";
-"BasicAuthentication_Login_PasswordField_Placeholder" = "Password";
+class HTTPBasicAuthProcessorTests: XCTestCase {
+    
+    override func setUp() {
+        super.setUp()
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+    
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+    }
+    
+    func testHeaderForUsernamePasswordShouldWork() {
+        var header = BasicAuthProcessor.headerForUsernamePassword("Aladdin",
+            password: "open sesame")
+        XCTAssertEqualObjects(header, "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==");
+    }
 
-
+}

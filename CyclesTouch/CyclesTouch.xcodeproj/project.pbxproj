@@ -21,6 +21,7 @@
 		1613F9E51955AA6B00CDD9FD /* HelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9E41955AA6B00CDD9FD /* HelperTests.swift */; };
 		1613F9E91955AACE00CDD9FD /* Bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9E81955AACE00CDD9FD /* Bridge.m */; };
 		1613F9EB1955E29200CDD9FD /* CycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9EA1955E29200CDD9FD /* CycleTests.swift */; };
+		162019BE195CF68E00CA3A80 /* ProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162019BD195CF68E00CA3A80 /* ProcessorTests.swift */; };
 		16E51783195A23270015DCB8 /* Cycle+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E51782195A23270015DCB8 /* Cycle+Convenience.swift */; };
 		16E51785195A2F990015DCB8 /* Cycle+ConvenienceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */; };
 		16FAA01E19589E1C00CE1F47 /* upload.txt in Resources */ = {isa = PBXBuildFile; fileRef = 16FAA01D19589E1C00CE1F47 /* upload.txt */; };
@@ -64,6 +65,13 @@
 			remoteInfo = CyclesTouch;
 		};
 		1613F9F4195611F800CDD9FD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1613F9AC1955AA2500CDD9FD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1613F9B31955AA2500CDD9FD;
+			remoteInfo = CyclesTouch;
+		};
+		164C8C12195CC72F0062C278 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1613F9AC1955AA2500CDD9FD /* Project object */;
 			proxyType = 1;
@@ -114,6 +122,7 @@
 		1613F9E71955AACE00CDD9FD /* Bridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bridge.h; path = ../source/Bridge.h; sourceTree = "<group>"; };
 		1613F9E81955AACE00CDD9FD /* Bridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Bridge.m; path = ../source/Bridge.m; sourceTree = "<group>"; };
 		1613F9EA1955E29200CDD9FD /* CycleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CycleTests.swift; path = ../../tests/CycleTests.swift; sourceTree = "<group>"; };
+		162019BD195CF68E00CA3A80 /* ProcessorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessorTests.swift; path = ../../tests/ProcessorTests.swift; sourceTree = "<group>"; };
 		16E51782195A23270015DCB8 /* Cycle+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Cycle+Convenience.swift"; path = "../source/Cycle+Convenience.swift"; sourceTree = "<group>"; };
 		16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Cycle+ConvenienceTests.swift"; path = "../../tests/Cycle+ConvenienceTests.swift"; sourceTree = "<group>"; };
 		16FAA01D19589E1C00CE1F47 /* upload.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = upload.txt; sourceTree = "<group>"; };
@@ -183,6 +192,7 @@
 				1613F9EA1955E29200CDD9FD /* CycleTests.swift */,
 				16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */,
 				1613F9E41955AA6B00CDD9FD /* HelperTests.swift */,
+				162019BD195CF68E00CA3A80 /* ProcessorTests.swift */,
 				1613F9C51955AA2500CDD9FD /* Supporting Files */,
 			);
 			path = CyclesTouchTests;
@@ -265,6 +275,7 @@
 				16FAA02019589FE700CE1F47 /* PBXTargetDependency */,
 				16FAA02219589FE700CE1F47 /* PBXTargetDependency */,
 				16FAA02419589FEC00CE1F47 /* PBXTargetDependency */,
+				164C8C13195CC72F0062C278 /* PBXTargetDependency */,
 			);
 			name = CyclesTouchTests;
 			productName = CyclesTouchTests;
@@ -351,6 +362,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1613F9EB1955E29200CDD9FD /* CycleTests.swift in Sources */,
+				162019BE195CF68E00CA3A80 /* ProcessorTests.swift in Sources */,
 				1613F9E51955AA6B00CDD9FD /* HelperTests.swift in Sources */,
 				16E51785195A2F990015DCB8 /* Cycle+ConvenienceTests.swift in Sources */,
 				16FAA0261958A17400CE1F47 /* Tests.swift in Sources */,
@@ -389,6 +401,11 @@
 			isa = PBXTargetDependency;
 			target = 1613F9B31955AA2500CDD9FD /* CyclesTouch */;
 			targetProxy = 1613F9F4195611F800CDD9FD /* PBXContainerItemProxy */;
+		};
+		164C8C13195CC72F0062C278 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1613F9B31955AA2500CDD9FD /* CyclesTouch */;
+			targetProxy = 164C8C12195CC72F0062C278 /* PBXContainerItemProxy */;
 		};
 		16FAA02019589FE700CE1F47 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

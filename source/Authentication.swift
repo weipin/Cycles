@@ -36,7 +36,7 @@ typealias AuthenticationCompletionHandler = (disposition: NSURLSessionAuthChalle
 typealias AuthenticationInteractionCompletionHandler = (action: AuthenticationAction) -> Void
 
 
-class Authentication : NSObject {
+class Authentication {
     var challenge: NSURLAuthenticationChallenge! = nil
     var completionHandler: AuthenticationCompletionHandler! = nil
     weak var cycle: Cycle! = nil
@@ -59,9 +59,8 @@ class Authentication : NSObject {
                 return
             }
             self.interacting = true
-            self.startInteraction {[unowned self] (action: AuthenticationAction) -> Void in
+            self.startInteraction {(action: AuthenticationAction) -> Void in
                 self.interacting = false
-                assert(action != .ProvidingCredentialsWithInteraction)
                 self.perform(action)
             }
         case .PerformDefaultHandling:
@@ -108,9 +107,10 @@ class Authentication : NSObject {
     }
 }
 
-class BasicAuthentication : Authentication, UIAlertViewDelegate {
-    var username :String
-    var password :String
+class BasicAuthentication : Authentication {
+    var username: String
+    var password: String
+    var presentingViewController: UIViewController?
     var interactionCompletionHandler: AuthenticationInteractionCompletionHandler! = nil
     let Methods = [NSURLAuthenticationMethodHTTPBasic, NSURLAuthenticationMethodHTTPDigest,
         NSURLAuthenticationMethodNTLM] // TODO: use Type Variable once available
@@ -121,9 +121,14 @@ class BasicAuthentication : Authentication, UIAlertViewDelegate {
         super.init()
     }
 
+    convenience init() {
+        return self.init(username: "", password: "")
+    }
+
     override func canHandleAuthenticationChallenge(challenge: NSURLAuthenticationChallenge,
         cycle: Cycle) -> Bool {
         var method = challenge.protectionSpace.authenticationMethod
+        println("\(method)")
         if (self.Methods.bridgeToObjectiveC().containsObject(method)) {
             return true
         }
@@ -140,26 +145,41 @@ class BasicAuthentication : Authentication, UIAlertViewDelegate {
 
     override func startInteraction(completionHandler: AuthenticationInteractionCompletionHandler) {
         self.interactionCompletionHandler = completionHandler
-
-        var title = LocalizedString("BasicAuthentication_LoginAlert_Title")
-        var message = self.challenge.protectionSpace.host
-        var alertView = UIAlertView(title: title, message: message,
-                                    delegate: self,
-                                    cancelButtonTitle: LocalizedString("BasicAuthentication_LoginAlert_Cancel"),
-                                    otherButtonTitles: LocalizedString("BasicAuthentication_LoginAlert_OK"))
-        alertView.alertViewStyle = .LoginAndPasswordInput
-        alertView.show()
-    }
-
-    func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int) {
-        if (buttonIndex == alertView.cancelButtonIndex) {
-            self.interactionCompletionHandler(action: .CancelingConnection)
-            self.interactionCompletionHandler = nil
-            return
+        dispatch_async(dispatch_get_main_queue()) {
+            assert(self.presentingViewController != nil)
+            
+            var title = LocalizedString("BasicAuthentication_LoginAlert_Title")
+            var message = self.challenge.protectionSpace.host
+            var OKTitle = LocalizedString("BasicAuthentication_LoginAlert_OK")
+            var cancelTitle = LocalizedString("BasicAuthentication_LoginAlert_Cancel")
+            var alertController = UIAlertController(title: title, message: message,
+                preferredStyle: .Alert)
+            var OKAction = UIAlertAction(title: OKTitle, style: .Default) {
+                action in
+                var username = alertController.textFields[0].text
+                var password = alertController.textFields[1].text
+                self.username = username
+                self.password = password
+                self.interactionCompletionHandler(action: .ProvidingCredentials)
+            }
+            var cancelAction = UIAlertAction(title: cancelTitle, style: .Default) {
+                action in
+                alertController.dismissViewControllerAnimated(true) {
+                    self.interactionCompletionHandler(action: .CancelingConnection)
+                    self.interactionCompletionHandler = nil
+                }
+            }
+            alertController.addAction(OKAction)
+            alertController.addAction(cancelAction)
+            alertController.addTextFieldWithConfigurationHandler { (textField: UITextField!) in
+                textField.placeholder = LocalizedString("BasicAuthentication_Login_UsernameField_Placeholder")
+            }
+            alertController.addTextFieldWithConfigurationHandler { (textField: UITextField!) in
+                textField.placeholder = LocalizedString("BasicAuthentication_Login_PasswordField_Placeholder")
+                textField.secureTextEntry = true
+            }
+            var cc = UIViewController()
+            self.presentingViewController!.presentViewController(alertController, animated: true, completion: nil)
         }
-
-        self.username = alertView.textFieldAtIndex(0).text
-        self.password = alertView.textFieldAtIndex(1).text
-        self.interactionCompletionHandler(action: .ProvidingCredentials)
     }
 }

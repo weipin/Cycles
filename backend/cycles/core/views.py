@@ -115,7 +115,7 @@ def hello_with_digest_auth(request):
         digest_response)
 
     if digest_response.response != expected:
-        return self._digest_unauthenticated()
+        return _digest_unauthenticated(request)
 
     return HttpResponse('Hello World')
 
