@@ -1,5 +1,5 @@
 //
-//  Bridge.m
+//  Cycles.m
 //
 //  Copyright (c) 2014 Weipin Xia
 //
@@ -21,7 +21,7 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "Bridge.h"
+#import "Cycles.h"
 
 /*
  https://www.mikeash.com/pyblog/friday-qa-2009-08-14-practical-blocks.html
