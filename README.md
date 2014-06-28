@@ -72,7 +72,6 @@ Known Issues
 ====
 - Namespace
   If Cycles were written in Objective-C, a prefix will be applied to the classes and global variables. Swift, on the other hand, is supposed to have namespaces. While it's uncertain how to distinguish between identifiers with the same exact name in Swift, identifiers in Cycles have no prefix.
-
 - UIAlertController's presenting view controller.
   BasicAuthentication can present an alert view for user to input username and password. This is achieved by creating a UIAlertController with username and password fields. Unlike UIAlertView, before a controller can be presented, a presenting view controller is required. That's the purpose of BasicAuthentication's property `presentingViewController`. The problem is that if the presenting view controller isn't visible, or if there is a modal controller already presented, the UIAlertController won't be displayed. It might be necessary to switch back to UIViewAlert, but `showing` a UIAlertView keeps crashing the app at the time the code was written.
 
