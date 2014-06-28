@@ -21,28 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window!.rootViewController = UIViewController()
         self.window!.makeKeyAndVisible()
 
-//        var URL = NSURL(string: "http://127.0.0.1:8000/test/hello")
-//        var cycle = Cycle(requestURL: URL)
-//        cycle.start {(cycle, error) in
-//            var text = cycle.response.text
-//        }
-//
-//        var data = "Hello World".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-//        var URL = NSURL(string: "http://127.0.0.1:8000/test/dumpupload/")
-//        var cycle = Cycle(requestURL: URL, taskType: .Upload, requestMethod: "POST")
-//        cycle.dataToUpload = data
-//        cycle.start {(cycle, error) in
-//            var t = cycle.response.text
-//            println("\(t)")
-//        }
-//
-//        Cycle.get("http://127.0.0.1:8000/test/echo/",
-//                  parameters: ["content": ["helloworld"]],
-//            completionHandler: {(cycle, error) in
-//                var text = cycle.response.text
-//                println(text)
-//            })
-
 //        var auth = BasicAuthentication()
 //        auth.presentingViewController = self.window!.rootViewController
 //        Cycle.get("http://127.0.0.1:8000/test/hello_with_basic_auth/",
@@ -63,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                println("\(cycle.response.text)")
 //                println("\(cycle.response.object)")
 //            })
+
 
         return true
     }
