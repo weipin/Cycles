@@ -1,0 +1,238 @@
+- Introduction
+  - Make a request
+  - Architecture
+    - The `Cycle` object
+    - Thin wrapper
+- Installation
+  - Get the code
+  - Install manually
+- Quickstart
+  - Make requests through convenient methods
+  - Make requests in 2 steps
+  - Cancellation
+  - Add URL parameters
+  - Response content
+  - Response status
+  - Response error
+  - Handle JSON response
+  - Handle response with processors
+  - Send JSON request
+  - Send request with processors
+  - Upload
+  - Download
+  - Custom headers
+- Advanced
+  - The model object
+  - Workflow
+  - Auto retry
+  - Timeout
+  - Solicited request
+  - The default session
+  - Create and use your own session
+  - Delegate queues
+  - Authentication
+  - Restart
+  - Tests
+  
+
+Make a request
+----
+
+You can retrieve the content of a URL through Cycles's methods in a asynchronous manner:
+```
+Cycle.get("https://github.com/timeline.json", completionHandler: {
+    (cycle, error) in
+    println("\(cycle.response.text)") // [{"created_at":"2014-06...
+});
+```
+The response can be handled in the `completionHandler` closure. The `cycle` argument contains all the information on both request and response.
+
+Besides "GET" method, you can send requests with other HTTP in similar ways.
+
+```
+Cycle.post("http://httpbin.org/post", completionHandler: {
+    (cycle, error) in
+});
+
+Cycle.put("http://httpbin.org/put", completionHandler: {
+    (cycle, error) in
+});
+
+Cycle.delete("http://httpbin.org/delete", completionHandler: {
+    (cycle, error) in
+});
+
+Cycle.delete("http://httpbin.org/delete", completionHandler: {
+    (cycle, error) in
+});
+
+Cycle.head("http://httpbin.org/get", completionHandler: {
+    (cycle, error) in
+});
+```
+
+`completionHandler` isn't optional, because otherwise you will have no way to obtain data from response.
+
+
+
+Architecture
+----
+
+The `Cycle` object
+~~~~
+A `Cycle` object (instance of class `Cycle`) represents both HTTP request and HTTP response. To send a request, a `Cycle` object will be created and initialized. To retrieve the response content, you examine the same `Cycle` object.
+
+A `Cycle` object holds all the information on request and retrieved response. You can resend a request by invoking a single method on an existing `Cycle` object, even if it has been "used".
+
+
+Thin wrapper
+~~~~
+Some of the Cycles classes are thin wrappers around the NSURLSession classes. These Cycles classes all have a property called `core` which points to the underlying Cocoa object. Here is a table on the relationships:
+
+============  ===================
+Cycles Class  Cocoa Class
+============  ===================
+Cycle         NSURLSessionTask
+Request       NSMutableURLRequest
+Response      NSHTTPURLResponse
+Session       NSURLSession
+============  ===================
+
+
+Diagram
+~~~~
+
+      +------------------------------------+
+      |                                    |
+      |   +-----------+    +-----------+   |
+      |   |           |    |           |   |
+      |   |  Request  |    |  Response |   |
+      |   +-----------+    +-----------+   |
+      |                                    |
+      |   Cycle                            |
+      |                                    |
+      +------------------------------------+
+                         |
+                         |
+                   +-----------+
+                   |           |
+                   |  Session  |
+                   +-----------+
+
+
+
+
+Get the code
+----
+Cycles is open source, and the code is "available on github"_. There is no demo project for now, files for Cycles can be found in the "source folder"_.
+
+.. _"available on github": https://github.com/weipin/Cycles
+.. _"source folder": https://github.com/weipin/Cycles/tree/master/source
+
+Install manually
+----
+Cycles hasn't been packaged as a framework for now. You will have to add the source files to your own project to use Cycles.
+
+- Except the Objective-C files (Utils.h and Utils.m), add all files in the "source" folder to your project.
+- Add Objective-C files (Utils.h and Utils.m) to your project. If Xcode asks if you want to configure an Objective-C bridging header, select Yes. If Xcode keeps crashing, try copy the files to your project's folder and then add.
+- In the bridging header file Xcode created for you (filename like PROJECT-Bridging-Header.h), import the Objective-C header files.
+```
+#import "Utils.h"
+```
+
+- Quickstart
+  - Make requests through convenient methods
+----
+
+The convenient methods can create a `Cycle` object for you and send the request through that object immediately. For example, to send a GET request, use the "type method"_ `class func get(URLString: String, parameters: Dictionary<String, String[]>? = nil, requestProcessors: Processor[]? = nil, responseProcessors: Processor[]? = nil, authentications: Authentication[]? = nil, solicited: Bool = false, completionHandler: CycleCompletionHandler) -> Cycle` of `Cycle`
+
+```
+Cycle.get("https://github.com/timeline.json", completionHandler: {
+    (cycle, error) in
+    println("\(cycle.response.text)") // [{"created_at":"2014-06...
+});
+```
+
+There are type methods for the other request types like POST, PUT, DELETE, etc. See "Cycle+Convenience.swift"_ for a complete list.
+
+Convenient methods provide only limited customization of networking behavior. And the request will be sent immediately. If you have needs beyond basic URL fetching, such as custom headers, or want to delay sending the request, you can make requests in two separate steps. See the next section for more information.
+
+.. _"type method": https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Methods.html#//apple_ref/doc/uid/TP40014097-CH15-XID_307
+.. _"Cycle+Convenience.swift": https://github.com/weipin/Cycles/blob/master/source/Cycle%2BConvenience.swift
+
+  - Make requests in 2 steps
+----
+
+The two steps are: 
+- Create a `Cycle` object.
+- Start sending the HTTP request.
+
+Creating a `Cycle` object is simple, the only required parameter is `requestURL`.
+```
+var URL = NSURL(string: "https://github.com/timeline.json")
+var cycle = Cycle(requestURL: URL)
+```
+
+There are other parameters, such as `parameters`, which will be discussed in the following sections.
+
+To send the HTTP request, call the method `func start(completionHandler: CycleCompletionHandler? = nil)` of `Cycle`.
+```
+cycle.start(completionHandler: {(cycle, error) in
+    // handle response
+})
+```
+You can handle the response in the `completionHandler` closure. Because `completionHandler` is the last parameter, the code can be simplified with Trailing Closures expression.
+```
+cycle.start {(cycle, error) in
+  // handle response
+}
+```
+
+You can examine the optional parameter `error` to see if the content is fetched successfully. The error can be caused by HTTP connection, Processor objects, HTTP status code, etc. For more information on error handling, see :ref:`error`
+
+.. :ref:`error`
+
+  - Cancellation
+To cancel a request, you need the `Cycle` object the request attached to. If the request is issued by a convenient method, you need to store the `Cycle` object returned from that convenient method.
+```
+var cycle = Cycle.get("https://github.com/timeline.json", completionHandler: {
+    (cycle, error) in
+    // ...
+});
+```
+
+Call the method `func cancel(explicitly: Bool)` of `Cycle` to cancel the request. The parameter `explicitly` indicates if the request is cancelled explicitly. The value will be stored in the property `explicitlyCanceling` of `Cycle`. Your app can use this value for cancellation interface -- the `completionHandler` won't be called if `explicitly` is `true`. You probably want to pass `true` as `explicitly`, to address the cases that users cancelled an operation explicitly. If you pass `false`, the `completionHandler` will be called. You can examine the argument `error` to see if the connection is indeed cancelled. Here is an example of examining the error for a cancelled connection (`explicitly` is set as `false`).
+```
+cycle.start(completionHandler: {(cycle, error) in
+    if let e = error {
+        if e.domain == NSURLErrorDomain && e.code == NSURLErrorCancelled {
+            // Process cancellation
+        }
+    }
+})
+```
+
+
+  - Add URL parameters
+  - Response content
+  - Response status
+  - Response error
+  - Handle JSON response
+  - Handle response with processors
+  - Send JSON request
+  - Send request with processors
+  - Upload
+  - Download
+  - Custom headers
+- Advanced
+  - The model object
+  - Workflow
+  - Auto retry
+  - Timeout
+  - Solicited request
+  - The default session
+  - Create and use your own session
+  - Delegate queues
+  - Authentication
+  - Restart
+  - Tests

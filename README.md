@@ -45,7 +45,7 @@ Cycle.post("http://127.0.0.1:8000/test/dumpupload/",
 Upload a NSData
 ```
 Cycle.upload("http://127.0.0.1:8000/test/dumpupload/",
-    dataToUpload: "Hello World".dataUsingEncoding(NSUTF8StringEncoding),
+    data: "Hello World".dataUsingEncoding(NSUTF8StringEncoding),
     completionHandler: {
         (cycle, error) in
         println("\(cycle.response.text)") // Hello World

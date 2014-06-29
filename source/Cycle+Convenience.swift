@@ -166,14 +166,14 @@ extension Cycle {
 /*!
  @abstract Upload data to the given URL.
  @param URLString The URL for the request.
- @param dataToUpload The data to upload.
+ @param data The data to upload.
  @param parameters The parameters of the query.
  @param authentications An array of Authentication objects.
  @param didSendDataHandler Called with upload progress information.
  @param completionHandler Called when the content of the given URL is retrieved 
  or an error occurs.
  */
-    class func upload(URLString: String, dataToUpload: NSData,
+    class func upload(URLString: String, data: NSData,
     parameters: Dictionary<String, String[]>? = nil,
     authentications: Authentication[]? = nil,
     didSendBodyDataHandler: CycleDidSendBodyDataHandler? = nil,
@@ -189,7 +189,7 @@ extension Cycle {
         if (authentications) {
             cycle.authentications = authentications!
         }
-        cycle.dataToUpload = dataToUpload
+        cycle.dataToUpload = data
         cycle.didSendBodyDataHandler = didSendBodyDataHandler
         cycle.start(completionHandler: completionHandler)
         return cycle
@@ -197,9 +197,9 @@ extension Cycle {
 
 /*!
  @abstract Upload a local file to the given URL.
- @param fileToUpload The URL of the file to upload for a upload task.
+ @param file The URL of the file to upload for a upload task.
  */
-    class func upload(URLString: String, fileToUpload: NSURL,
+    class func upload(URLString: String, file: NSURL,
     parameters: Dictionary<String, String[]>? = nil,
     authentications: Authentication[]? = nil,
     didSendBodyDataHandler: CycleDidSendBodyDataHandler? = nil,
@@ -215,7 +215,7 @@ extension Cycle {
         if (authentications) {
             cycle.authentications = authentications!
         }
-        cycle.fileToUpload = fileToUpload
+        cycle.fileToUpload = file
         cycle.didSendBodyDataHandler = didSendBodyDataHandler
         cycle.start(completionHandler: completionHandler)
         return cycle

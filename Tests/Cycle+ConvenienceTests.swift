@@ -89,7 +89,7 @@ class CycleConvenienceTests: XCTestCase {
         var data = "Hello World".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
         var expection = self.expectationWithDescription("upload")
         var URLString = t_("dumpupload/")
-        Cycle.upload(URLString, dataToUpload: data, completionHandler: {
+        Cycle.upload(URLString, data: data, completionHandler: {
             (cycle, error) in
             XCTAssertFalse(error)
 
