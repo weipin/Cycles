@@ -100,8 +100,9 @@ func FormencodeDictionary(dict: Dictionary<String, String[]>) -> String {
         return s1.localizedCaseInsensitiveCompare(s2) == NSComparisonResult.OrderedAscending
     }
 
-    for (let k, v) in dict {
-        var sorted = sort(v) {(s1: String, s2: String) -> Bool in
+    for k in keys {
+        var v = dict[k]
+        var sorted = sort(v!) {(s1: String, s2: String) -> Bool in
             return s1.localizedCaseInsensitiveCompare(s2) == NSComparisonResult.OrderedAscending
         }
         for i in sorted {

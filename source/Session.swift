@@ -315,7 +315,7 @@ NSURLSessionDataDelegate {
     func onCycleDidFinish(cycle: Cycle, error: NSError?) {
         self.delegateQueue.addOperationWithBlock {
             cycle.completionHandler(cycle: cycle, error: error)
-            self.core.delegateQueue.addOperationWithBlock {
+            self.delegateQueue.addOperationWithBlock {
                 self.removeCycle(cycle)
             }
         }
