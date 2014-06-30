@@ -54,7 +54,7 @@ class Response {
     var textReadEncoding: NSStringEncoding?
 
 /*!
- @discussion The encoding of the response data. Can be overridden by textReadEncoding
+ @discussion The encoding of the response data.
  */
     @lazy var textEncoding: NSStringEncoding = {
         return TextProcessor.textEncodingFromResponse(self)

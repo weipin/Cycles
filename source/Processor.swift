@@ -46,7 +46,7 @@ class Processor {
  @param The Response to process.
  @result The updated Response.
  */
-    func processResponse(response: Response, error: NSErrorPointer) -> Bool? {
+    func processResponse(response: Response, error: NSErrorPointer) -> Bool {
         assert(false)
         return false
     }
