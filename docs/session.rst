@@ -15,8 +15,8 @@ may affect all the `Cycle` objects reference this session.
 Provide `Cycle` properties through Session
 ------------------------------------------
 
-Sometimes you need to assign certain properties to multiple `Cycle` objects with
-same values. `Cycles` offers a way to make this task easier. For some of these
+It's not uncommon to assign the same values of certain properties to multiple
+`Cycle` objects. `Cycles` offers a way to make this task easier. For such
 properties, you can assign the values to the Session and leaves the corresponding
 properties of `Cycle` objects as nil. For these `Cycle` objects, the Session
 objects they reference to will be used to return these values.

@@ -4,7 +4,7 @@ Receive Response
 Response status code
 --------------------
 
-Once a Cycle successfully retrieves content, you can check the response status
+Once a Cycle successfully retrieves the content, you can check the response status
 code through the property `statusCode` of Response::
 
   cycle.response.statusCode
@@ -17,23 +17,23 @@ code through the property `statusCode` of Response::
 Response content
 ----------------
 
-Once a Cycle successfully retrieves content, you can obtain the response content
+Once a Cycle successfully retrieves the content, you can obtain the response content
 through property `text` of Response::
 
   println("\(cycle.response.text)") // Hello World
 
-Property `text` is a `String` which will be created from response data
-(property `data` of Response, a NSData). To properly create the String, the
-Response have to obtain the encoding of the content. The Response will try to
-find an encoding through the HTTP headers first. If not find, response data will
-be looked through to guess the encoding. There is one exception -- if there is no
-charset in the headers and the Content-Type contains "text", the encoding will be
-defaults to "ISO-8859-1", according to RFC 2616, 3.7.1.
+Property `text` is a `String` which is created from response data (property
+`data` of Response, a NSData). To properly create the String, the encoding of the
+content is required. The Response will try to find an encoding through the HTTP
+headers first. If not find, response data will be looked through to guess the
+encoding. There is one exception -- if there is no charset in the headers and
+the Content-Type contains "text", the encoding will be defaults to "ISO-8859-1",
+according to RFC 2616, 3.7.1.
 
 Response headers
 ----------------
 
-Once a Cycle successfully retrieves content, you can check the response headers
+Once a Cycle successfully retrieves the content, you can check the response headers
 through the property `headers` of Response::
 
   var value = cycle.response.headers!.objectForKey("Content-Type") as String

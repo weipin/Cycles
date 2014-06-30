@@ -13,7 +13,7 @@ URL -- the URL becomes "http://httpbin.org/get?key1=value1"::
 
 The type of `parameter` is `Dictionary<String, String[]>`, the type of the key
 is `String`, the type of the value is an array of `String`. While in most cases,
-you will use the array to hold one single value, it allow multiple values to be
+you will use the array to hold one single value, it allows multiple values to be
 associated with a single key. The final URL produced by the code below is
 "http://httpbin.org/get?key1=value1&key1=value1a"::
 

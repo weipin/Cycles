@@ -10,3 +10,6 @@ Cycles will stop retrying if the retried number exceeds the limit. The limit is
 controlled by the property `RetryPolicyMaximumRetryCount` of Session. There is
 one exception -- if the property `solicited` of `Cycle` is true, Cycles will keep
 trying for any error until it receives the content.
+
+There is also a delay before a new retry can be attempted. The interval is
+controlled by property `retryDelay` of Session.

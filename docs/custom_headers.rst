@@ -2,7 +2,7 @@ Custom headers
 ==============
 
 The convenient methods don't support custom headers. You have to create a
-`Cycle` to add headers::
+`Cycle` manually to add headers::
 
   var URL = NSURL(string: "https://github.com/timeline.json")
   var cycle = Cycle(requestURL: URL)

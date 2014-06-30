@@ -17,7 +17,7 @@ value to be stored in the property `explicitlyCanceling` of `Cycle`. Your app
 can use this value for cancellation logic -- when the connection is cancelled,
 the `completionHandler` won't be called if `explicitly` is set as `true`.
 You probably want to pass `true` as `explicitly`, to address the cases that users
-cancelled an operation explicitly. If you pass `false`, you can still check if
+cancel an operation explicitly. If you pass `false`, you can still check if
 the connection is cancelled by examining the argument `error` of
 `completionHandler`. Here is an example::
 

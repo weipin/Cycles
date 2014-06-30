@@ -12,6 +12,9 @@ immediately. For example, to send a GET request, use this `type method`_ of `Cyc
                  authentications: Authentication[]? = nil, solicited: Bool = false,
                  completionHandler: CycleCompletionHandler) -> Cycle
 
+`URLString` and `completionHandler` are required parameters, the rest ones are
+all optional and have default values.
+
 ::
 
   Cycle.get("https://github.com/timeline.json", completionHandler: {
@@ -33,7 +36,7 @@ make requests in two separate steps. See next section for more information.
 Start a Cycle through 2 separate steps
 --------------------------------------
 
-These two steps are:
+The two steps:
 
 * Create and configure a `Cycle` object.
 * "Start" the `Cycle` object.

@@ -10,7 +10,7 @@ Authentication through URL loading system
 -----------------------------------------
 
 To add authentication support through URL loading system, you can create an
-object of Authentication subclass, like BasicAuthentication. And add this
+object of Authentication subclass, like BasicAuthentication. Add this
 Authentication object in an array and pass it to the convenient method as
 parameter `authentications`, or assign the array to property `authentications`
 if you are creating the `Cycle` manually::

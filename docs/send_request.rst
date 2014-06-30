@@ -41,7 +41,7 @@ Send JSON request
 It's common to send request with JSON content. To POST such requests through
 convenient methods, you need to do two things:
 
-* Prepare a collection object (a NSDictionary in most cases) and pass the object
+* Prepare a collection object (normally a NSDictionary) and pass the object
   as parameter `requestObject`.
 * Create a JSONProcessor, put it into an array and pass the array as parameter
   `requestProcessors`.
