@@ -6,7 +6,7 @@
 Welcome to Cycles!
 ==================
 
-`Cycles` is a HTTP library written in Swift, inspired by AFNetworking_ and
+Cycles is a HTTP library written in Swift, inspired by AFNetworking_ and
 Requests_. The target of Cycles is to free you from writing glue code around
 the NSURLSession classes::
 
