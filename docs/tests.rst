@@ -2,7 +2,7 @@ Tests
 =====
 
 Cycles has its own backend built with Django_ for tests. The backend files can
-be found in the "backend folder"_. If you want to run the tests on your
+be found in the `backend folder`_. If you want to run the tests on your
 environment, you need to setup a Django environment and start the backend
 instance.
 
@@ -32,5 +32,5 @@ Test from the Project menu.
 
 
 .. _Django: https://www.djangoproject.com/
-.. _"backend folder": https://github.com/weipin/Cycles/tree/master/backend
+.. _`backend folder`: https://github.com/weipin/Cycles/tree/master/backend
 .. _virtualenv: http://virtualenv.readthedocs.org/en/latest/virtualenv.html

@@ -3,7 +3,9 @@ Cycles
 
 [Cycles is in early development, not fully tested. It's also iOS only for now.]
 
-Cycles is a HTTP library written in Swift, inspired by [AFNetworking](http://afnetworking.com/) and [Requests](http://docs.python-requests.org/). The target of Cycles is to free you from writing glue code around the NSURLSession classes.
+Cycles is a HTTP library written in Swift, inspired by [AFNetworking](http://afnetworking.com/)
+and [Requests](http://docs.python-requests.org/). The target of Cycles is to
+free you from writing glue code around the NSURLSession classes.
 
 ```
 Cycle.get("https://api.github.com/user/",
@@ -19,7 +21,11 @@ Cycle.get("https://api.github.com/user/",
     })
 ```
 
-Cycles offers a set of higher-level objects. With these objects, there is no need to manually build query strings, or to create collection objects from JSON response. More importantly, Cycles is designed in a way to help you build HTTP functionality into your model layer. Also, properties like `solicited` encourage you to build delightful user experiences.
+Cycles offers a set of higher-level objects. With these objects, there is no
+need to manually build query strings, or to create collection objects from
+JSON response. More importantly, Cycles is designed in a way to help you build
+HTTP functionality into your model layer. Also, properties like `solicited`
+encourage you to build delightful user experiences.
 
 Making HTTP requests is simple with Cycles. Here is a handful of examples:
 
@@ -30,7 +36,8 @@ Cycle.get("http://www.apple.com", completionHandler: { (cycle, error) in
     })
 ```
 
-POST collection objects with JSON format and receive collection objects from JSON response.
+POST collection objects with JSON format and receive collection objects from
+JSON response.
 ```
 Cycle.post("http://127.0.0.1:8000/test/dumpupload/",
     requestObject: NSDictionary(object: "v1", forKey: "k1"),
@@ -70,11 +77,18 @@ For more information, please read the documentation.
 
 Installation
 ====
-Cycles hasn't been packaged as a framework for now. You will have to add the source files to your own project to use Cycles.
+Cycles hasn't been packaged as a framework for now. You will have to add the
+[source files](https://github.com/weipin/Cycles/tree/master/source) to your
+own project to use Cycles.
 
-- Except the Objective-C files (Utils.h and Utils.m), add all files in the "source" folder to your project.
-- Add Objective-C files (Utils.h and Utils.m) to your project. If Xcode asks if you want to configure an Objective-C bridging header, select Yes. If Xcode keeps crashing, try copy the files to your project's folder and then add.
-- In the bridging header file Xcode created for you (filename like PROJECT-Bridging-Header.h), import the Objective-C header files.
+- Except the Objective-C files (Utils.h and Utils.m), add all files in the
+  "source" folder to your project.
+- Add Objective-C files (Utils.h and Utils.m) to your project. If Xcode asks if
+  you want to configure an Objective-C bridging header, select Yes. If Xcode
+  keeps crashing, try copy the files to your project's folder and then add.
+- In the bridging header file Xcode created for you (filename like
+  PROJECT-Bridging-Header.h), import the Objective-C header files.
+
   ```
   #import "Utils.h"
   ```
@@ -82,17 +96,27 @@ Cycles hasn't been packaged as a framework for now. You will have to add the sou
 
 Support
 ====
-Please use the [issues system](https://github.com/weipin/Cycles/issues).
-
+Please use the [issues system](https://github.com/weipin/Cycles/issues). We look
+forward to hearing your thoughts on the project.
 
 Known Issues
 ====
-1. Namespace. If Cycles were written in Objective-C, a prefix will be applied to the classes and global variables. Swift, on the other hand, is supposed to have namespaces. While it's uncertain how to distinguish between identifiers with the same exact name in Swift, identifiers in Cycles have no prefix.  
-1. UIAlertController's presenting view controller. BasicAuthentication can present an alert view for user to input username and password. This is achieved by creating a UIAlertController with username and password fields. Unlike UIAlertView, before a controller can be presented, a presenting view controller is required. That's the purpose of BasicAuthentication's property `presentingViewController`. The problem is that if the presenting view controller isn't visible, or if there is a modal controller already presented, the UIAlertController won't be displayed. It might be necessary to switch back to UIViewAlert, but `showing` a UIAlertView keeps crashing the app at the time the code was written.
+1. Namespace. If Cycles were written in Objective-C, a prefix will be applied to
+   the classes and global variables. Swift, on the other hand, is supposed to
+   have namespaces. While it's uncertain how to distinguish between identifiers
+   with the same exact name in Swift, identifiers in Cycles have no prefix.  
+1. UIAlertController's presenting view controller. BasicAuthentication can
+   present an alert view for user to input username and password. This is
+   achieved by creating a UIAlertController with username and password fields.
+   Unlike UIAlertView, before a controller can be presented, a presenting view
+   controller is required. That's the purpose of BasicAuthentication's property
+   `presentingViewController`. The problem is that if the presenting view
+   controller isn't visible, or if there is a modal controller already
+   presented, the UIAlertController won't be displayed. It might be necessary
+   to switch back to UIViewAlert, but "showing" a UIAlertView keeps crashing
+   the app at the time the code was written.
 
 
 License
 ====
 Cycles is released under the MIT license. See [LICENSE.md](https://github.com/weipin/Cycles/blob/master/LICENSE).
-
-

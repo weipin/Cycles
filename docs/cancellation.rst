@@ -10,16 +10,16 @@ object returned from that convenient method::
       // ...
   });
 
-Call the method `func cancel(explicitly: Bool)` of `Cycle` to cancel the request.
+Call the method `func cancel(explicitly: Bool)` of `Cycle` to cancel a request.
 The parameter `explicitly` indicates if the request is cancelled explicitly.
 `explicitly` does not affect how the connection will be cancelled, but merely a
 value to be stored in the property `explicitlyCanceling` of `Cycle`. Your app
 can use this value for cancellation logic -- when the connection is cancelled,
 the `completionHandler` won't be called if `explicitly` is set as `true`.
 You probably want to pass `true` as `explicitly`, to address the cases that users
-cancelled an operation explicitly. If you pass `false`, you can examine the
-argument `error` of `completionHandler` to see if the connection is cancelled,
-here is an example::
+cancelled an operation explicitly. If you pass `false`, you can still check if
+the connection is cancelled by examining the argument `error` of
+`completionHandler`. Here is an example::
 
   cycle.start(completionHandler: {(cycle, error) in
       if let e = error {

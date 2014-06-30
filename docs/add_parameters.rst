@@ -23,8 +23,8 @@ associated with a single key. The final URL produced by the code below is
               println("\(cycle.response.text)")
       })
 
-There is no such `parameters` when you create a `Cycle` by yourself. It's very
-simple to build a URL from the parameters through the helper methods provided by
+There is no such `parameters` when you create a `Cycle` by yourself. But it's very
+simple to build an URL through the helper methods provided by
 Cycles::
 
   // result: http://httpbin.org/get?key1=value1
@@ -32,10 +32,10 @@ Cycles::
 
 The function `MergeParametersToURL` will correctly encode the values, join the
 parameter pairs with character `&` and join the original URL with character `?`.
-`MergeParametersToURL` also allows query string in the original URL, the method
-will parse the query and merge them with the parameters. In the code snippet
-below, `key2` in the original URL and `key1` in the parameter will both appear
-in the final URL::
+`MergeParametersToURL` also allows query string to appear in the original URL,
+the method will parse the query and merge them with the new parameters. In the
+code snippet below, `key2` in the original URL and `key1` in the parameters will
+both appear in the final URL::
 
   // result: http://httpbin.org/get?key1=value1&key2=value2
   var URLString = MergeParametersToURL("http://httpbin.org/get?key2=value2", ["key1": ["value1"]])

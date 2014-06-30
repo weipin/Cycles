@@ -13,7 +13,8 @@ manner::
 The response can be handled in the `completionHandler` closure. The `cycle`
 argument contains all the information on both request and response.
 
-Besides "GET" method, you can send requests with other HTTP in similar ways::
+Besides "GET" method, you can send requests with other HTTP methods in similar
+ways::
 
   Cycle.post("http://httpbin.org/post", completionHandler: {
       (cycle, error) in

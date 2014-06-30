@@ -6,7 +6,7 @@ request for you. If you have a need for a custom timeout period, you can create
 a NSURLSessionConfiguration, set the property `timeoutIntervalForRequest` and
 `timeoutIntervalForResource`, create a Session from this `NSURLSessionConfiguration`
 and use this session to create a `Cycle`. The code snippet below set the timeout
-to a unrealistic value of 1.0 second. This is the same code used in one of the tests::
+to a unrealistic value of 1.0 second. This is the code in one of the Cycles tests::
 
   var configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
   configuration.timeoutIntervalForRequest = 1;

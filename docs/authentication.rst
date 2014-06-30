@@ -4,16 +4,16 @@ Authentication
 There are two approaches for handing authentication. One is provided by the URL
 loading system through classes like `NSURLCredential`, `NSURLProtectionSpace`,
 `NSURLAuthenticationChallenge`, etc. The other is to prepare the request manually
-or through Processor objects .
+or through Processor objects.
 
 Authentication through URL loading system
 -----------------------------------------
 
 To add authentication support through URL loading system, you can create an
 object of Authentication subclass, like BasicAuthentication. And add this
-Authentication object in an array and pass it to the convenient menthod as
+Authentication object in an array and pass it to the convenient method as
 parameter `authentications`, or assign the array to property `authentications`
-if you create the `Cycle` manually::
+if you are creating the `Cycle` manually::
 
   var auth = BasicAuthentication(username: "test", password: "12345")
   Cycle.get("http://127.0.0.1:8000/test/hello_with_basic_auth",
@@ -36,8 +36,8 @@ API's Basic Authentication as an example, for unauthenticated requests, the
 GitHub API responds with `404 Not Found`, instead of `401 Unauthorized`. In such
 case, URL loading system's authentication routes won't be triggered.
 
-The solution is to manually craft the `Authorization` header, and a Processor
-object is a perfect choice for this task::
+The solution is to manually craft the `Authorization` header. Using Processor
+objects can be a perfect choice for this task::
 
   Cycle.get("https://api.github.com/user/",
       requestProcessors: [BasicAuthProcessor(username: "user", password: "pass")],

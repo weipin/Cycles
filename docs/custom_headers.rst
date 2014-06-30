@@ -1,7 +1,7 @@
 Custom headers
 ==============
 
-The convenient methods do not support custom headers. You have to create a
+The convenient methods don't support custom headers. You have to create a
 `Cycle` to add headers::
 
   var URL = NSURL(string: "https://github.com/timeline.json")

@@ -19,12 +19,11 @@ Here is an example of using the convenient method::
 
 In this code snippet, a NSData is past as parameter `requestObject` and a
 `DataProcessor` is created and passed as `requestProcessors` in an array.
-The relationship between `requestObject` and `requestProcessors` will be
-explained in :ref:send_request_with_processors, :ref:receive_response_with_processors
-and :ref:the_object_property.
+The connection between `requestObject` and `requestProcessors` will be
+explained in :ref:`object_and_data_label`.
 
-Here is an example of creating the `Cycle` manually. You create the `Cycle`
-and assign the NSData to the property `data` of the Request, which is property
+Here is an example of creating a `Cycle` manually. You create the `Cycle`
+and assign a NSData to the property `data` of the Request, which is property
 `request` of the `Cycle`::
 
   var URL = NSURL(string: "http://127.0.0.1:8000/test/dumpupload/")
@@ -35,9 +34,6 @@ and assign the NSData to the property `data` of the Request, which is property
       println("\(cycle.response.text)") // Hello World
   }
 
-.. :ref:`error`
-.. :ref:`receive_response_with_processors`
-.. :ref:`the_object_property`
 
 Send JSON request
 -----------------
@@ -76,4 +72,4 @@ With Cycles, you can use Processor objects to complete such tasks. Each subclass
 of Processor can handle a certain type of object and prepare the Request for you.
 A `Cycle` accepts an array of Processor objects as property `requestProcessors`.
 Before a request is being sent, each Processor object in the requestProcessors
-will be given an oppotunity to process the Request.
+will be given an opportunity to process the Request.
