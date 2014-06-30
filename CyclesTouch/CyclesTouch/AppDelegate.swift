@@ -42,6 +42,60 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                println("\(cycle.response.object)")
 //            })
 
+//        Cycle.post("http://127.0.0.1:8000/test/dumpupload/",
+//            requestObject: "Hello World".dataUsingEncoding(NSUTF8StringEncoding),
+//            requestProcessors: [DataProcessor()],
+//            completionHandler: {
+//                (cycle, error) in
+//                println("\(cycle.response.text)") // Hello World
+//            })
+
+//        var URL = NSURL(string: "http://127.0.0.1:8000/test/dumpupload/")
+//        var cycle = Cycle(requestURL: URL, requestMethod: "POST")
+//        cycle.request.data = "Hello World".dataUsingEncoding(NSUTF8StringEncoding)
+//        cycle.start {
+//            (cycle, error) in
+//            println("\(cycle.response.text)") // Hello World
+//        }
+
+//        Cycle.get("http://httpbin.org/get",
+//            parameters: ["key1": ["value1"]],
+//            completionHandler: {cycle, error in
+//                if let value = cycle.response.valueForHTTPHeaderField("content-type") {
+//                    println("\(value)")
+//                }
+//            })
+
+//        var URLString = MergeParametersToURL("http://httpbin.org/get?key2=value2", ["key1": ["value1"]])
+//        println(URLString)
+//        var URL = MergeParametersToURL("http://domain.com?k1=v1&K2=v2", ["k3": ["v3"]]);
+//        println(URL)
+
+//        var URL = NSURL(string: "https://github.com/timeline.json")
+//        var cycle = Cycle(requestURL: URL)
+//        cycle.request.core.setValue("Cycles/0.01", forHTTPHeaderField: "User-Agent")
+
+        var auth = BasicAuthentication(username: "test", password: "12345")
+        Cycle.get("http://127.0.0.1:8000/test/hello_with_basic_auth",
+            authentications: [auth],
+            completionHandler: {
+                (cycle, error) in
+                println("\(cycle.response.text)") // Hello World
+            })
+
+//
+//        Cycle.upload("http://127.0.0.1:8000/test/dumpupload/",
+//            file: NSURL(string: ""),
+//            didSendBodyDataHandler: {
+//                (cycle, bytesSent, totalBytesSent, totalBytesExpectedToSend) in
+//                // handle progress
+//            },
+//            completionHandler: {
+//                (cycle, error) in
+//                println("\(cycle.response.text)") // Hello World
+//            })
+//        var session = Session()
+//
 
         return true
     }

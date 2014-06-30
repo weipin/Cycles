@@ -1,0 +1,17 @@
+The relationship between property `object` and property `data`
+==============================================================
+
+Both `Request` and `Response` have property `object` and property `data`.
+
+The property `object` represents a model object, depends on your requirement, it
+can be any type. For `Request`, the `object` will be used to create request data.
+For `Response`, the `object` will be used to store the model converted from
+response content.
+
+The property `data` represents the raw data, the type is NSData. For `Request`,
+the `object` is the request body to send. For `Response`, the `object` is the
+response content received.
+
+The conversion between `object` and `data` is performed by the Processor objects.
+For `Request`, the Processors will convert the `object` into `data`. For `Response`,
+the Processors will convert the `data` into `object`.
