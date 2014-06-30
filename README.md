@@ -72,7 +72,7 @@ Cycle.download("http://127.0.0.1:8000/test/echo?content=helloworld",
     })
 ```
 
-For more information, please read the documentation.
+For more information, please [read the documentation](http://cycles.readthedocs.org/).
 
 
 Installation
