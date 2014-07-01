@@ -4,10 +4,10 @@ Send request
 POST raw data
 -------------
 
-You can post raw data through both approaches: 1) the convenient method of
-`Cycle`. 2) create, configure a `Cycle` object and then "start".
+You can post raw data through both approaches: 1) the convenient methods of
+`Cycle`. 2) creating, configuring a `Cycle` object and then "start".
 
-Here is an example of using the convenient method::
+Here is an example of using the convenient methods::
 
   Cycle.post("http://127.0.0.1:8000/test/dumpupload/",
       requestObject: "Hello World".dataUsingEncoding(NSUTF8StringEncoding),
@@ -18,7 +18,7 @@ Here is an example of using the convenient method::
       })
 
 In this code snippet, a NSData is past as parameter `requestObject` and a
-`DataProcessor` is created and passed as `requestProcessors` in an array.
+`DataProcessor` is created and passed in an array as `requestProcessors`.
 The connection between `requestObject` and `requestProcessors` will be
 explained in :ref:`object_and_data_label`.
 
@@ -38,8 +38,8 @@ and assign a NSData to the property `data` of the Request, which is property
 Send JSON request
 -----------------
 
-It's common to send request with JSON content. To POST such requests through
-convenient methods, you need to do two things:
+It's common to send request with JSON content. To POST (or other methods) such
+requests through convenient methods, you need to do two things:
 
 * Prepare a collection object (normally a NSDictionary) and pass the object
   as parameter `requestObject`.

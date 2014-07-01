@@ -27,7 +27,7 @@ Property `text` is a `String` which is created from response data (property
 content is required. The Response will try to find an encoding through the HTTP
 headers first. If not find, response data will be looked through to guess the
 encoding. There is one exception -- if there is no charset in the headers and
-the Content-Type contains "text", the encoding will be defaults to "ISO-8859-1",
+the Content-Type contains "text", the encoding will be defaulted to "ISO-8859-1",
 according to RFC 2616, 3.7.1.
 
 Response headers
@@ -39,7 +39,7 @@ through the property `headers` of Response::
   var value = cycle.response.headers!.objectForKey("Content-Type") as String
   println("\(value)") // application/json
 
-`headers` is a Computed Property which obtains its value from a `NSHTTPURLResponse`.
+`headers` is a Computed Property which obtains its value from a NSHTTPURLResponse.
 The value is a NSDictionary.
 
 The code above has two problems:
@@ -47,11 +47,11 @@ The code above has two problems:
 * The code isn't simple enough for such a small and common task.
 * Fetching a header like this isn't case-insensitive.
 
-The ideal way to obtain a header is to invoke method `valueForHTTPHeaderField` of
-Response. Accessing a header through `valueForHTTPHeaderField` is case-insensitive
-and the syntax is simpler::
+The ideal way to obtain a header is to invoke the method `valueForHTTPHeaderField`
+of `Response`. Accessing a header through `valueForHTTPHeaderField` is
+case-insensitive and the syntax is simpler::
 
-  if let value = cycle.response.valueForHTTPHeaderField("content-type") {
+  if let value = cycle.response.valueForHTTPHeaderField("conTEnt-tyPE") {
       println("\(value)")
   }
 

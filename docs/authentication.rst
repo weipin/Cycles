@@ -10,10 +10,10 @@ Authentication through URL loading system
 -----------------------------------------
 
 To add authentication support through URL loading system, you can create an
-object of Authentication subclass, like BasicAuthentication. Add this
-Authentication object in an array and pass it to the convenient method as
-parameter `authentications`, or assign the array to property `authentications`
-if you are creating the `Cycle` manually::
+object of `Authentication` subclass, like `BasicAuthentication`. Add this
+`Authentication` subclass object in an array and pass the array to the convenient
+method as parameter `authentications`, or assign the array to property
+`authentications` if you are creating a `Cycle` manually::
 
   var auth = BasicAuthentication(username: "test", password: "12345")
   Cycle.get("http://127.0.0.1:8000/test/hello_with_basic_auth",
@@ -23,14 +23,14 @@ if you are creating the `Cycle` manually::
           println("\(cycle.response.text)") // Hello World
       })
 
-The BasicAuthentication object can handle three authentication methods: Basic,
+The `BasicAuthentication` object can handle three authentication methods: Basic,
 Digest and NTLM.
 
 
 Prepare request manually for authentication
 -------------------------------------------
 
-There are authentication methods the Authentication classes don't support. And
+There are authentication methods the `Authentication` classes don't support. And
 in some situations, preparing requests manually is the only option. Take GitHub
 API's Basic Authentication as an example, for unauthenticated requests, the
 GitHub API responds with `404 Not Found`, instead of `401 Unauthorized`. In such

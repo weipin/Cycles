@@ -28,10 +28,6 @@ ways::
       (cycle, error) in
   });
 
-  Cycle.delete("http://httpbin.org/delete", completionHandler: {
-      (cycle, error) in
-  });
-
   Cycle.head("http://httpbin.org/get", completionHandler: {
       (cycle, error) in
   });

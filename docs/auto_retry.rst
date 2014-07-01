@@ -12,4 +12,4 @@ one exception -- if the property `solicited` of `Cycle` is true, Cycles will kee
 trying for any error until it receives the content.
 
 There is also a delay before a new retry can be attempted. The interval is
-controlled by property `retryDelay` of Session.
+controlled by the property `retryDelay` of `Session`.

@@ -18,7 +18,7 @@ Thin wrappers
 
 Some of the Cycles classes are thin wrappers around the NSURLSession classes.
 These Cycles classes all have a property called `core` which points to the
-underlying Cocoa object. Here is a table on the relationships::
+underlying Cocoa object. Here is a table on the relationships:
 
   ============  ===================
   Cycles Class  Cocoa Class

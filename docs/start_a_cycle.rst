@@ -12,8 +12,8 @@ immediately. For example, to send a GET request, use this `type method`_ of `Cyc
                  authentications: Authentication[]? = nil, solicited: Bool = false,
                  completionHandler: CycleCompletionHandler) -> Cycle
 
-`URLString` and `completionHandler` are required parameters, the rest ones are
-all optional and have default values.
+.. note:: `URLString` and `completionHandler` are required parameters, the rest
+          ones are all optional and have default values.
 
 ::
 
@@ -55,7 +55,7 @@ To send a HTTP request, call the method `func start(completionHandler: CycleComp
       // handle response
   })
 
-You can handle the response in the `completionHandler` closure. Because
+You handle the response in the `completionHandler` closure. Because
 `completionHandler` is the last parameter, the code can be simplified with
 Trailing Closures expression::
 
