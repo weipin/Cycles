@@ -58,13 +58,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            println("\(cycle.response.text)") // Hello World
 //        }
 
-//        Cycle.get("http://httpbin.org/get",
-//            parameters: ["key1": ["value1"]],
-//            completionHandler: {cycle, error in
-//                if let value = cycle.response.valueForHTTPHeaderField("content-type") {
-//                    println("\(value)")
-//                }
-//            })
+        Cycle.get("http://127.0.0.1:8000/test/echo?delay=12",
+            completionHandler: {cycle, error in
+            })
 
 //        var URLString = MergeParametersToURL("http://httpbin.org/get?key2=value2", ["key1": ["value1"]])
 //        println(URLString)
@@ -75,13 +71,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        var cycle = Cycle(requestURL: URL)
 //        cycle.request.core.setValue("Cycles/0.01", forHTTPHeaderField: "User-Agent")
 
-        var auth = BasicAuthentication(username: "test", password: "12345")
-        Cycle.get("http://127.0.0.1:8000/test/hello_with_basic_auth",
-            authentications: [auth],
-            completionHandler: {
-                (cycle, error) in
-                println("\(cycle.response.text)") // Hello World
-            })
+//        var auth = BasicAuthentication(username: "test", password: "12345")
+//        Cycle.get("http://127.0.0.1:8000/test/hello_with_basic_auth",
+//            authentications: [auth],
+//            completionHandler: {
+//                (cycle, error) in
+//                println("\(cycle.response.text)") // Hello World
+//            })
 
 //
 //        Cycle.upload("http://127.0.0.1:8000/test/dumpupload/",

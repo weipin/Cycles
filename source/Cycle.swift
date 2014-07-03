@@ -310,6 +310,7 @@ class Cycle {
             self.core = self.taskForType(self.taskType)
             self.request.timestamp = NSDate()
             self.core!.resume()
+            self.session.onCycleDidStart(self)
         }
         return
     }

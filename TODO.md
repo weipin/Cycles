@@ -1,15 +1,20 @@
-- Add preservation ability
-- Extend XCTestCase for HTTP testing
-- Replace NSLog with Activity for error logging
 - Support network activity indicator
+- Add preservation ability
+- Replace NSLog with Activity for error logging
 - Add ability of customizing retry logic, status error logic.
+
 - Add logging routes
+
 - Add model helper and KVO helper
+
 - Add higher-level "service" functionality
+
+- Add Mac OS X support
+
 - Add reachability support
 - Add workflow support
+- Extend XCTestCase for HTTP testing
 - Add background download support
-- Add Mac OS X support
 - Cache with performance
 - Add OAuth support
 - Create demo apps

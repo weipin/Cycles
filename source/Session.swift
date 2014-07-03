@@ -71,6 +71,15 @@ NSURLSessionDataDelegate {
     let RetryPolicyMaximumRetryCount = 3 // TODO, use Type Variable
 
 /*!
+ @abstract The NetworkActivityIndicator manages the display of
+ network activity indicator. The default value is the singleton of the class.
+ You can set it as nil (don't display network spinning gear in status bar), or
+ set it as an object of NetworkActivityIndicator subclass to custom the display
+ logic.
+ */
+    var networkActivityIndicator :NetworkActivityIndicator?
+
+/*!
  @abstract Return the default singleton Session.
  */
     class func defaultSession() -> Session {
@@ -115,6 +124,8 @@ NSURLSessionDataDelegate {
         } else {
             self.workerQueue = NSOperationQueue()
         }
+
+        self.networkActivityIndicator = NetworkActivityIndicator.sharedInstance()
 
         super.init()
         self.core = NSURLSession(configuration: c, delegate: self,
@@ -195,6 +206,10 @@ NSURLSessionDataDelegate {
     // NSURLSessionTaskDelegate
     func URLSession(session: NSURLSession!, task: NSURLSessionTask!,
     didCompleteWithError error: NSError!) {
+        if let indicator = self.networkActivityIndicator {
+            indicator.decrease()
+        }
+
         var cycle: Cycle! = self.cycleForTask(task)
         assert(cycle != nil)
 
@@ -321,6 +336,12 @@ NSURLSessionDataDelegate {
         }
     }
 
+    func onCycleDidStart(cycle: Cycle) {
+        if let indicator = self.networkActivityIndicator {
+            indicator.increase()
+        }
+    }
+
 // ---
 /*!
  @abstract Cancel an array of HTTP request operations.
@@ -328,7 +349,8 @@ NSURLSessionDataDelegate {
  @param explicitly Indicate if the operations are cancelled explicitly. The value
  will be stored in each Cycle's property explicitlyCanceling. Your app can use 
  this value for cancellation interface.
- */    func cancelCycles(cycles: Cycle[], explicitly: Bool) {
+ */
+    func cancelCycles(cycles: Cycle[], explicitly: Bool) {
         for cycle in cycles {
             cycle.explicitlyCanceling = explicitly
             cycle.core!.cancel()
