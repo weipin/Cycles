@@ -303,14 +303,16 @@ class Cycle {
                 var e = NSError(domain: CycleErrorDomain,
                     code: CycleErrorCode.PreparationFailure.toRaw(),
                     userInfo: nil)
-                self.session.onCycleDidFinish(self, error: e)
+                self.session.cycleDidFinish(self, error: e)
                 return
             }
+
+            self.session.applyPreservedStateToRequest(self.request)
 
             self.core = self.taskForType(self.taskType)
             self.request.timestamp = NSDate()
             self.core!.resume()
-            self.session.onCycleDidStart(self)
+            self.session.cycleDidStart(self)
         }
         return
     }

@@ -142,6 +142,7 @@ parameters: Dictionary<String, String[]>) {
             }
             k = k.lowercaseString
             var v = str[advance(loc, 1)..str.endIndex]
+            v = UnescapeStringFromURLArgumentString(v)
             if var values = parameters[k] {
                 values.append(v)
                 parameters[k] = values

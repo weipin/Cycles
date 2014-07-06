@@ -78,5 +78,9 @@ class HelperTests: XCTestCase {
         // keys in both URL and parameters ("k1")
         URL = MergeParametersToURL("http://domain.com?k1=v1&K2=v2", ["k3": ["v3"], "k1": ["v11"]]);
         XCTAssertEqualObjects(URL, "http://domain.com?k1=v1&k1=v11&k2=v2&k3=v3")
+
+        // escapsed characters
+        URL = MergeParametersToURL("http://domain.com?k1=Content-Type%3Atext", ["k1": ["v1"]]);
+        XCTAssertEqualObjects(URL, "http://domain.com?k1=Content-Type%3Atext&k1=v1")
     }
 }

@@ -296,5 +296,21 @@ class CycleTests: XCTestCase {
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
     }
 
+    // reserved
+    func testtestReservedHTTPHeaderFieldsShouldWork() {
+        var expection = self.expectationWithDescription("get")
+        var URL = tu_("dumpmeta/")
+        var session = Session()
+        let str = "a reserved HTTP header"
+        session.setPreservedHTTPHeaderField("X-CYCLES-HEADER", value: str)
+        var cycle = Cycle(requestURL: URL, session: session)
+        cycle.start { (cycle, error) in
+            XCTAssertFalse(error)
+            XCTAssertTrue(cycle.response.text.rangeOfString(str))
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
+
 }
 

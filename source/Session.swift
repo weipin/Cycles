@@ -30,6 +30,11 @@ import UIKit
  */
 class Session: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate,
 NSURLSessionDataDelegate {
+     // TODO: Type Variable
+    let PreservedHTTPHeadersKey = "PreservedHTTPHeaders"
+    let PreservedHTTPQueryParametersKey = "PreservedHTTPQueryParameters"
+
+
 /*!
  @abstract The NSURLSession takes care of the major HTTP operations.
  */
@@ -78,6 +83,9 @@ NSURLSessionDataDelegate {
  logic.
  */
     var networkActivityIndicator :NetworkActivityIndicator?
+
+    var preservedHTTPHeaders = Dictionary<String, String>()
+    var preservedHTTPQueryParameters = Dictionary<String, String[]>()
 
 /*!
  @abstract Return the default singleton Session.
@@ -243,12 +251,12 @@ NSURLSessionDataDelegate {
             var error = NSError(domain: CycleErrorDomain,
                                 code: CycleErrorCode.StatusCodeSeemsToHaveErred.toRaw(),
                                 userInfo: nil)
-            self.onCycleDidFinish(cycle, error: error)
+            self.cycleDidFinish(cycle, error: error)
             return
         }
 
         if error {
-            self.onCycleDidFinish(cycle, error: error)
+            self.cycleDidFinish(cycle, error: error)
             return
         }
 
@@ -259,7 +267,7 @@ NSURLSessionDataDelegate {
                     break
                 }
             }
-            self.onCycleDidFinish(cycle, error: error)
+            self.cycleDidFinish(cycle, error: error)
         }
 
     }
@@ -327,7 +335,7 @@ NSURLSessionDataDelegate {
                                    totalBytesExpectedToWrite: totalBytesExpectedToWrite);
     }
 
-    func onCycleDidFinish(cycle: Cycle, error: NSError?) {
+    func cycleDidFinish(cycle: Cycle, error: NSError?) {
         self.delegateQueue.addOperationWithBlock {
             cycle.completionHandler(cycle: cycle, error: error)
             self.delegateQueue.addOperationWithBlock {
@@ -336,7 +344,7 @@ NSURLSessionDataDelegate {
         }
     }
 
-    func onCycleDidStart(cycle: Cycle) {
+    func cycleDidStart(cycle: Cycle) {
         if let indicator = self.networkActivityIndicator {
             indicator.increase()
         }
@@ -385,4 +393,58 @@ NSURLSessionDataDelegate {
         }
         self.core.finishTasksAndInvalidate()
     }
+
+// -- Preserved
+    func setPreservedHTTPHeaderField(field: String, value: String) {
+        self.preservedHTTPHeaders[field.lowercaseString] = value
+    }
+
+    func setPreservedHTTPQueryParameter(key: String, value: String[]) {
+        self.preservedHTTPQueryParameters[key.lowercaseString] = value
+    }
+
+    func dataForPreservedState(error: NSErrorPointer) -> NSData {
+        var objects = [self.preservedHTTPHeaders, self.preservedHTTPQueryParameters]
+        var keys = [PreservedHTTPHeadersKey, PreservedHTTPQueryParametersKey]
+        var dict = NSDictionary(objects: objects, forKeys: keys)
+        var data = NSPropertyListSerialization.dataWithPropertyList(dict,
+                    format: .BinaryFormat_v1_0, options: 0, error:error)
+
+        return data
+    }
+
+    func loadPreservedStateFromData(data: NSData, error: NSErrorPointer) -> Bool {
+        var options = NSPropertyListReadOptions(NSPropertyListMutabilityOptions.MutableContainersAndLeaves.toRaw()) // TODO: improve me
+        if let dict = NSPropertyListSerialization.propertyListWithData(data,
+        options:options, format: nil, error: error) as? NSDictionary {
+            if let headers = dict[PreservedHTTPHeadersKey] as? Dictionary<String, String> {
+                self.preservedHTTPHeaders = headers
+            }
+            if let parameters = dict[PreservedHTTPQueryParametersKey] as? Dictionary<String, String[]> {
+                self.preservedHTTPQueryParameters = parameters
+            }
+        }
+
+        return true
+    }
+
+    func applyPreservedStateToRequest(request: Request) {
+        // headers
+        for (key, value) in self.preservedHTTPHeaders {
+            request.core.setValue(value, forHTTPHeaderField: key)
+        }
+
+        // parameters
+        if self.preservedHTTPQueryParameters.count > 0 {
+            var URLString = request.core.URL.absoluteString
+            URLString = MergeParametersToURL(URLString, self.preservedHTTPQueryParameters)
+            if let URL = NSURL.URLWithString(URLString) {
+                var URLString = request.core.URL.absoluteString
+                request.core.URL = URL
+            }
+        }
+    }
+
 }
+
+

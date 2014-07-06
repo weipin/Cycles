@@ -35,7 +35,7 @@ extension Cycle {
         if parameters {
             str = MergeParametersToURL(URLString, parameters!)
         }
-        var URL = NSURL(string: str)
+        var URL = NSURL.URLWithString(str)
         var cycle = Cycle(requestURL: URL,
                           taskType: CycleType.Data,
                           requestMethod: method,
@@ -182,7 +182,7 @@ extension Cycle {
         if parameters {
             str = MergeParametersToURL(URLString, parameters!)
         }
-        var URL = NSURL(string: str)
+        var URL = NSURL.URLWithString(str)
         var cycle = Cycle(requestURL: URL,
                           taskType: CycleType.Upload,
                           requestMethod: "POST")
@@ -208,7 +208,7 @@ extension Cycle {
         if parameters {
             str = MergeParametersToURL(URLString, parameters!)
         }
-        var URL = NSURL(string: str)
+        var URL = NSURL.URLWithString(str)
         var cycle = Cycle(requestURL: URL,
                           taskType: CycleType.Upload,
                           requestMethod: "POST")
@@ -242,7 +242,7 @@ extension Cycle {
         if parameters {
             str = MergeParametersToURL(URLString, parameters!)
         }
-        var URL = NSURL(string: str)
+        var URL = NSURL.URLWithString(str)
         var cycle = Cycle(requestURL: URL,
                           taskType: CycleType.Download,
                           requestMethod: "GET")
