@@ -306,7 +306,45 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL, session: session)
         cycle.start { (cycle, error) in
             XCTAssertFalse(error)
-            XCTAssertTrue(cycle.response.text.rangeOfString(str))
+            XCTAssertTrue(cycle.response.text.rangeOfString("HTTP_X_CYCLES_HEADER=a reserved HTTP header"))
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
+
+    func testPreservedHTTPQueryParametersShouldWork() {
+        var expection = self.expectationWithDescription("get")
+        var URL = tu_("dumpmeta?k2=v2")
+        var session = Session()
+        session.setPreservedHTTPQueryParameter("k1", value: ["v1"])
+        var cycle = Cycle(requestURL: URL, session: session)
+        cycle.start { (cycle, error) in
+            XCTAssertFalse(error)
+            XCTAssertTrue(cycle.response.text.rangeOfString("QUERY_STRING=k1=v1&k2=v2"))
+            expection.fulfill()
+        }
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+    }
+
+    func testPreservedStateCodingShouldWork() {
+        var expection = self.expectationWithDescription("get")
+
+        var session1 = Session()
+        let str = "a reserved HTTP header"
+        session1.setPreservedHTTPHeaderField("X-CYCLES-HEADER", value: str)
+        session1.setPreservedHTTPQueryParameter("k1", value: ["v1a", "v1b"])
+        var data = session1.dataForPreservedState(nil)
+
+        var session2 = Session()
+        var result = session2.loadPreservedStateFromData(data, error: nil)
+        XCTAssertTrue(result)
+
+        var URL = tu_("dumpmeta?k2=v2")
+        var cycle = Cycle(requestURL: URL, session: session2)
+        cycle.start { (cycle, error) in
+            XCTAssertFalse(error)
+            XCTAssertTrue(cycle.response.text.rangeOfString("HTTP_X_CYCLES_HEADER=a reserved HTTP header"))
+            XCTAssertTrue(cycle.response.text.rangeOfString("QUERY_STRING=k1=v1a&k1=v1b&k2=v2"))
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
