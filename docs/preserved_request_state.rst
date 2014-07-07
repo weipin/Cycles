@@ -1,8 +1,8 @@
 Preserved request state
 =======================
 
-You can ask a Session to apply specified states for each request being sent
-through. "States" can be HTTP headers or query parameters. A practical sample
+You can ask a Session to apply specified state for each request being sent
+through. "State" includes HTTP headers or query parameters. A practical sample
 can explain this feature better.
 
 Tastypie_ is a fine web service API framework for Django, which can be used to
@@ -49,10 +49,10 @@ or the parameters will be set properly before the request can be sent.
 Save and load
 -------------
 The user won't be happy if your app keeps prompting a sign in after each
-relaunch. The Session needs a way to archive the states and load that states
+relaunch. The Session needs a way to archive the state and load that state
 back into the Session.
 
-To archive the states, call the method `dataForPreservedState` of Session. The
+To archive the state, call the method `dataForPreservedState` of Session. The
 method returns a NSData which can be easily stored in a NSUserDefaults or a file::
 
   var session = Session.defaultSession()
@@ -61,7 +61,7 @@ method returns a NSData which can be easily stored in a NSUserDefaults or a file
   // Store data in a NSUserDefaults or a file
   // ...
 
-The next time your app launches, load the states back into the Session::
+The next time your app launches, load the state back into the Session::
 
   // Obtain the NSData from a NSUserDefaults or a file
   // var data = ...
@@ -69,7 +69,7 @@ The next time your app launches, load the states back into the Session::
   var error: NSError?
   session.loadPreservedStateFromData(data, error: &error)
 
-.. hint:: There is nothing prevents you from managing the states all by yourself
+.. hint:: There is nothing prevents you from managing the state all by yourself
           and set up the requests manually. You can also create Processor
           subclasses to make the task easier. But at the same time, you may find
           Session's "Preserved Request State" feature convenient in certain
