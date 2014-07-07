@@ -13,7 +13,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         // Override point for customization after application launch.
@@ -58,9 +57,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            println("\(cycle.response.text)") // Hello World
 //        }
 
-        Cycle.get("http://127.0.0.1:8000/test/echo?delay=12",
-            completionHandler: {cycle, error in
-            })
+//        Cycle.get("http://127.0.0.1:8000/test/echo?delay=12",
+//            completionHandler: {cycle, error in
+//            })
+//        Cycle.get("http://www.apple.com/404/",
+//            completionHandler: {cycle, error in
+//                println("\(error!.domain)") // CycleError
+//                println("\(CycleErrorCode.fromRaw(error!.code))") // 2
+//                println("\(cycle.response.statusCode)") // 2
+//            })
 
 //        var URLString = MergeParametersToURL("http://httpbin.org/get?key2=value2", ["key1": ["value1"]])
 //        println(URLString)
@@ -92,6 +97,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            })
 //        var session = Session()
 //
+
+        var data: NSData = NSData()
+        var session = Session.defaultSession()
+        var error: NSError?
+        session.loadPreservedStateFromData(data, error: &error)
 
         return true
     }

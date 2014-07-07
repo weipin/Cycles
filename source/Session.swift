@@ -26,7 +26,7 @@ import UIKit
 
 @objc protocol SessionDelegate {
     @optional func sessionShouldRetryCycle(session: Session, cycle: Cycle, error: NSError?) -> Bool;
-    @optional func sessionShouldTreatStatusAsFailure(session: Session, status: Int) -> Bool;
+    @optional func sessionShouldTreatStatusCodeAsFailure(session: Session, status: Int) -> Bool;
 }
 
 /*!
@@ -278,7 +278,8 @@ NSURLSessionDataDelegate {
         }
 
         var statusFailure = false
-        if let value = self.delegate?.sessionShouldTreatStatusAsFailure?(self, status: cycle.response.statusCode!) {
+        if let value = self.delegate?.sessionShouldTreatStatusCodeAsFailure?(self,
+        status: cycle.response.statusCode!) {
             statusFailure = value
         } else {
             if cycle.response.statusCode >= 400 {

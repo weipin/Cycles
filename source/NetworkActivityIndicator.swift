@@ -30,7 +30,7 @@ import UIKit
  * In most cases, you create one single NetworkActivityIndicator for one app. 
  * To make this NetworkActivityIndicator manage the activity display, you call
  * the method `increate` each time a request is issued, and call the method 
- * `decrease` each time a response is received or error happens.
+ * `decrease` each time a response is received or ended with an error.
  */
 class NetworkActivityIndicator {
     var count = 0

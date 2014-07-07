@@ -33,7 +33,7 @@ build HTTP functionality into your model layer. Also, properties like
 `solicited` encourage you to build delightful user experiences.
 
 Introduction
-------------------
+------------
 
 .. toctree::
     :maxdepth: 2
@@ -43,7 +43,7 @@ Introduction
     architecture
 
 Quickstart
-------------------
+----------
 
 .. toctree::
     :maxdepth: 2
@@ -66,3 +66,14 @@ Quickstart
     authentication
     restart
     tests
+
+Advanced Usage
+--------------
+
+.. toctree::
+    :maxdepth: 2
+
+    display_network_activity
+    retry_policy
+    http_status_error
+    preserved_request_state

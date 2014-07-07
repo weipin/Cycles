@@ -13,7 +13,7 @@ will be used. The default `Session` is a singleton returned by the type method
 may affect all the `Cycle` objects reference this session.
 
 Provide `Cycle` properties through `Session`
-------------------------------------------
+--------------------------------------------
 
 It's not uncommon to assign the same values of certain properties to multiple
 `Cycle` objects. Cycles offers a way to make this task easier. For such
@@ -33,7 +33,7 @@ Here is a list of the properties that a `Session` can provide for a `Cycle` obje
 * `authentications`
 
 Create and use your own `Session` objects
----------------------------------------
+-----------------------------------------
 
 You may want to create your own `Session` objects so the `Cycle` objects can
 reference to the different ones. Creating a `Session` is easy, the parameters of

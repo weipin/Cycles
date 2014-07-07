@@ -37,11 +37,10 @@ typealias AuthenticationInteractionCompletionHandler = (action: AuthenticationAc
 
 /*!
  * @discussion
- * This class is an abstract class you use to
- * encapsulate the code and data associated with HTTP authentication. Because
- * it is abstract, you do not use this class directly but instead subclass or
- * use one of the existing subclasses (BasicAuthentication) to perform the
- * actual handling.
+ * This class is an abstract class you use to encapsulate the code and data 
+ * associated with HTTP authentication. Because it is abstract, you do not use 
+ * this class directly but instead subclass or use one of the existing 
+ * subclasses (BasicAuthentication) to perform the actual handling.
  */
 class Authentication {
     var challenge: NSURLAuthenticationChallenge! = nil

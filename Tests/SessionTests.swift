@@ -33,7 +33,7 @@ class SessionTests: XCTestCase {
         }
     }
     class DummySessionDelegateNoneStatusFailure : SessionDelegate {
-        func sessionShouldTreatStatusAsFailure(session: Session, status: Int) -> Bool {
+        func sessionShouldTreatStatusCodeAsFailure(session: Session, status: Int) -> Bool {
             return false
         }
     }
