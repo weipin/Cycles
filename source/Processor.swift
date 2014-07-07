@@ -25,16 +25,25 @@ import CoreFoundation
 import Foundation
 
 /*!
- @discussion This class is an abstract class you use to update a Request or a
- Response. Because it is abstract, you do not use this class directly but instead 
- subclass or use one of the existing subclasses. You create subclass to convert 
- data between request/response data and your specific object.
+ * @discussion 
+ * This class is an abstract class you use to update a Request or a Response. 
+ * Because it is abstract, you do not use this class directly but instead
+ * subclass or use one of the existing subclasses. You create subclass to convert
+ * data between request/response data and your specific object.
  */
 class Processor {
 /*!
- @abstract Process the specified Request.
- @param The Request to process.
- @result true if processed, or false if an error occurs.
+ * @abstract 
+ * Process the specified Request.
+ *
+ * @param request
+ * The Request to process.
+ *
+ * @param error
+ * Set if an error occurs.
+ *
+ * @result 
+ * true if processed, or false if an error occurs.
  */
     func processRequest(request: Request, error: NSErrorPointer) -> Bool {
         assert(false)
@@ -42,9 +51,16 @@ class Processor {
     }
 
 /*!
- @abstract Process the specified Response.
- @param The Response to process.
- @result The updated Response.
+ * @abstract 
+ * Process the specified Response.
+ *
+ * @param response
+ * The Response to process.
+ *
+ * @param error
+ * Set if an error occurs.
+ *
+ * @result The updated Response.
  */
     func processResponse(response: Response, error: NSErrorPointer) -> Bool {
         assert(false)
@@ -57,7 +73,8 @@ class Processor {
 }
 
 /*!
- @discussion This class add Basic Authentication header to the Request.
+ * @discussion 
+ * This class add Basic Authentication header to the Request.
  */
 class BasicAuthProcessor : Processor {
     var username: String
@@ -90,10 +107,10 @@ class BasicAuthProcessor : Processor {
 }
 
 /*!
- @discussion This class does nothing but assigns objects between variables.
- For request, it assigns your object to the request data, so you need to ensure
- that your object is a NSData. For response, it assigns the response data to 
- your object.
+ * @discussion 
+ * This class does nothing but assigns objects between variables. For request, 
+ * it assigns your object to the request data, so you need to ensure that your 
+ * object is a NSData. For response, it assigns the response data to your object.
  */
 class DataProcessor : Processor {
     override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
@@ -119,32 +136,37 @@ class DataProcessor : Processor {
 }
 
 /*!
- @discussion This class converts your String to request data. Or converts the
- response data to String. There is less chance you will need to use this class 
- because Response has built-in support for the its text and the encoding. Use this
- class if you want to process the content in a specified queue.
+ * @discussion 
+ * This class converts your String to request data. Or converts the response 
+ * data to String. There is less chance you will need to use this class because 
+ * Response has built-in support for the its text and the encoding. Use this
+ * class if you want to process the content in a specified queue.
  */
 
 class TextProcessor : Processor {
 /*!
- @discussion The encoding to use when converts your NSString to request data.
+ * @discussion 
+ * The encoding to use when converts your NSString to request data.
  */
     var writeEncoding: NSStringEncoding = NSUTF8StringEncoding
 
 /*!
- @discussion The encoding to use when converts request data to your String.
- If you don't specify a value, the encoding will be guessed.
+ * @discussion 
+ * The encoding to use when converts request data to your String. If you don't 
+ * specify a value, the encoding will be guessed.
  */
     var readEncoding: NSStringEncoding?
 
 /*!
- @discussion The encoding of the response data, determined by examining the response.
+ * @discussion 
+ * The encoding of the response data, determined by examining the response.
  */
     var textEncoding: NSStringEncoding?
 
 /*!
-@discussion Determine the text encoding by examining the response.
-*/
+ * @discussion
+ * Determine the text encoding by examining the response.
+ */
     class func textEncodingFromResponse(response: Response) -> NSStringEncoding {
         var contentType = response.valueForHTTPHeaderField("content-type")
         var charset: String?
@@ -219,9 +241,9 @@ class TextProcessor : Processor {
 }
 
 /*!
- @discussion This class converts objects between your NSDictionary and request 
- data with JSON format. For request, header "Content-Type: application/json" will 
- be added.
+ * @discussion
+ * This class converts objects between your NSDictionary and request data with 
+ * JSON format. For request, header "Content-Type: application/json" will be added.
  */
 class JSONProcessor : Processor {
     override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
@@ -265,8 +287,9 @@ class JSONProcessor : Processor {
 }
 
 /*!
- @discussion This class converts your NSDictionary to a form encoded string as 
- request body. Header "Content-Type: application/x-www-form-urlencoded" will be added.
+ * @discussion 
+ * This class converts your NSDictionary to a form encoded string as request 
+ * body. Header "Content-Type: application/x-www-form-urlencoded" will be added.
  */
 class FORMProcessor : Processor {
     override func processRequest(request: Request, error: NSErrorPointer) -> Bool {

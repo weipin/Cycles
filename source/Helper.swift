@@ -1,27 +1,47 @@
 //
 //  Helper.swift
-//  CyclesTouch
 //
-//  Created by Weipin Xia on 6/15/14.
-//  Copyright (c) 2014 Cocoahope. All rights reserved.
+//  Copyright (c) 2014 Weipin Xia
 //
-
+//  Permission is hereby granted, free of charge, to any person obtaining a copy of
+//  this software and associated documentation files (the "Software"), to deal in
+//  the Software without restriction, including without limitation the rights to
+//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+//  the Software, and to permit persons to whom the Software is furnished to do so,
+//  subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+//  FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+//  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+//  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+//  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
 import Foundation
 
 /*!
- Same as NSLocalizedString. The difference is that this function uses table 
- "Cycles", not the default one ("Localizable.strings").
+ * Same as NSLocalizedString. The difference is that this function uses table
+ * "Cycles", not the default one ("Localizable.strings").
  */
 func LocalizedString(key: String) -> String {
     return NSLocalizedString(key, tableName: "Cycles", comment: "")
 }
 
 /*!
- @abstract Parse a Content-Type like string (e.g. "text/html; charset=UTF-8").
- @param header The Content-Type like string to parse
- @result (type, parameters)
- type The Content-Type part of the string, or nil if not available.
- parameters The dictionary of parsed pairs (the part after character ';').
+ * @abstract 
+ * Parse a Content-Type like string (e.g. "text/html; charset=UTF-8"). 
+ *
+ * @param header 
+ * The Content-Type like string to parse
+ *
+ * @result (type, parameters)
+ * type
+ * The Content-Type part of the string, or nil if not available.
+ * parameters
+ * The dictionary of parsed pairs (the part after character ';').
  */
 func ParseContentTypeLikeHeader(header: String) -> (type: String?,
     parameters: Dictionary<String, String>) {
@@ -56,9 +76,14 @@ func ParseContentTypeLikeHeader(header: String) -> (type: String?,
 }
 
 /*!
- @abstract Escape a string to be a URL argument (RFC 3986).
- @param str The string to escape
- @result Escaped string
+ * @abstract 
+ * Escape a string to be a URL argument (RFC 3986).
+ *
+ * @param str 
+ * The string to escape
+ *
+ * @result
+ * Escaped string
  */
 func EscapeStringToURLArgumentString(str: String) -> String {
     var s = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
@@ -69,9 +94,14 @@ func EscapeStringToURLArgumentString(str: String) -> String {
 }
 
 /*!
- @abstract Unescape a URL argument (RFC 3986).
- @param str The URL argument to unescape
- @result Unescaped version of the URL argument
+ * @abstract 
+ * Unescape a URL argument (RFC 3986).
+ *
+ * @param str 
+ * The URL argument to unescape
+ *
+ * @result 
+ * Unescaped version of the URL argument
  */
 func UnescapeStringFromURLArgumentString(str: String) -> String {
     var range = NSRange(location: 0, length:countElements(str))
@@ -84,14 +114,19 @@ func UnescapeStringFromURLArgumentString(str: String) -> String {
 }
 
 /*!
- @discussion Join the keys and values in a dictioanry to a "form-urlencoded"
- string. The key is separated from the value by `=' and key/value pairs are 
- separated from each other by `&'. The value will be escaped before it joins the 
- string. The order of the pairs in the joined string is sorted.
- 
- The keys MUST be String and the values MUST be an array of String.
- @param dict The dictionary to provide the key/value pairs.
- @result "form-urlencoded" string of the dictionary.
+ * @discussion 
+ * Join the keys and values in a dictioanry to a "form-urlencoded"
+ * string. The key is separated from the value by `=' and key/value pairs are
+ * separated from each other by `&'. The value will be escaped before it joins the
+ * string. The order of the pairs in the joined string is sorted.
+ *
+ * The keys MUST be String and the values MUST be an array of String.
+ *
+ * @param dict 
+ * The dictionary to provide the key/value pairs.
+ *
+ * @result 
+ * "form-urlencoded" string of the dictionary.
  */
 func FormencodeDictionary(dict: Dictionary<String, String[]>) -> String {
     var result = String[]()
@@ -115,11 +150,17 @@ func FormencodeDictionary(dict: Dictionary<String, String[]>) -> String {
 }
 
 /*!
- @abstract Parse an URL string for query parameters.
- @param URLString The URL string to parse
- @result (URL, parameters) 
- URL the none query part of the URL.
- parameters A dictionary contains the parameter pairs.
+ * @abstract 
+ * Parse an URL string for query parameters.
+ *
+ * @param 
+ * URLString The URL string to parse
+ *
+ * @result (URL, parameters)
+ * URL 
+ * the none query part of the URL.
+ * parameters 
+ * A dictionary contains the parameter pairs.
  */
 func ParseURLWithQueryParameters(URLString: String) -> (URL: String?,
 parameters: Dictionary<String, String[]>) {
@@ -159,14 +200,19 @@ parameters: Dictionary<String, String[]>) {
 }
 
 /*!
- @discussion Join the keys and values in a dictionary to a "form-urlencoded" string
- and merge the result a specified URL. Duplicate keys appear in the URL and
- parameters will be merged properly.
- @param URLString The URL that parameters will be merged to, can also contain
- its own query string.
- @param parameters The key/value pairs in this dictionary will be merged to 
- the URL.
- @result A new URL with query merged from URL and parameters.
+ * @discussion 
+ * Join the keys and values in a dictionary to a "form-urlencoded" string
+ * and merge the result a specified URL. Duplicate keys appear in the URL and
+ * parameters will be merged properly.
+ *
+ * @param URLString 
+ * The URL that parameters will be merged to, can also contain its own query string.
+
+ * @param parameters 
+ * The key/value pairs in this dictionary will be merged to the URL.
+ *
+ * @result 
+ * A new URL with query merged from URL and parameters.
  */
 func MergeParametersToURL(URLString: String, parameters: Dictionary<String, String[]>) -> String {
     var (base, existing_params) = ParseURLWithQueryParameters(URLString)

@@ -24,27 +24,32 @@
 import Foundation
 
 /*!
- @abstract This class represents a HTTP request.
+ * @abstract 
+ * This class represents a HTTP request.
  */
 class Request {
 /*!
- @abstract The NSMutableURLRequest represents the primary request information.
+ * @abstract 
+ * The NSMutableURLRequest represents the primary request information.
  */
     var core: NSMutableURLRequest
 
 /*!
- @discussion The object represents the request data. The Processor objects 
- will use this object to build HTTP headers and body.
+ * @discussion 
+ * The object represents the request data. The Processor objects will use this 
+ * object to build HTTP headers and body.
  */
     var object: AnyObject?
 
 /*!
- @abstract The NSDate stores the time the request is sent.
+ * @abstract 
+ * The NSDate stores the time the request is sent.
  */
     var timestamp: NSDate?
 
 /*!
- @discussion The NSData to send as HTTP body.
+ * @discussion 
+ * The NSData to send as HTTP body.
  */
     var data: NSData? {
     get {
@@ -60,8 +65,11 @@ class Request {
     }
 
 /*!
- @abstract Initialize a Request object
- @param URLRequest The NSURLRequest represents the primary request information.
+ * @abstract 
+ * Initialize a Request object
+ *
+ * @param URLRequest 
+ * The NSURLRequest represents the primary request information.
  */
     init(core: NSURLRequest) {
         self.core = core.mutableCopy() as NSMutableURLRequest

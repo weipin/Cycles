@@ -30,8 +30,9 @@ import UIKit
 }
 
 /*!
- @discussion This class manages Cycle objects. You can also threat this class
- as a wrapper around NSURLSession and its delegates.
+ * @discussion
+ * This class manages Cycle objects. You can also threat this class as a wrapper 
+ * around NSURLSession and its delegates.
  */
 class Session: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate,
 NSURLSessionDataDelegate {
@@ -42,38 +43,37 @@ NSURLSessionDataDelegate {
     weak var delegate: SessionDelegate? = nil
 
 /*!
- @abstract The NSURLSession takes care of the major HTTP operations.
+ * The NSURLSession takes care of the major HTTP operations.
  */
     var core: NSURLSession!
 
 /*!
- @discussion The operation queue that the delegate related "callback" blocks 
- will be added to. This queue will also be set as NSURLSession's delete queue.
+ * The operation queue that the delegate related "callback" blocks will be added
+ * to. This queue will also be set as NSURLSession's delete queue.
  */
     var delegateQueue: NSOperationQueue
 
 /*!
- @discussion The operation queue that the work related "callback" blocks will 
- be added to.
+ * The operation queue that the work related "callback" blocks will be added to.
  */
     var workerQueue: NSOperationQueue
 
 /*!
- @discussion An array of Processor subclass objects.
+ * An array of Processor subclass objects.
  */
     var requestProcessors = Processor[]()
 
 /*!
- @discussion An array of Processor subclass objects.
+ * An array of Processor subclass objects.
  */
     var responseProcessors = Processor[]()
 
 /*!
- @abstract Seconds to wait before a retry should be attempted.
+ * Seconds to wait before a retry should be attempted.
  */
     var retryDelay: dispatch_time_t = 3
 /*!
- An array of Authentication subclass objects.
+ * An array of Authentication subclass objects.
  */
     var authentications = Authentication[]()
 
@@ -82,11 +82,12 @@ NSURLSessionDataDelegate {
     let RetryPolicyMaximumRetryCount = 3 // TODO, use Type Variable
 
 /*!
- @abstract The NetworkActivityIndicator manages the display of
- network activity indicator. The default value is the singleton of the class.
- You can set it as nil (don't display network spinning gear in status bar), or
- set it as an object of NetworkActivityIndicator subclass to custom the display
- logic.
+ * @discussion 
+ * The NetworkActivityIndicator manages the display of
+ * network activity indicator. The default value is the singleton of the class.
+ * You can set it as nil (don't display network spinning gear in status bar), or
+ * set it as an object of NetworkActivityIndicator subclass to custom the display
+ * logic.
  */
     var networkActivityIndicator :NetworkActivityIndicator?
 
@@ -94,7 +95,8 @@ NSURLSessionDataDelegate {
     var preservedHTTPQueryParameters = Dictionary<String, String[]>()
 
 /*!
- @abstract Return the default singleton Session.
+ * @abstract 
+ * Return the default singleton Session.
  */
     class func defaultSession() -> Session {
         struct Singleton {
@@ -110,16 +112,23 @@ NSURLSessionDataDelegate {
     }
 
 /*!
- @abstract Initialize a Session object
- @param configuration The NSURLSessionConfiguration the NSURLSession will be 
- initialized with. If nil, the result of NSURLSessionConfiguration.defaultSessionConfiguration()
- will be used.
- @param delegateQueue The operation queue that the delegate related "callback" blocks
- will be added to. This queue will also be set as NSURLSession's delete queue. 
- If nil, the result of NSOperationQueue.mainQueue() will be used.
- @param workerQueue The operation queue that the work related "callback" blocks will 
- be added to. If nil, a NSOperationQueue object will be created so the blocks
- will be run asynchronously on a separate thread.
+ * @abstract 
+ * Initialize a Session object
+ *
+ * @param configuration 
+ * The NSURLSessionConfiguration the NSURLSession will be initialized with. 
+ * If nil, the result of NSURLSessionConfiguration.defaultSessionConfiguration()
+ * will be used.
+ *
+ * @param delegateQueue 
+ * The operation queue that the delegate related "callback" blocks will be added 
+ * to. This queue will also be set as NSURLSession's delete queue. If nil, the 
+ * result of NSOperationQueue.mainQueue() will be used.
+ *
+ * @param workerQueue 
+ * The operation queue that the work related "callback" blocks will be added to. 
+ * If nil, a NSOperationQueue object will be created so the blocks will be run 
+ * asynchronously on a separate thread.
  */
     @required init(configuration: NSURLSessionConfiguration? = nil,
     delegateQueue: NSOperationQueue? = nil,
@@ -159,9 +168,12 @@ NSURLSessionDataDelegate {
     }
 
 /*!
- @abstract Add a Cycle to the internal array.
- @param The Cycle to add.
-*/
+ * @abstract 
+ * Add a Cycle to the internal array.
+ *
+ * @param cycle
+ * The Cycle to add.
+ */
     func addCycle(cycle: Cycle) {
         if let index = self.indexOfCycle(cycle) {
             assert(false)
@@ -172,8 +184,11 @@ NSURLSessionDataDelegate {
     }
 
 /*!
- @abstract Remove a Cycle from the internal array.
- @param The Cycle to remove.
+ * @abstract 
+ * Remove a Cycle from the internal array.
+ *
+ * @param cycle
+ * The Cycle to remove.
  */
     func removeCycle(cycle: Cycle) {
         var index = indexOfCycle(cycle)
@@ -375,11 +390,16 @@ NSURLSessionDataDelegate {
 
 // ---
 /*!
- @abstract Cancel an array of HTTP request operations.
- @param cycles An array of Cycle objects to cancel.
- @param explicitly Indicate if the operations are cancelled explicitly. The value
- will be stored in each Cycle's property explicitlyCanceling. Your app can use 
- this value for cancellation interface.
+ * @abstract 
+ * Cancel an array of HTTP request operations.
+ *
+ * @param cycles 
+ * An array of Cycle objects to cancel.
+ *
+ * @param explicitly 
+ * Indicate if the operations are cancelled explicitly. The value will be 
+ * stored in each Cycle's property explicitlyCanceling. Your app can use
+ * this value for cancellation interface.
  */
     func cancelCycles(cycles: Cycle[], explicitly: Bool) {
         for cycle in cycles {
@@ -389,10 +409,13 @@ NSURLSessionDataDelegate {
     }
 
 /*!
- @discussion Cancel all outstanding tasks and then invalidates the session object.
- Once invalidated, references to the delegate and callback objects are broken. 
- The session object cannot be reused.
- @param explicitly Indicate if the operations are cancelled explicitly.
+ * @discussion 
+ * Cancel all outstanding tasks and then invalidates the session object.
+ * Once invalidated, references to the delegate and callback objects are broken.
+ * The session object cannot be reused.
+ *
+ * @param explicitly 
+ * Indicate if the operations are cancelled explicitly.
  */
     func invalidateAndCancel(explicitly: Bool) {
         for cycle in cycles {
@@ -402,13 +425,16 @@ NSURLSessionDataDelegate {
     }
     
 /*!
- @discussion Invalidate the session, allowing any outstanding tasks to finish.
- This method returns immediately without waiting for tasks to finish. Once a 
- session is invalidated, new tasks cannot be created in the session, but 
- existing tasks continue until completion. After the last task finishes and 
- the session makes the last delegate call, references to the delegate and 
- callback objects are broken. Session objects cannot be reused.
- @param explicitly Indicate if the operations are cancelled explicitly.
+ * @discussion 
+ * Invalidate the session, allowing any outstanding tasks to finish. This method 
+ * returns immediately without waiting for tasks to finish. Once a session is 
+ * invalidated, new tasks cannot be created in the session, but existing tasks 
+ * continue until completion. After the last task finishes and the session makes 
+ * the last delegate call, references to the delegate and callback objects are 
+ * broken. Session objects cannot be reused.
+ *
+ * @param explicitly 
+ * Indicate if the operations are cancelled explicitly.
  */
     func finishTaskAndInvalidate(explicitly: Bool) {
         for cycle in cycles {

@@ -1,5 +1,3 @@
-- Replace NSLog with Activity for error logging
-
 - Add logging routes
 
 - Add higher-level "service" functionality
@@ -15,3 +13,4 @@
 - Cache with performance
 - Add OAuth support
 - Create demo apps
+- Replace NSLog with Activity for error logging

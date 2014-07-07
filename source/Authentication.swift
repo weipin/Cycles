@@ -36,19 +36,12 @@ typealias AuthenticationCompletionHandler = (disposition: NSURLSessionAuthChalle
 typealias AuthenticationInteractionCompletionHandler = (action: AuthenticationAction) -> Void
 
 /*!
- @discussion This class is an abstract class you use to
- encapsulate the code and data associated with HTTP authentication. Because
- it is abstract, you do not use this class directly but instead subclass or
- use one of the existing subclasses (BasicAuthentication) to perform the
- actual handling.
-
- The methods subclass should override include:
- <ul>
- <li>actionForAuthenticationChallenge</li>
- <li>canHandleAuthenticationChallenge</li>
- <li>startInteraction</li>
- <li>createAndUseCredential</li>
- </ul>
+ * @discussion
+ * This class is an abstract class you use to
+ * encapsulate the code and data associated with HTTP authentication. Because
+ * it is abstract, you do not use this class directly but instead subclass or
+ * use one of the existing subclasses (BasicAuthentication) to perform the
+ * actual handling.
  */
 class Authentication {
     var challenge: NSURLAuthenticationChallenge! = nil
@@ -89,12 +82,21 @@ class Authentication {
     }
 
 /*!
- @abstract Perform an action for a specified authentication
- @param action The AuthenticationAction is the type of action to perform.
- @param challenge The NSURLAuthenticationChallenge to use.
- @param completionHandler The AuthenticationCompletionHandler closure to 
- execute when the action is complete.
- @param cycle The Cycle requires authentication.
+ * @abstract 
+ * Perform an action for a specified authentication
+ *
+ * @param action 
+ * The AuthenticationAction is the type of action to perform.
+ *
+ * @param challenge 
+ * The NSURLAuthenticationChallenge to use.
+ *
+ * @param completionHandler 
+ * The AuthenticationCompletionHandler closure to execute when the action is 
+ * complete.
+ *
+ * @param cycle 
+ * The Cycle requires authentication.
  */
     func performAction(action: AuthenticationAction, challenge: NSURLAuthenticationChallenge,
     completionHandler: AuthenticationCompletionHandler, cycle: Cycle) {
@@ -106,11 +108,20 @@ class Authentication {
     }
 
 /*!
- @abstract Determine the action to take for a specified authentication
- @discussion The result will be passed to the method performAction as action.
- @param challenge The NSURLAuthenticationChallenge to use.
- @param cycle The Cycle requires authentication.
- @result a AuthenticationAction value.
+ * @abstract
+ * Determine the action to take for a specified authentication
+ *
+ * @discussion 
+ * The result will be passed to the method performAction as action.
+ *
+ * @param challenge 
+ * The NSURLAuthenticationChallenge to use.
+ *
+ * @param cycle 
+ * The Cycle requires authentication.
+ *
+ * @result 
+ * A AuthenticationAction value.
  */
     func actionForAuthenticationChallenge(challenge: NSURLAuthenticationChallenge,
     cycle: Cycle) -> AuthenticationAction {
@@ -122,11 +133,18 @@ class Authentication {
     }
 
 /*!
- @abstract Determine if the Authentication can be used to handle a specified authentication
- @param challenge The NSURLAuthenticationChallenge to use.
- @param cycle The Cycle requires the authentication handling.
- @result true or false. The determination result.
-*/
+ * @abstract 
+ * Determine if the Authentication can be used to handle a specified authentication
+ *
+ * @param challenge 
+ * The NSURLAuthenticationChallenge to use.
+ *
+ * @param cycle 
+ * The Cycle requires the authentication handling.
+ *
+ * @result 
+ * true or false. The determination result.
+ */
     func canHandleAuthenticationChallenge(challenge: NSURLAuthenticationChallenge,
     cycle: Cycle) -> Bool {
         assert(false)
@@ -143,15 +161,15 @@ class Authentication {
 }
 
 /*!
- @discussion A Authentication subclass handles the below basic HTTP
- authentication challenges:
- <ul>
- <li>NSURLAuthenticationMethodHTTPBasic</li>
- <li>NSURLAuthenticationMethodHTTPDigest</li>
- <li>NSURLAuthenticationMethodNTLM</li>
- </ul>
- 
- This class could present an alert view for user to input username and password.
+ * @discussion 
+ * A Authentication subclass handles the below basic HTTP authentication 
+ * challenges:
+ *
+ * - NSURLAuthenticationMethodHTTPBasic</li>
+ * - NSURLAuthenticationMethodHTTPDigest</li>
+ * - NSURLAuthenticationMethodNTLM</li>
+ *
+ * This class could present an alert view for user to input username and password.
  */
 class BasicAuthentication : Authentication {
     var username: String

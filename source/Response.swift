@@ -24,37 +24,37 @@
 import Foundation
 
 /*!
- @abstract This class represents a HTTP response.
+ * This class represents a HTTP response.
  */
 class Response {
 /*!
- @abstract The NSHTTPURLResponse represents the primary response information.
+ * The NSHTTPURLResponse represents the primary response information.
  */
     var core: NSHTTPURLResponse?
 
 /*!
- @discussion The object represents the response data. It will be created by the 
- Processor objects from response data.
+ * The object represents the response data. It will be created by the
+ * Processor objects from response data.
  */
     var object: AnyObject?
 
 /*!
- @discussion The NSData of the received HTTP response body.
+ * The NSData of the received HTTP response body.
  */
     var data: NSMutableData = NSMutableData()
 
 /*!
- @abstract The NSDate stores the time the response is received.
+ * The NSDate stores the time the response is received.
  */
     var timestamp: NSDate?
 
 /*!
- @discussion The default encoding for converting request data to text.
+ * The default encoding for converting request data to text.
  */
     var textReadEncoding: NSStringEncoding?
 
 /*!
- @discussion The encoding of the response data.
+ * The encoding of the response data.
  */
     @lazy var textEncoding: NSStringEncoding = {
         return TextProcessor.textEncodingFromResponse(self)
@@ -72,14 +72,15 @@ class Response {
     }()
 
 /*!
- @abstract The status code of the response.
+ * @abstract 
+ * The status code of the response.
  */
     var statusCode: Int? {
         return self.core?.statusCode
     }
 
 /*!
- @abstract The NSDictionary contains the response headers.
+ * @abstract The NSDictionary contains the response headers.
  */
     var headers: NSDictionary? {
         return self.core?.allHeaderFields
@@ -90,10 +91,14 @@ class Response {
     }
 
 /*!
- @abstract Get value for a specified header. The search is case-insensitive.
- @param header The String represents the header to get the value of. It's
- case-insensitive.
- @result The value of the header, or nil if none is found.
+ * @abstract 
+ * Get value for a specified header. The search is case-insensitive.
+ *
+ * @param header 
+ * The String represents the header to get the value of. It's case-insensitive.
+ *
+ * @result 
+ * The value of the header, or nil if none is found.
  */
     func valueForHTTPHeaderField(header: String) -> String? {
         var result: String? = nil
@@ -110,9 +115,12 @@ class Response {
     }
     
 /*!
- @abstract Append a specified NSData to the data property.
- @param The NSData to be appended to the data property.
-*/
+ * @abstract 
+ * Append a specified NSData to the data property.
+ *
+ * @param data
+ * The NSData to be appended to the data property.
+ */
     func appendData(data: NSData) {
         self.data.appendData(data)
     }

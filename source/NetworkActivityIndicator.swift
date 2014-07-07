@@ -23,6 +23,15 @@
 
 import UIKit
 
+/*!
+ * This class manages the display of network activity, a spinning indicator in 
+ * the status bar shows network activity.
+ * 
+ * In most cases, you create one single NetworkActivityIndicator for one app. 
+ * To make this NetworkActivityIndicator manage the activity display, you call
+ * the method `increate` each time a request is issued, and call the method 
+ * `decrease` each time a response is received or error happens.
+ */
 class NetworkActivityIndicator {
     var count = 0
 
@@ -43,6 +52,11 @@ class NetworkActivityIndicator {
 
     }
 
+/*!
+ * @discussion 
+ * Increase the internal count. Display the network activity if the count is 
+ * larger than 0.
+ */
     func increase() {
         ++self.count;
         if 1 == self.count {
@@ -50,6 +64,10 @@ class NetworkActivityIndicator {
         }
     }
 
+/*!
+ * @discussion 
+ * Decrease the internal count. Hide the network activity when the count reaches 0.
+ */
     func decrease() {
         --self.count;
         if 0 == self.count {
