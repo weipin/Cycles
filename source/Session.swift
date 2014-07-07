@@ -24,6 +24,11 @@
 import Foundation
 import UIKit
 
+@objc protocol SessionDelegate {
+    @optional func sessionShouldRetryCycle(session: Session, cycle: Cycle, error: NSError?) -> Bool;
+    @optional func sessionShouldTreatStatusAsFailure(session: Session, status: Int) -> Bool;
+}
+
 /*!
  @discussion This class manages Cycle objects. You can also threat this class
  as a wrapper around NSURLSession and its delegates.
@@ -34,6 +39,7 @@ NSURLSessionDataDelegate {
     let PreservedHTTPHeadersKey = "PreservedHTTPHeaders"
     let PreservedHTTPQueryParametersKey = "PreservedHTTPQueryParameters"
 
+    weak var delegate: SessionDelegate? = nil
 
 /*!
  @abstract The NSURLSession takes care of the major HTTP operations.
@@ -236,9 +242,18 @@ NSURLSessionDataDelegate {
             }
         }
 
-        var retry = self.shouldRetry(cycle.solicited, retriedCount: cycle.retriedCount,
-                                     request: cycle.request, response: cycle.response,
-                                     error: error)
+        var retry = false
+        if let value = self.delegate?.sessionShouldRetryCycle?(self, cycle: cycle,
+        error: error) {
+            retry = value
+            println("\(value)")
+
+        } else {
+            retry = self.shouldRetry(cycle.solicited, retriedCount: cycle.retriedCount,
+                request: cycle.request, response: cycle.response,
+                error: error)
+        }
+
         if retry {
             ++cycle.retriedCount
             dispatch_after(self.retryDelay, self.delegateQueue.underlyingQueue) {
@@ -247,7 +262,15 @@ NSURLSessionDataDelegate {
             return
         }
 
-        if cycle.response.statusCode >= 400 {
+        var statusFailure = false
+        if let value = self.delegate?.sessionShouldTreatStatusAsFailure?(self, status: cycle.response.statusCode!) {
+            statusFailure = value
+        } else {
+            if cycle.response.statusCode >= 400 {
+                statusFailure = true
+            }
+        }
+        if statusFailure {
             var error = NSError(domain: CycleErrorDomain,
                                 code: CycleErrorCode.StatusCodeSeemsToHaveErred.toRaw(),
                                 userInfo: nil)

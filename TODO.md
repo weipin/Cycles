@@ -1,13 +1,10 @@
-- Support network activity indicator
-- Add preservation ability
 - Replace NSLog with Activity for error logging
-- Add ability of customizing retry logic, status error logic.
 
 - Add logging routes
 
-- Add model helper and KVO helper
-
 - Add higher-level "service" functionality
+
+- Add model helper and KVO helper
 
 - Add Mac OS X support
 

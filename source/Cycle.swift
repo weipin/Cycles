@@ -39,7 +39,7 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
 /*!
  This class represents a HTTP cycle, including request and response.
  */
-class Cycle {
+@objc class Cycle {
 /*!
  The CycleType determines what kind of NSURLSessionTask to create. The
  default type is Data.

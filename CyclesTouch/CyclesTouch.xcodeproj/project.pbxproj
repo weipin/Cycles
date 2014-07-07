@@ -24,6 +24,7 @@
 		162019BE195CF68E00CA3A80 /* ProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162019BD195CF68E00CA3A80 /* ProcessorTests.swift */; };
 		165866BD1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */; };
 		165866BE1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */; };
+		16D07506196A21C100045CE0 /* SessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D07505196A21C100045CE0 /* SessionTests.swift */; };
 		16E51783195A23270015DCB8 /* Cycle+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E51782195A23270015DCB8 /* Cycle+Convenience.swift */; };
 		16E51785195A2F990015DCB8 /* Cycle+ConvenienceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */; };
 		16FAA01E19589E1C00CE1F47 /* upload.txt in Resources */ = {isa = PBXBuildFile; fileRef = 16FAA01D19589E1C00CE1F47 /* upload.txt */; };
@@ -126,6 +127,7 @@
 		1613F9EA1955E29200CDD9FD /* CycleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CycleTests.swift; path = ../../tests/CycleTests.swift; sourceTree = "<group>"; };
 		162019BD195CF68E00CA3A80 /* ProcessorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessorTests.swift; path = ../../tests/ProcessorTests.swift; sourceTree = "<group>"; };
 		165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkActivityIndicator.swift; path = ../source/NetworkActivityIndicator.swift; sourceTree = "<group>"; };
+		16D07505196A21C100045CE0 /* SessionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionTests.swift; path = ../../tests/SessionTests.swift; sourceTree = "<group>"; };
 		16E51782195A23270015DCB8 /* Cycle+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Cycle+Convenience.swift"; path = "../source/Cycle+Convenience.swift"; sourceTree = "<group>"; };
 		16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Cycle+ConvenienceTests.swift"; path = "../../tests/Cycle+ConvenienceTests.swift"; sourceTree = "<group>"; };
 		16FAA01D19589E1C00CE1F47 /* upload.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = upload.txt; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				16FAA01C19589E1C00CE1F47 /* data */,
 				16FAA0251958A17400CE1F47 /* Tests.swift */,
 				1613F9EA1955E29200CDD9FD /* CycleTests.swift */,
+				16D07505196A21C100045CE0 /* SessionTests.swift */,
 				16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */,
 				1613F9E41955AA6B00CDD9FD /* HelperTests.swift */,
 				162019BD195CF68E00CA3A80 /* ProcessorTests.swift */,
@@ -368,6 +371,7 @@
 			files = (
 				1613F9EB1955E29200CDD9FD /* CycleTests.swift in Sources */,
 				165866BE1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */,
+				16D07506196A21C100045CE0 /* SessionTests.swift in Sources */,
 				162019BE195CF68E00CA3A80 /* ProcessorTests.swift in Sources */,
 				1613F9E51955AA6B00CDD9FD /* HelperTests.swift in Sources */,
 				16E51785195A2F990015DCB8 /* Cycle+ConvenienceTests.swift in Sources */,
