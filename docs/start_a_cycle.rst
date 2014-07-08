@@ -12,7 +12,7 @@ immediately. For example, to send a GET request, use this `type method`_ of `Cyc
                  authentications: Authentication[]? = nil, solicited: Bool = false,
                  completionHandler: CycleCompletionHandler) -> Cycle
 
-.. note:: `URLString` and `completionHandler` are required parameters, the rest
+.. hint:: `URLString` and `completionHandler` are required parameters, the rest
           ones are all optional and have default values.
 
 ::

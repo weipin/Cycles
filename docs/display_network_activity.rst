@@ -9,8 +9,8 @@ for you automatically, you don't have to do anything.
 Cycles does this by sharing a singleton of class `NetworkActivityIndicator`
 among all the Session objects. The NetworkActivityIndicator has an internal
 count starts from 0. Each time a request is sent, the NetworkActivityIndicator
-increase the count by 1. Each time a response is received or ended with an error,
-the NetworkActivityIndicator decrease the count by 1. The network activity will
+increases the count by 1. Each time a response is received or ended with an error,
+the NetworkActivityIndicator decreases the count by 1. The network activity will
 be displayed if the count is larger than 0. The network activity will be hidden
 if the count reaches 0 again.
 
