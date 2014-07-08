@@ -57,9 +57,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            println("\(cycle.response.text)") // Hello World
 //        }
 
-//        Cycle.get("http://127.0.0.1:8000/test/echo?delay=12",
-//            completionHandler: {cycle, error in
-//            })
 //        Cycle.get("http://www.apple.com/404/",
 //            completionHandler: {cycle, error in
 //                println("\(error!.domain)") // CycleError
@@ -98,10 +95,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        var session = Session()
 //
 
-        var data: NSData = NSData()
-        var session = Session.defaultSession()
-        var error: NSError?
-        session.loadPreservedStateFromData(data, error: &error)
+        Cycle.get("http://127.0.0.1:8000/test/hello",
+            completionHandler: {cycle, error in
+        })
 
         return true
     }

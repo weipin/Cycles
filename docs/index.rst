@@ -65,7 +65,6 @@ Quickstart
     operation_queues
     authentication
     restart
-    tests
 
 Advanced Usage
 --------------
@@ -77,3 +76,4 @@ Advanced Usage
     retry_policy
     http_status_error
     preserved_request_state
+    tests

@@ -277,8 +277,6 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
         }
 
         self.response = Response()
-
-        var originalThread = NSThread.currentThread()
         self.session.workerQueue.addOperationWithBlock {
             var result = true
             if (self.taskType == .Data) {
@@ -289,9 +287,10 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
                     }
                 }
             }
-            RunOnThread(originalThread, false, {
+
+            NSOperationQueue.mainQueue().addOperationWithBlock {
                 completionHandler(result: result)
-            });
+            }
         }
     }
 

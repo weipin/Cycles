@@ -19,7 +19,6 @@
 		1613F9E21955AA5800CDD9FD /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9D91955AA5800CDD9FD /* Response.swift */; };
 		1613F9E31955AA5800CDD9FD /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9DA1955AA5800CDD9FD /* Session.swift */; };
 		1613F9E51955AA6B00CDD9FD /* HelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9E41955AA6B00CDD9FD /* HelperTests.swift */; };
-		1613F9E91955AACE00CDD9FD /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9E81955AACE00CDD9FD /* Utils.m */; };
 		1613F9EB1955E29200CDD9FD /* CycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9EA1955E29200CDD9FD /* CycleTests.swift */; };
 		162019BE195CF68E00CA3A80 /* ProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162019BD195CF68E00CA3A80 /* ProcessorTests.swift */; };
 		165866BD1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */; };
@@ -121,9 +120,6 @@
 		1613F9D91955AA5800CDD9FD /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Response.swift; path = ../source/Response.swift; sourceTree = "<group>"; };
 		1613F9DA1955AA5800CDD9FD /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Session.swift; path = ../source/Session.swift; sourceTree = "<group>"; };
 		1613F9E41955AA6B00CDD9FD /* HelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HelperTests.swift; path = ../../Tests/HelperTests.swift; sourceTree = "<group>"; };
-		1613F9E61955AACD00CDD9FD /* CyclesTouch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CyclesTouch-Bridging-Header.h"; sourceTree = "<group>"; };
-		1613F9E71955AACE00CDD9FD /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = ../source/Utils.h; sourceTree = "<group>"; };
-		1613F9E81955AACE00CDD9FD /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utils.m; path = ../source/Utils.m; sourceTree = "<group>"; };
 		1613F9EA1955E29200CDD9FD /* CycleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CycleTests.swift; path = ../../tests/CycleTests.swift; sourceTree = "<group>"; };
 		162019BD195CF68E00CA3A80 /* ProcessorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessorTests.swift; path = ../../tests/ProcessorTests.swift; sourceTree = "<group>"; };
 		165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkActivityIndicator.swift; path = ../source/NetworkActivityIndicator.swift; sourceTree = "<group>"; };
@@ -216,8 +212,6 @@
 			isa = PBXGroup;
 			children = (
 				1613F9D21955AA5800CDD9FD /* Authentication.swift */,
-				1613F9E71955AACE00CDD9FD /* Utils.h */,
-				1613F9E81955AACE00CDD9FD /* Utils.m */,
 				1613F9D31955AA5800CDD9FD /* Cycle.swift */,
 				16E51782195A23270015DCB8 /* Cycle+Convenience.swift */,
 				1613F9D41955AA5800CDD9FD /* Cycles.strings */,
@@ -228,7 +222,6 @@
 				1613F9D81955AA5800CDD9FD /* Request.swift */,
 				1613F9D91955AA5800CDD9FD /* Response.swift */,
 				1613F9DA1955AA5800CDD9FD /* Session.swift */,
-				1613F9E61955AACD00CDD9FD /* CyclesTouch-Bridging-Header.h */,
 			);
 			name = Cycles;
 			sourceTree = "<group>";
@@ -353,7 +346,6 @@
 				1613F9E21955AA5800CDD9FD /* Response.swift in Sources */,
 				165866BD1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */,
 				1613F9E01955AA5800CDD9FD /* Processor.swift in Sources */,
-				1613F9E91955AACE00CDD9FD /* Utils.m in Sources */,
 				1613F9DE1955AA5800CDD9FD /* Error.swift in Sources */,
 				1613F9BA1955AA2500CDD9FD /* AppDelegate.swift in Sources */,
 				16E51783195A23270015DCB8 /* Cycle+Convenience.swift in Sources */,
@@ -521,7 +513,7 @@
 				INFOPLIST_FILE = CyclesTouch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "CyclesTouch-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -535,7 +527,7 @@
 				INFOPLIST_FILE = CyclesTouch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "CyclesTouch-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
 		};

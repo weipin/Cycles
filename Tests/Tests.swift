@@ -40,3 +40,15 @@ func tu_(lastComponent: String) -> NSURL {
     return URL
 }
 
+/*
+ http://www.mikeash.com/pyblog/friday-qa-2011-07-22-writing-unit-tests.html
+ */
+func WaitForWithTimeout(timeout: NSTimeInterval, run: (Void) -> Bool) -> Bool {
+    var start = NSProcessInfo().systemUptime
+    while !run() && NSProcessInfo().systemUptime - start <= timeout {
+        NSRunLoop.currentRunLoop().runMode(NSDefaultRunLoopMode, beforeDate: NSDate())
+    }
+    return run()
+}
+
+
