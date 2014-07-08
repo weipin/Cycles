@@ -297,7 +297,7 @@ class CycleTests: XCTestCase {
     }
 
     // reserved
-    func testtestReservedHTTPHeaderFieldsShouldWork() {
+    func testReservedHTTPHeaderFieldsShouldWork() {
         var expection = self.expectationWithDescription("get")
         var URL = tu_("dumpmeta/")
         var session = Session()
