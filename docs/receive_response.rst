@@ -25,7 +25,7 @@ through property `text` of Response::
 Property `text` is a `String` which is created from response data (property
 `data` of Response, a NSData). To properly create the String, the encoding of the
 content is required. The Response will try to find an encoding through the HTTP
-headers first. If not find, response data will be looked through to guess the
+headers first. If not found, response data will be looked through to guess the
 encoding. There is one exception -- if there is no charset in the headers and
 the Content-Type contains "text", the encoding will be defaulted to "ISO-8859-1",
 according to RFC 2616, 3.7.1.
