@@ -46,8 +46,7 @@ Creating a `Cycle` object is simple, the only required parameter is `requestURL`
   var URL = NSURL(string: "https://github.com/timeline.json")
   var cycle = Cycle(requestURL: URL)
 
-There are other parameters, such as `parameters`, which will be discussed in the
-following sections.
+There are other parameters, which will be discussed in the following sections.
 
 To send a HTTP request, call the method `func start(completionHandler: CycleCompletionHandler? = nil)` of `Cycle`::
 
