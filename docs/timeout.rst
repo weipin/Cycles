@@ -10,7 +10,7 @@ to an unrealistic value of 1.0 second. This is the code from one of the Cycles
 tests::
 
   var configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-  configuration.timeoutIntervalForRequest = 1;
+  configuration.timeoutIntervalForRequest = 1
   configuration.timeoutIntervalForResource = 1
   var session = Session(configuration: configuration)
 
