@@ -95,9 +95,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        var session = Session()
 //
 
-        Cycle.get("http://127.0.0.1:8000/test/hello",
-            completionHandler: {cycle, error in
-        })
+//        var URLString = "http://127.0.0.1:8000/test/echo?content=helloworld"
+//        Cycle.download(URLString,
+//            didWriteDataHandler: {
+//                (cycle, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite) in
+//                // handle progress
+//
+//            },
+//            downloadFileHandler: {(cycle, location) in
+//                var content = NSString(contentsOfURL: location, encoding: NSUTF8StringEncoding, error: nil)
+//                println("\(content)") // helloworld
+//            },
+//            completionHandler: {(cycle, error) in
+//                // check error
+//            })
 
         return true
     }

@@ -9,3 +9,7 @@ authentication problem like incorrect key token, you can retain the `Cycle`
 somewhere in your app and display an user interface so the user can solve the
 authentication problem. Once finished, the `Cycle` can be picked up and
 restarted to continue the previous action.
+
+::
+
+  cycle.restart()
