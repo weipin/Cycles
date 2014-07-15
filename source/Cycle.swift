@@ -70,13 +70,13 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
     }
     }
 
-    var _requestProcessors: Processor[]?
+    var _requestProcessors: [Processor]?
 /*!
  * An array of Processor subclass objects. Before the request is being sent,
  * the Request goes through all the processor objects to initialize parameters.
  * If nil, the session's requestProcessors will be used.
  */
-    var requestProcessors: Processor[] {
+    var requestProcessors: [Processor] {
     get{
         if (self._requestProcessors) {
             return self._requestProcessors!
@@ -88,13 +88,13 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
     }
     }
 
-    var _responseProcessors: Processor[]?
+    var _responseProcessors: [Processor]?
 /*!
  * An array of Processor subclass objects. When a transfer finishes successfully,
  * the Response goes through all the processor objects to build the response object.
  * If nil, the session's responseProcessors will be used.
  */
-    var responseProcessors: Processor[] {
+    var responseProcessors: [Processor] {
     get{
         if (self._responseProcessors) {
             return self._responseProcessors!
@@ -117,7 +117,7 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
  */
     var solicited = false
 
-    var _authentications: Authentication[]?
+    var _authentications: [Authentication]?
 /*!
  * An array of Authentication subclass objects. If the HTTP task requires
  * credentials, the objects will be enumerated one by one and
@@ -126,7 +126,7 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
  * authentication. If nil, the session's authenticationHandlers will be
  * used.
  */
-    var authentications: Authentication[] {
+    var authentications: [Authentication] {
     get{
         if (self._authentications) {
             return self._authentications!
@@ -220,8 +220,8 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
     session: Session? = nil,
     requestMethod: String = "GET",
     requestObject: AnyObject? = nil,
-    requestProcessors: Processor[]? = nil,
-    responseProcessors: Processor[]? = nil) {
+    requestProcessors: [Processor]? = nil,
+    responseProcessors: [Processor]? = nil) {
         self.taskType = taskType
         var r = NSURLRequest(URL: requestURL)
         self.request = Request(core: r)

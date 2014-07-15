@@ -61,12 +61,12 @@ NSURLSessionDataDelegate {
 /*!
  * An array of Processor subclass objects.
  */
-    var requestProcessors = Processor[]()
+    var requestProcessors = [Processor]()
 
 /*!
  * An array of Processor subclass objects.
  */
-    var responseProcessors = Processor[]()
+    var responseProcessors = [Processor]()
 
 /*!
  * Seconds to wait before a retry should be attempted.
@@ -75,9 +75,9 @@ NSURLSessionDataDelegate {
 /*!
  * An array of Authentication subclass objects.
  */
-    var authentications = Authentication[]()
+    var authentications = [Authentication]()
 
-    var cycles = Cycle[]()
+    var cycles = [Cycle]()
 
     let RetryPolicyMaximumRetryCount = 3 // TODO, use Type Variable
 
@@ -92,7 +92,7 @@ NSURLSessionDataDelegate {
     var networkActivityIndicator :NetworkActivityIndicator?
 
     var preservedHTTPHeaders = Dictionary<String, String>()
-    var preservedHTTPQueryParameters = Dictionary<String, String[]>()
+    var preservedHTTPQueryParameters = Dictionary<String, [String]>()
 
 /*!
  * @abstract 
@@ -240,7 +240,6 @@ NSURLSessionDataDelegate {
         }
 
         var cycle: Cycle! = self.cycleForTask(task)
-        assert(cycle != nil)
 
         cycle.response.core = task.response as? NSHTTPURLResponse
         cycle.response.timestamp = NSDate()
@@ -327,7 +326,6 @@ NSURLSessionDataDelegate {
     didReceiveChallenge challenge: NSURLAuthenticationChallenge!,
     completionHandler: ((NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void)!) {
         var cycle = self.cycleForTask(task)!
-        assert(cycle != nil)
 
         var handlers = cycle.authentications
         var count = 0
@@ -349,7 +347,6 @@ NSURLSessionDataDelegate {
     func URLSession(session: NSURLSession!, dataTask: NSURLSessionDataTask!,
     didReceiveData data: NSData!) {
         var cycle = self.cycleForTask(dataTask)!
-        assert(cycle != nil)
 
         cycle.response.appendData(data)
     }
@@ -358,7 +355,6 @@ NSURLSessionDataDelegate {
     func URLSession(session: NSURLSession!, downloadTask: NSURLSessionDownloadTask!,
     didFinishDownloadingToURL location: NSURL!) {
         var cycle = self.cycleForTask(downloadTask)!
-        assert(cycle != nil)
 
         cycle.downloadFileHandler?(cycle: cycle, location: location)
     }
@@ -367,7 +363,6 @@ NSURLSessionDataDelegate {
     didWriteData bytesWritten: Int64, totalBytesWritten: Int64,
     totalBytesExpectedToWrite: Int64) {
         var cycle = self.cycleForTask(downloadTask)!
-        assert(cycle != nil)
 
         cycle.didWriteDataHandler?(cycle: cycle, bytesWritten: bytesWritten,
                                    totalBytesWritten: totalBytesWritten,
@@ -402,7 +397,7 @@ NSURLSessionDataDelegate {
  * stored in each Cycle's property explicitlyCanceling. Your app can use
  * this value for cancellation interface.
  */
-    func cancelCycles(cycles: Cycle[], explicitly: Bool) {
+    func cancelCycles(cycles: [Cycle], explicitly: Bool) {
         for cycle in cycles {
             cycle.explicitlyCanceling = explicitly
             cycle.core!.cancel()
@@ -449,7 +444,7 @@ NSURLSessionDataDelegate {
         self.preservedHTTPHeaders[field.lowercaseString] = value
     }
 
-    func setPreservedHTTPQueryParameter(key: String, value: String[]) {
+    func setPreservedHTTPQueryParameter(key: String, value: [String]) {
         self.preservedHTTPQueryParameters[key.lowercaseString] = value
     }
 
@@ -470,7 +465,7 @@ NSURLSessionDataDelegate {
             if let headers = dict[PreservedHTTPHeadersKey] as? Dictionary<String, String> {
                 self.preservedHTTPHeaders = headers
             }
-            if let parameters = dict[PreservedHTTPQueryParametersKey] as? Dictionary<String, String[]> {
+            if let parameters = dict[PreservedHTTPQueryParametersKey] as? Dictionary<String, [String]> {
                 self.preservedHTTPQueryParameters = parameters
             }
         }

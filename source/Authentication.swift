@@ -218,8 +218,10 @@ class BasicAuthentication : Authentication {
                 preferredStyle: .Alert)
             var OKAction = UIAlertAction(title: OKTitle, style: .Default) {
                 action in
-                var username = alertController.textFields[0].text
-                var password = alertController.textFields[1].text
+                var field = alertController.textFields[0] as UITextField
+                var username = field.text
+                field = alertController.textFields[1] as UITextField
+                var password = field.text
                 self.username = username
                 self.password = password
                 self.interactionCompletionHandler(action: .ProvidingCredentials)

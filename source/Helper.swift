@@ -59,12 +59,12 @@ func ParseContentTypeLikeHeader(header: String) -> (type: String?,
 
         } else {
             if let loc = find(str, "=") {
-                var k = str[str.startIndex..loc]
+                var k = str[str.startIndex..<loc]
                 k = k.stringByTrimmingCharactersInSet(wset)
                 if countElements(k) == 0 {
                     continue
                 }
-                var v = str[advance(loc, 1)..str.endIndex]
+                var v = str[advance(loc, 1)..<str.endIndex]
                 v = v.stringByTrimmingCharactersInSet(wset)
                 v = v.stringByTrimmingCharactersInSet(qset)
                 parameters[k.lowercaseString] = v
@@ -128,19 +128,18 @@ func UnescapeStringFromURLArgumentString(str: String) -> String {
  * @result 
  * "form-urlencoded" string of the dictionary.
  */
-func FormencodeDictionary(dict: Dictionary<String, String[]>) -> String {
-    var result = String[]()
+func FormencodeDictionary(dict: Dictionary<String, [String]>) -> String {
+    var result = [String]()
     var keys = Array(dict.keys)
-    keys = sort(keys) {(s1: String, s2: String) -> Bool in
+    keys = sorted(keys) {(s1: String, s2: String) -> Bool in
         return s1.localizedCaseInsensitiveCompare(s2) == NSComparisonResult.OrderedAscending
     }
 
     for k in keys {
-        var v = dict[k]
-        var sorted = sort(v!) {(s1: String, s2: String) -> Bool in
+        var v = sorted(dict[k]!) {(s1: String, s2: String) -> Bool in
             return s1.localizedCaseInsensitiveCompare(s2) == NSComparisonResult.OrderedAscending
         }
-        for i in sorted {
+        for i in v {
             var escaped = EscapeStringToURLArgumentString(i)
             result.append("\(k)=\(escaped)")
         }
@@ -163,13 +162,13 @@ func FormencodeDictionary(dict: Dictionary<String, String[]>) -> String {
  * A dictionary contains the parameter pairs.
  */
 func ParseURLWithQueryParameters(URLString: String) -> (URL: String?,
-parameters: Dictionary<String, String[]>) {
+parameters: Dictionary<String, [String]>) {
     var base: String?
     var query: String
-    var parameters = Dictionary<String, String[]>()
+    var parameters = Dictionary<String, [String]>()
     if let loc = find(URLString, "?") {
-        base = URLString[URLString.startIndex..loc]
-        query = URLString[advance(loc, 1)..URLString.endIndex]
+        base = URLString[URLString.startIndex..<loc]
+        query = URLString[advance(loc, 1)..<URLString.endIndex]
     } else {
         query = URLString
     }
@@ -177,12 +176,12 @@ parameters: Dictionary<String, String[]>) {
     var ary = query.componentsSeparatedByCharactersInSet(set)
     for str in ary {
         if let loc = find(str, "=") {
-            var k = str[str.startIndex..loc]
+            var k = str[str.startIndex..<loc]
             if countElements(k) == 0 {
                 continue
             }
             k = k.lowercaseString
-            var v = str[advance(loc, 1)..str.endIndex]
+            var v = str[advance(loc, 1)..<str.endIndex]
             v = UnescapeStringFromURLArgumentString(v)
             if var values = parameters[k] {
                 values.append(v)
@@ -214,7 +213,7 @@ parameters: Dictionary<String, String[]>) {
  * @result 
  * A new URL with query merged from URL and parameters.
  */
-func MergeParametersToURL(URLString: String, parameters: Dictionary<String, String[]>) -> String {
+func MergeParametersToURL(URLString: String, parameters: Dictionary<String, [String]>) -> String {
     var (base, existing_params) = ParseURLWithQueryParameters(URLString)
     for (var k, var v) in parameters {
         k = k.lowercaseString
@@ -227,7 +226,7 @@ func MergeParametersToURL(URLString: String, parameters: Dictionary<String, Stri
     }
 
     let query = FormencodeDictionary(existing_params)
-    var ary = String[]()
+    var ary = [String]()
     if base {
         ary.append(base!)
     }

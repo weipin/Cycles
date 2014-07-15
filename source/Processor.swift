@@ -88,8 +88,12 @@ class BasicAuthProcessor : Processor {
 
     class func headerForUsernamePassword(username: String, password: String) -> String {
         var str = "\(username):\(password)"
-        var data = str.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
-        str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(0))
+        if let data = str.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
+            str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(0))
+        } else {
+            NSLog("base64 encoding failed for Basic Authentication header");
+        }
+
         return "Basic \(str)"
     }
 
@@ -293,7 +297,7 @@ class JSONProcessor : Processor {
  */
 class FORMProcessor : Processor {
     override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
-        if let object = request.object as? Dictionary<String, String[]> {
+        if let object = request.object as? Dictionary<String, [String]> {
             request.object = FormencodeDictionary(object)
             request.core.setValue("application/x-www-form-urlencoded",
                                   forHTTPHeaderField: "Content-Type")
