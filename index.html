@@ -31,37 +31,118 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <h1>
+<a name="cycles" class="anchor" href="#cycles"><span class="octicon octicon-link"></span></a>Cycles</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>[Cycles is in early development, not fully tested. It's also iOS only for now.]</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<p>Cycles is a HTTP library written in Swift, inspired by <a href="http://afnetworking.com/">AFNetworking</a>
+and <a href="http://docs.python-requests.org/">Requests</a>. The target of Cycles is to
+free you from writing glue code around the NSURLSession classes.</p>
+
+<pre><code>Cycle.get("https://api.github.com/user/",
+    requestProcessors: [BasicAuthProcessor(username: "user", password: "pass")],
+    responseProcessors: [JSONProcessor()],
+    completionHandler: { (cycle, error) in
+        println("\(cycle.response.statusCode)") // 200
+        var header = cycle.response.valueForHTTPHeaderField("content-type")
+        println("\(header)") // application/json; charset=utf-8
+        println("\(cycle.response.textEncoding)") // 4
+        println("\(cycle.response.text)") // {"login":"user","id":3 ...
+        println("\(cycle.response.object)") // {"avatar_url" = ...
+    })
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>Cycles offers a set of higher-level objects. With these objects, there is no
+need to manually build query strings, or to create collection objects from
+JSON response. More importantly, Cycles is designed in a way to help you build
+HTTP functionality into your model layer. Also, properties like <code>solicited</code>
+encourage you to build delightful user experiences.</p>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<p>Making HTTP requests is simple with Cycles. Here is a handful of examples:</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>Send a GET request.</p>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<pre><code>Cycle.get("http://www.apple.com", completionHandler: { (cycle, error) in
+        println("\(cycle.response.text)") // &lt;!DOCTYPE html&gt;...
+    })
+</code></pre>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>POST collection objects with JSON format and receive collection objects from
+JSON response.</p>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<pre><code>Cycle.post("http://127.0.0.1:8000/test/dumpupload/",
+    requestObject: NSDictionary(object: "v1", forKey: "k1"),
+    requestProcessors: [JSONProcessor()],
+    responseProcessors: [JSONProcessor()],
+    completionHandler: {(cycle, error) in
+        println("\(cycle.response.object)") // { k1 = v1; }
+    })
+</code></pre>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>Upload a NSData</p>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<pre><code>Cycle.upload("http://127.0.0.1:8000/test/dumpupload/",
+    data: "Hello World".dataUsingEncoding(NSUTF8StringEncoding),
+    completionHandler: {
+        (cycle, error) in
+        println("\(cycle.response.text)") // Hello World
+    })
+</code></pre>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>Download a file</p>
+
+<pre><code>Cycle.download("http://127.0.0.1:8000/test/echo?content=helloworld",
+    downloadFileHandler: {(cycle, location) in
+        var content = NSString(contentsOfURL: location,
+                        encoding: NSUTF8StringEncoding, error: nil)
+        println("\(content)") // helloworld
+    },
+    completionHandler: {(cycle, error) in
+        println("\(cycle.response.statusCode)") // 200
+    })
+</code></pre>
+
+<p>For more information, please <a href="http://cycles.readthedocs.org/">read the documentation</a>.</p>
+
+<h1>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<p>Cycles hasn't been packaged as a framework for now. You will have to add the
+<a href="https://github.com/weipin/Cycles/tree/master/source">source files</a> to your
+own project to use Cycles.</p>
+
+<ul>
+<li>Add all files in the "source" folder to your project.</li>
+</ul><h1>
+<a name="support" class="anchor" href="#support"><span class="octicon octicon-link"></span></a>Support</h1>
+
+<p>Please use the <a href="https://github.com/weipin/Cycles/issues">issues system</a>. We look
+forward to hearing your thoughts on the project.</p>
+
+<h1>
+<a name="known-issues" class="anchor" href="#known-issues"><span class="octicon octicon-link"></span></a>Known Issues</h1>
+
+<ol>
+<li>Namespace. If Cycles were written in Objective-C, a prefix will be applied to
+the classes and global variables. Swift, on the other hand, is supposed to
+have namespaces. While it's uncertain how to distinguish between identifiers
+with the same exact name in Swift, identifiers in Cycles have no prefix.<br>
+</li>
+<li>UIAlertController's presenting view controller. BasicAuthentication can
+present an alert view for user to input username and password. This is
+achieved by creating a UIAlertController with username and password fields.
+Unlike UIAlertView, before a controller can be presented, a presenting view
+controller is required. That's the purpose of BasicAuthentication's property
+<code>presentingViewController</code>. The problem is that if the presenting view
+controller isn't visible, or if there is a modal controller already
+presented, the UIAlertController won't be displayed. It might be necessary
+to switch back to UIViewAlert, but "showing" a UIAlertView keeps crashing
+the app at the time the code was written.</li>
+</ol><h1>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h1>
+
+<p>Cycles is released under the MIT license. See <a href="https://github.com/weipin/Cycles/blob/master/LICENSE">LICENSE.md</a>.</p>
       </section>
     </div>
 
