@@ -3,7 +3,7 @@ Cycles
 
 [Cycles is in early development, not fully tested. It's also iOS only for now.]
 
-** Xcode 6.0 Beta3 (6A254o) is REQUIRED **
+** Xcode 6.0 Beta4 (6A267n) is REQUIRED **
 
 Cycles is a HTTP library written in Swift, inspired by [AFNetworking](http://afnetworking.com/)
 and [Requests](http://docs.python-requests.org/). The target of Cycles is to

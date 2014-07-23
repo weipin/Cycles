@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "Cycles"
-  s.version          = "0.2.2"
+  s.version          = "0.2.3"
   s.summary          = "HTTP library written in Swift."
   s.description      = <<-DESC
                        Cycles is a HTTP library written in Swift, inspired by [AFNetworking](http://afnetworking.com/)
