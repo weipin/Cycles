@@ -39,48 +39,48 @@ class HelperTests: XCTestCase {
     
     func testParseContentTypeLikeHeaderShouldWork() {
         var (type, parameters) = ParseContentTypeLikeHeader("text/html; charset=UTF-8")
-        XCTAssertEqualObjects(type, "text/html");
-        XCTAssertEqualObjects(parameters["charset"], "UTF-8");
+        XCTAssertEqual(type!, "text/html");
+        XCTAssertEqual(parameters["charset"]!, "UTF-8");
 
         (type, parameters) = ParseContentTypeLikeHeader("text/html; charset=\"UTF-8\"")
-        XCTAssertEqualObjects(type, "text/html");
-        XCTAssertEqualObjects(parameters["charset"], "UTF-8");
+        XCTAssertEqual(type!, "text/html");
+        XCTAssertEqual(parameters["charset"]!, "UTF-8");
 
         (type, parameters) = ParseContentTypeLikeHeader("text/html; charset='UTF-8'")
-        XCTAssertEqualObjects(type, "text/html");
-        XCTAssertEqualObjects(parameters["charset"], "UTF-8");
+        XCTAssertEqual(type!, "text/html");
+        XCTAssertEqual(parameters["charset"]!, "UTF-8");
     }
 
     func testFormencodeDictionaryShouldWork() {
         var dict = ["k1": ["v1"], "k2": ["&;", "hello"], "k3": ["world"]]
         var str = FormencodeDictionary(dict)
-        XCTAssertEqualObjects(str, "k1=v1&k2=%26%3B&k2=hello&k3=world")
+        XCTAssertEqual(str, "k1=v1&k2=%26%3B&k2=hello&k3=world")
     }
 
     func testParseURLWithQueryParametersShouldWork() {
         var (base, parameters) = ParseURLWithQueryParameters("http://mydomain.com?k1=v1&k1=v11&k2=v2")
-        XCTAssertEqualObjects(base, "http://mydomain.com")
-        XCTAssertEqualObjects(FormencodeDictionary(parameters), "k1=v1&k1=v11&k2=v2")
+        XCTAssertEqual(base!, "http://mydomain.com")
+        XCTAssertEqual(FormencodeDictionary(parameters), "k1=v1&k1=v11&k2=v2")
 
         (base, parameters) = ParseURLWithQueryParameters("k1=v1&k1=v11&k2=v2")
         XCTAssertFalse(base)
-        XCTAssertEqualObjects(FormencodeDictionary(parameters), "k1=v1&k1=v11&k2=v2")
+        XCTAssertEqual(FormencodeDictionary(parameters), "k1=v1&k1=v11&k2=v2")
 
         (base, parameters) = ParseURLWithQueryParameters("http://mydomain.com")
-        XCTAssertEqualObjects(base, "http://mydomain.com")
-        XCTAssertEqualObjects(FormencodeDictionary(parameters), "")
+        XCTAssertEqual(base!, "http://mydomain.com")
+        XCTAssertEqual(FormencodeDictionary(parameters), "")
     }
 
     func testMergeParametersToURLShouldWork() {
         var URL = MergeParametersToURL("http://domain.com?k1=v1&K2=v2", ["k3": ["v3"]]);
-        XCTAssertEqualObjects(URL, "http://domain.com?k1=v1&k2=v2&k3=v3")
+        XCTAssertEqual(URL, "http://domain.com?k1=v1&k2=v2&k3=v3")
 
         // keys in both URL and parameters ("k1")
         URL = MergeParametersToURL("http://domain.com?k1=v1&K2=v2", ["k3": ["v3"], "k1": ["v11"]]);
-        XCTAssertEqualObjects(URL, "http://domain.com?k1=v1&k1=v11&k2=v2&k3=v3")
+        XCTAssertEqual(URL, "http://domain.com?k1=v1&k1=v11&k2=v2&k3=v3")
 
         // escapsed characters
         URL = MergeParametersToURL("http://domain.com?k1=Content-Type%3Atext", ["k1": ["v1"]]);
-        XCTAssertEqualObjects(URL, "http://domain.com?k1=Content-Type%3Atext&k1=v1")
+        XCTAssertEqual(URL, "http://domain.com?k1=Content-Type%3Atext&k1=v1")
     }
 }

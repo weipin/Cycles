@@ -23,7 +23,7 @@
 
 import UIKit
 
-enum AuthenticationAction {
+public enum AuthenticationAction {
     case ProvidingCredentials /* Use the specified credential */
     case ProvidingCredentialsWithInteraction /* Display an interface for user to input the credential */
     case PerformDefaultHandling /* Default handling for the challenge - as if this handler were not implemented; the credential parameter is ignored */
@@ -31,9 +31,9 @@ enum AuthenticationAction {
     case CancelingConnection /* The entire request will be canceled; the credential parameter is ignored */
 }
 
-typealias AuthenticationCompletionHandler = (disposition: NSURLSessionAuthChallengeDisposition,
+public typealias AuthenticationCompletionHandler = (disposition: NSURLSessionAuthChallengeDisposition,
     credential: NSURLCredential!) -> Void
-typealias AuthenticationInteractionCompletionHandler = (action: AuthenticationAction) -> Void
+public typealias AuthenticationInteractionCompletionHandler = (action: AuthenticationAction) -> Void
 
 /*!
  * @discussion
@@ -42,17 +42,17 @@ typealias AuthenticationInteractionCompletionHandler = (action: AuthenticationAc
  * this class directly but instead subclass or use one of the existing 
  * subclasses (BasicAuthentication) to perform the actual handling.
  */
-class Authentication {
+public class Authentication {
     var challenge: NSURLAuthenticationChallenge! = nil
     var completionHandler: AuthenticationCompletionHandler! = nil
     weak var cycle: Cycle! = nil
     var interacting = false
 
-    init() {
+    public init() {
 
     }
 
-    func perform(action: AuthenticationAction) {
+    public func perform(action: AuthenticationAction) {
         switch (action) {
         case .ProvidingCredentials:
             self.createAndUseCredential()
@@ -97,7 +97,7 @@ class Authentication {
  * @param cycle 
  * The Cycle requires authentication.
  */
-    func performAction(action: AuthenticationAction, challenge: NSURLAuthenticationChallenge,
+    public func performAction(action: AuthenticationAction, challenge: NSURLAuthenticationChallenge,
     completionHandler: AuthenticationCompletionHandler, cycle: Cycle) {
         self.challenge = challenge
         self.completionHandler = completionHandler
@@ -122,7 +122,7 @@ class Authentication {
  * @result 
  * A AuthenticationAction value.
  */
-    func actionForAuthenticationChallenge(challenge: NSURLAuthenticationChallenge,
+    public func actionForAuthenticationChallenge(challenge: NSURLAuthenticationChallenge,
     cycle: Cycle) -> AuthenticationAction {
         if challenge.previousFailureCount == 0 {
             return .ProvidingCredentials
@@ -144,7 +144,7 @@ class Authentication {
  * @result 
  * true or false. The determination result.
  */
-    func canHandleAuthenticationChallenge(challenge: NSURLAuthenticationChallenge,
+    public func canHandleAuthenticationChallenge(challenge: NSURLAuthenticationChallenge,
     cycle: Cycle) -> Bool {
         assert(false)
         return false
@@ -170,7 +170,7 @@ class Authentication {
  *
  * This class could present an alert view for user to input username and password.
  */
-class BasicAuthentication : Authentication {
+public class BasicAuthentication : Authentication {
     var username: String
     var password: String
     var presentingViewController: UIViewController?
@@ -178,7 +178,7 @@ class BasicAuthentication : Authentication {
     let Methods = [NSURLAuthenticationMethodHTTPBasic, NSURLAuthenticationMethodHTTPDigest,
         NSURLAuthenticationMethodNTLM] // TODO: use Type Variable once available
 
-    init(username: String, password: String) {
+    public init(username: String, password: String) {
         self.username = username
         self.password = password
         super.init()
@@ -188,7 +188,7 @@ class BasicAuthentication : Authentication {
         return self.init(username: "", password: "")
     }
 
-    override func canHandleAuthenticationChallenge(challenge: NSURLAuthenticationChallenge,
+    public override func canHandleAuthenticationChallenge(challenge: NSURLAuthenticationChallenge,
         cycle: Cycle) -> Bool {
         var method = challenge.protectionSpace.authenticationMethod
         if (self.Methods.bridgeToObjectiveC().containsObject(method)) {

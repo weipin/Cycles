@@ -24,7 +24,7 @@
 import Foundation
 
 extension Cycle {
-    class func createAndStartCycle(URLString: String, method: String,
+    public class func createAndStartCycle(URLString: String, method: String,
     parameters: Dictionary<String, [String]>? = nil,
     requestObject: AnyObject? = nil,
     requestProcessors: [Processor]? = nil, responseProcessors: [Processor]? = nil,
@@ -76,7 +76,7 @@ extension Cycle {
  * @param completionHandler 
  * Called when the content of the given URL is retrieved or an error occurs.
  */
-    class func get(URLString: String, parameters: Dictionary<String, [String]>? = nil,
+    public class func get(URLString: String, parameters: Dictionary<String, [String]>? = nil,
     requestProcessors: [Processor]? = nil, responseProcessors: [Processor]? = nil,
     authentications: [Authentication]? = nil,
     solicited: Bool = false,
@@ -93,7 +93,7 @@ extension Cycle {
  * @discussion 
  * Send a HEAD request and retrieve the content of the given URL.
  */
-    class func head(URLString: String, parameters: Dictionary<String, [String]>? = nil,
+    public class func head(URLString: String, parameters: Dictionary<String, [String]>? = nil,
     requestProcessors: [Processor]? = nil, responseProcessors: [Processor]? = nil,
     authentications: [Authentication]? = nil,
     solicited: Bool = false,
@@ -110,7 +110,7 @@ extension Cycle {
  * @discussion 
  * Send a POST request and retrieve the content of the given URL.
  */
-    class func post(URLString: String, parameters: Dictionary<String, [String]>? = nil,
+    public class func post(URLString: String, parameters: Dictionary<String, [String]>? = nil,
     requestObject: AnyObject? = nil,
     requestProcessors: [Processor]? = nil, responseProcessors: [Processor]? = nil,
     authentications: [Authentication]? = nil,
@@ -129,7 +129,7 @@ extension Cycle {
  * @discussion 
  * Send a PUT request and retrieve the content of the given URL.
  */
-    class func put(URLString: String, parameters: Dictionary<String, [String]>? = nil,
+    public class func put(URLString: String, parameters: Dictionary<String, [String]>? = nil,
     requestObject: AnyObject? = nil,
     requestProcessors: [Processor]? = nil, responseProcessors: [Processor]? = nil,
     authentications: [Authentication]? = nil,
@@ -148,7 +148,7 @@ extension Cycle {
  * @discussion 
  * Send a PATCH request and retrieve the content of the given URL.
  */
-    class func patch(URLString: String, parameters: Dictionary<String, [String]>? = nil,
+    public class func patch(URLString: String, parameters: Dictionary<String, [String]>? = nil,
     requestObject: AnyObject? = nil,
     requestProcessors: [Processor]? = nil, responseProcessors: [Processor]? = nil,
     authentications: [Authentication]? = nil,
@@ -167,7 +167,7 @@ extension Cycle {
  * @discussion 
  * Send a DELETE request and retrieve the content of the given URL.
  */
-    class func delete(URLString: String, parameters: Dictionary<String, [String]>? = nil,
+    public class func delete(URLString: String, parameters: Dictionary<String, [String]>? = nil,
     requestObject: AnyObject? = nil,
     requestProcessors: [Processor]? = nil, responseProcessors: [Processor]? = nil,
     authentications: [Authentication]? = nil,
@@ -204,7 +204,7 @@ extension Cycle {
  * @param completionHandler 
  * Called when the content of the given URL is retrieved or an error occurs.
  */
-    class func upload(URLString: String, data: NSData,
+    public class func upload(URLString: String, data: NSData,
     parameters: Dictionary<String, [String]>? = nil,
     authentications: [Authentication]? = nil,
     didSendBodyDataHandler: CycleDidSendBodyDataHandler? = nil,
@@ -233,7 +233,7 @@ extension Cycle {
  * @param file 
  * The URL of the file to upload for a upload task.
  */
-    class func upload(URLString: String, file: NSURL,
+    public class func upload(URLString: String, file: NSURL,
     parameters: Dictionary<String, [String]>? = nil,
     authentications: [Authentication]? = nil,
     didSendBodyDataHandler: CycleDidSendBodyDataHandler? = nil,
@@ -277,7 +277,7 @@ extension Cycle {
  * @param completionHandler 
  * Called when the content of the given URL is retrieved or an error occurs.
  */
-    class func download(URLString: String,
+    public class func download(URLString: String,
     parameters: Dictionary<String, [String]>? = nil,
     authentications: [Authentication]? = nil,
     didWriteDataHandler: CycleDidWriteBodyDataHandler? = nil,

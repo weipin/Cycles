@@ -26,7 +26,7 @@ import Foundation
  * Same as NSLocalizedString. The difference is that this function uses table
  * "Cycles", not the default one ("Localizable.strings").
  */
-func LocalizedString(key: String) -> String {
+public func LocalizedString(key: String) -> String {
     return NSLocalizedString(key, tableName: "Cycles", comment: "")
 }
 
@@ -43,7 +43,7 @@ func LocalizedString(key: String) -> String {
  * parameters
  * The dictionary of parsed pairs (the part after character ';').
  */
-func ParseContentTypeLikeHeader(header: String) -> (type: String?,
+public func ParseContentTypeLikeHeader(header: String) -> (type: String?,
     parameters: Dictionary<String, String>) {
 
     var ary = header.componentsSeparatedByString(";")
@@ -85,11 +85,11 @@ func ParseContentTypeLikeHeader(header: String) -> (type: String?,
  * @result
  * Escaped string
  */
-func EscapeStringToURLArgumentString(str: String) -> String {
+public func EscapeStringToURLArgumentString(str: String) -> String {
     var s = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
                                                     str.bridgeToObjectiveC(), nil,
                                                     "!*'();:@&=+$,/?%#[]",
-                                                    CFStringBuiltInEncodings.UTF8.toRaw())
+                                                    CFStringBuiltInEncodings.UTF8.toRaw()) as NSString
     return s
 }
 
@@ -103,7 +103,7 @@ func EscapeStringToURLArgumentString(str: String) -> String {
  * @result 
  * Unescaped version of the URL argument
  */
-func UnescapeStringFromURLArgumentString(str: String) -> String {
+public func UnescapeStringFromURLArgumentString(str: String) -> String {
     var range = NSRange(location: 0, length:countElements(str))
     var s = str as NSString
     s = s.stringByReplacingOccurrencesOfString("+", withString: " ",
@@ -128,7 +128,7 @@ func UnescapeStringFromURLArgumentString(str: String) -> String {
  * @result 
  * "form-urlencoded" string of the dictionary.
  */
-func FormencodeDictionary(dict: Dictionary<String, [String]>) -> String {
+public func FormencodeDictionary(dict: Dictionary<String, [String]>) -> String {
     var result = [String]()
     var keys = Array(dict.keys)
     keys = sorted(keys) {(s1: String, s2: String) -> Bool in
@@ -161,7 +161,7 @@ func FormencodeDictionary(dict: Dictionary<String, [String]>) -> String {
  * parameters 
  * A dictionary contains the parameter pairs.
  */
-func ParseURLWithQueryParameters(URLString: String) -> (URL: String?,
+public func ParseURLWithQueryParameters(URLString: String) -> (URL: String?,
 parameters: Dictionary<String, [String]>) {
     var base: String?
     var query: String
@@ -213,7 +213,7 @@ parameters: Dictionary<String, [String]>) {
  * @result 
  * A new URL with query merged from URL and parameters.
  */
-func MergeParametersToURL(URLString: String, parameters: Dictionary<String, [String]>) -> String {
+public func MergeParametersToURL(URLString: String, parameters: Dictionary<String, [String]>) -> String {
     var (base, existing_params) = ParseURLWithQueryParameters(URLString)
     for (var k, var v) in parameters {
         k = k.lowercaseString

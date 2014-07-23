@@ -25,8 +25,6 @@ import XCTest
 
 import CyclesTouch
 
-
-
 class CycleTests: XCTestCase {
     
     override func setUp() {
@@ -46,7 +44,7 @@ class CycleTests: XCTestCase {
 
         cycle.start {(cycle, error) in
             XCTAssertFalse(error)
-            XCTAssertEqualObjects(cycle.response.text, "Hello World");
+            XCTAssertEqual(cycle.response.text, "Hello World");
             XCTAssertEqual(cycle.response!.statusCode!, 200);
             expection.fulfill()
         }
@@ -128,7 +126,7 @@ class CycleTests: XCTestCase {
         cycle.start {(cycle, error) in
             XCTAssertFalse(error)
 
-            XCTAssertEqualObjects(cycle.response.text, "Hello World")
+            XCTAssertEqual(cycle.response.text, "Hello World")
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -146,7 +144,7 @@ class CycleTests: XCTestCase {
         cycle.start {(cycle, error) in
             XCTAssertFalse(error)
 
-            XCTAssertEqualObjects(cycle.response.text, "Hello World File")
+            XCTAssertEqual(cycle.response.text, "Hello World File")
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -159,7 +157,7 @@ class CycleTests: XCTestCase {
         cycle.downloadFileHandler = {(cycle: Cycle, location: NSURL?) in
             XCTAssertTrue(location)
             var content = NSString(contentsOfURL: location, encoding: NSUTF8StringEncoding, error: nil)
-            XCTAssertEqualObjects(content, "helloworld")
+            XCTAssertEqual(content, "helloworld")
         }
         cycle.start {(cycle, error) in
             XCTAssertFalse(error)
@@ -193,7 +191,7 @@ class CycleTests: XCTestCase {
         cycle.start {(cycle, error) in
             XCTAssertFalse(error)
             XCTAssertEqual(cycle.response.statusCode!, NSInteger(200))
-            XCTAssertEqualObjects(cycle.response.text, "Hello World")
+            XCTAssertEqual(cycle.response.text, "Hello World")
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -222,7 +220,7 @@ class CycleTests: XCTestCase {
         cycle.start {(cycle, error) in
             XCTAssertFalse(error)
             XCTAssertEqual(cycle.response.statusCode!, NSInteger(200))
-            XCTAssertEqualObjects(cycle.response.text, "Hello World")
+            XCTAssertEqual(cycle.response.text, "Hello World")
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -267,7 +265,7 @@ class CycleTests: XCTestCase {
 
         cycle.start {(cycle, error) in
             XCTAssertTrue(error)
-            XCTAssertEqualObjects(error!.domain, NSURLErrorDomain)
+            XCTAssertTrue(error!.domain == NSURLErrorDomain)
             XCTAssertEqual(error!.code, NSURLErrorTimedOut)
             XCTAssertTrue(cycle.retriedCount > cycle.session.RetryPolicyMaximumRetryCount)
 
@@ -290,7 +288,7 @@ class CycleTests: XCTestCase {
             XCTAssertTrue(dict)
             var value = dict!.objectForKey("k1") as? String
             XCTAssertTrue(value)
-            XCTAssertEqualObjects(value, "v1")
+            XCTAssertEqual(value!, "v1")
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)

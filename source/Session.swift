@@ -24,9 +24,9 @@
 import Foundation
 import UIKit
 
-@objc protocol SessionDelegate {
-    @optional func sessionShouldRetryCycle(session: Session, cycle: Cycle, error: NSError?) -> Bool;
-    @optional func sessionShouldTreatStatusCodeAsFailure(session: Session, status: Int) -> Bool;
+@objc public protocol SessionDelegate {
+    optional func sessionShouldRetryCycle(session: Session, cycle: Cycle, error: NSError?) -> Bool;
+    optional func sessionShouldTreatStatusCodeAsFailure(session: Session, status: Int) -> Bool;
 }
 
 /*!
@@ -34,52 +34,52 @@ import UIKit
  * This class manages Cycle objects. You can also threat this class as a wrapper 
  * around NSURLSession and its delegates.
  */
-class Session: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate,
+public class Session: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate,
 NSURLSessionDataDelegate {
      // TODO: Type Variable
-    let PreservedHTTPHeadersKey = "PreservedHTTPHeaders"
-    let PreservedHTTPQueryParametersKey = "PreservedHTTPQueryParameters"
+    public let PreservedHTTPHeadersKey = "PreservedHTTPHeaders"
+    public let PreservedHTTPQueryParametersKey = "PreservedHTTPQueryParameters"
 
-    weak var delegate: SessionDelegate? = nil
+    public weak var delegate: SessionDelegate? = nil
 
 /*!
  * The NSURLSession takes care of the major HTTP operations.
  */
-    var core: NSURLSession!
+    public var core: NSURLSession!
 
 /*!
  * The operation queue that the delegate related "callback" blocks will be added
  * to. This queue will also be set as NSURLSession's delete queue.
  */
-    var delegateQueue: NSOperationQueue
+    public var delegateQueue: NSOperationQueue
 
 /*!
  * The operation queue that the work related "callback" blocks will be added to.
  */
-    var workerQueue: NSOperationQueue
+    public var workerQueue: NSOperationQueue
 
 /*!
  * An array of Processor subclass objects.
  */
-    var requestProcessors = [Processor]()
+    public var requestProcessors = [Processor]()
 
 /*!
  * An array of Processor subclass objects.
  */
-    var responseProcessors = [Processor]()
+    public var responseProcessors = [Processor]()
 
 /*!
  * Seconds to wait before a retry should be attempted.
  */
-    var retryDelay: dispatch_time_t = 3
+    public var retryDelay: dispatch_time_t = 3
 /*!
  * An array of Authentication subclass objects.
  */
-    var authentications = [Authentication]()
+    public var authentications = [Authentication]()
 
-    var cycles = [Cycle]()
+    public var cycles = [Cycle]()
 
-    let RetryPolicyMaximumRetryCount = 3 // TODO, use Type Variable
+    public let RetryPolicyMaximumRetryCount = 3 // TODO, use Type Variable
 
 /*!
  * @discussion 
@@ -89,16 +89,16 @@ NSURLSessionDataDelegate {
  * set it as an object of NetworkActivityIndicator subclass to custom the display
  * logic.
  */
-    var networkActivityIndicator :NetworkActivityIndicator?
+    public var networkActivityIndicator :NetworkActivityIndicator?
 
-    var preservedHTTPHeaders = Dictionary<String, String>()
-    var preservedHTTPQueryParameters = Dictionary<String, [String]>()
+    public var preservedHTTPHeaders = Dictionary<String, String>()
+    public var preservedHTTPQueryParameters = Dictionary<String, [String]>()
 
 /*!
  * @abstract 
  * Return the default singleton Session.
  */
-    class func defaultSession() -> Session {
+    public class func defaultSession() -> Session {
         struct Singleton {
             static var instance: Session? = nil
             static var onceToken: dispatch_once_t = 0
@@ -130,7 +130,7 @@ NSURLSessionDataDelegate {
  * If nil, a NSOperationQueue object will be created so the blocks will be run 
  * asynchronously on a separate thread.
  */
-    @required init(configuration: NSURLSessionConfiguration? = nil,
+    required public init(configuration: NSURLSessionConfiguration? = nil,
     delegateQueue: NSOperationQueue? = nil,
     workerQueue: NSOperationQueue? = nil) {
         var c = configuration
@@ -209,7 +209,7 @@ NSURLSessionDataDelegate {
         return cycle
     }
 
-    func shouldRetry(solicited: Bool, retriedCount: Int, request: Request,
+    public func shouldRetry(solicited: Bool, retriedCount: Int, request: Request,
     response:Response, error: NSError!) -> Bool {
         if solicited {
             return true
@@ -233,7 +233,7 @@ NSURLSessionDataDelegate {
     }
 
     // NSURLSessionTaskDelegate
-    func URLSession(session: NSURLSession!, task: NSURLSessionTask!,
+    public func URLSession(session: NSURLSession!, task: NSURLSessionTask!,
     didCompleteWithError error: NSError!) {
         if let indicator = self.networkActivityIndicator {
             indicator.decrease()
@@ -310,7 +310,7 @@ NSURLSessionDataDelegate {
 
     }
 
-    func URLSession(session: NSURLSession!, task: NSURLSessionTask!,
+    public func URLSession(session: NSURLSession!, task: NSURLSessionTask!,
     didSendBodyData bytesSent: Int64, totalBytesSent: Int64,
     totalBytesExpectedToSend: Int64) {
         var cycle = self.cycleForTask(task)
@@ -322,7 +322,7 @@ NSURLSessionDataDelegate {
     }
 
 
-    func URLSession(session: NSURLSession!, task: NSURLSessionTask!,
+    public func URLSession(session: NSURLSession!, task: NSURLSessionTask!,
     didReceiveChallenge challenge: NSURLAuthenticationChallenge!,
     completionHandler: ((NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void)!) {
         var cycle = self.cycleForTask(task)!
@@ -344,7 +344,7 @@ NSURLSessionDataDelegate {
     }
 
     // NSURLSessionDataDelegate
-    func URLSession(session: NSURLSession!, dataTask: NSURLSessionDataTask!,
+    public func URLSession(session: NSURLSession!, dataTask: NSURLSessionDataTask!,
     didReceiveData data: NSData!) {
         var cycle = self.cycleForTask(dataTask)!
 
@@ -397,7 +397,7 @@ NSURLSessionDataDelegate {
  * stored in each Cycle's property explicitlyCanceling. Your app can use
  * this value for cancellation interface.
  */
-    func cancelCycles(cycles: [Cycle], explicitly: Bool) {
+    public func cancelCycles(cycles: [Cycle], explicitly: Bool) {
         for cycle in cycles {
             cycle.explicitlyCanceling = explicitly
             cycle.core!.cancel()
@@ -413,7 +413,7 @@ NSURLSessionDataDelegate {
  * @param explicitly 
  * Indicate if the operations are cancelled explicitly.
  */
-    func invalidateAndCancel(explicitly: Bool) {
+    public func invalidateAndCancel(explicitly: Bool) {
         for cycle in cycles {
             cycle.explicitlyCanceling = explicitly
         }
@@ -432,7 +432,7 @@ NSURLSessionDataDelegate {
  * @param explicitly 
  * Indicate if the operations are cancelled explicitly.
  */
-    func finishTaskAndInvalidate(explicitly: Bool) {
+    public func finishTaskAndInvalidate(explicitly: Bool) {
         for cycle in cycles {
             cycle.explicitlyCanceling = explicitly
         }
@@ -440,15 +440,15 @@ NSURLSessionDataDelegate {
     }
 
 // -- Preserved
-    func setPreservedHTTPHeaderField(field: String, value: String) {
+    public func setPreservedHTTPHeaderField(field: String, value: String) {
         self.preservedHTTPHeaders[field.lowercaseString] = value
     }
 
-    func setPreservedHTTPQueryParameter(key: String, value: [String]) {
+    public func setPreservedHTTPQueryParameter(key: String, value: [String]) {
         self.preservedHTTPQueryParameters[key.lowercaseString] = value
     }
 
-    func dataForPreservedState(error: NSErrorPointer) -> NSData {
+    public func dataForPreservedState(error: NSErrorPointer) -> NSData {
         var objects = [self.preservedHTTPHeaders, self.preservedHTTPQueryParameters]
         var keys = [PreservedHTTPHeadersKey, PreservedHTTPQueryParametersKey]
         var dict = NSDictionary(objects: objects, forKeys: keys)
@@ -458,7 +458,7 @@ NSURLSessionDataDelegate {
         return data
     }
 
-    func loadPreservedStateFromData(data: NSData, error: NSErrorPointer) -> Bool {
+    public func loadPreservedStateFromData(data: NSData, error: NSErrorPointer) -> Bool {
         var options = NSPropertyListReadOptions(NSPropertyListMutabilityOptions.MutableContainersAndLeaves.toRaw()) // TODO: improve me
         if let dict = NSPropertyListSerialization.propertyListWithData(data,
         options:options, format: nil, error: error) as? NSDictionary {
@@ -473,7 +473,7 @@ NSURLSessionDataDelegate {
         return true
     }
 
-    func applyPreservedStateToRequest(request: Request) {
+    public func applyPreservedStateToRequest(request: Request) {
         // headers
         for (key, value) in self.preservedHTTPHeaders {
             request.core.setValue(value, forHTTPHeaderField: key)

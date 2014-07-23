@@ -40,7 +40,7 @@ class HTTPBasicAuthProcessorTests: XCTestCase {
     func testHeaderForUsernamePasswordShouldWork() {
         var header = BasicAuthProcessor.headerForUsernamePassword("Aladdin",
             password: "open sesame")
-        XCTAssertEqualObjects(header, "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==");
+        XCTAssertEqual(header, "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==");
     }
 
 }

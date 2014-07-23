@@ -26,41 +26,41 @@ import Foundation
 /*!
  * This class represents a HTTP response.
  */
-class Response {
+public class Response {
 /*!
  * The NSHTTPURLResponse represents the primary response information.
  */
-    var core: NSHTTPURLResponse?
+    public var core: NSHTTPURLResponse?
 
 /*!
  * The object represents the response data. It will be created by the
  * Processor objects from response data.
  */
-    var object: AnyObject?
+    public var object: AnyObject?
 
 /*!
  * The NSData of the received HTTP response body.
  */
-    var data: NSMutableData = NSMutableData()
+    public var data: NSMutableData = NSMutableData()
 
 /*!
  * The NSDate stores the time the response is received.
  */
-    var timestamp: NSDate?
+    public var timestamp: NSDate?
 
 /*!
  * The default encoding for converting request data to text.
  */
-    var textReadEncoding: NSStringEncoding?
+    public var textReadEncoding: NSStringEncoding?
 
 /*!
  * The encoding of the response data.
  */
-    @lazy var textEncoding: NSStringEncoding = {
+    public lazy var textEncoding: NSStringEncoding = {
         return TextProcessor.textEncodingFromResponse(self)
     }()
 
-    @lazy var text: String = {
+    public lazy var text: String = {
         var encoding = self.textReadEncoding
         if !encoding {
             encoding = self.textEncoding
@@ -75,14 +75,14 @@ class Response {
  * @abstract 
  * The status code of the response.
  */
-    var statusCode: Int? {
+    public var statusCode: Int? {
         return self.core?.statusCode
     }
 
 /*!
  * @abstract The NSDictionary contains the response headers.
  */
-    var headers: NSDictionary? {
+    public var headers: NSDictionary? {
         return self.core?.allHeaderFields
     }
 
@@ -100,7 +100,7 @@ class Response {
  * @result 
  * The value of the header, or nil if none is found.
  */
-    func valueForHTTPHeaderField(header: String) -> String? {
+    public func valueForHTTPHeaderField(header: String) -> String? {
         var result: String? = nil
         if !self.headers {
             return nil
@@ -121,7 +121,7 @@ class Response {
  * @param data
  * The NSData to be appended to the data property.
  */
-    func appendData(data: NSData) {
+    public func appendData(data: NSData) {
         self.data.appendData(data)
     }
 }

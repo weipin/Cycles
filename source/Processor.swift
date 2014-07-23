@@ -31,7 +31,7 @@ import Foundation
  * subclass or use one of the existing subclasses. You create subclass to convert
  * data between request/response data and your specific object.
  */
-class Processor {
+public class Processor {
 /*!
  * @abstract 
  * Process the specified Request.
@@ -45,7 +45,7 @@ class Processor {
  * @result 
  * true if processed, or false if an error occurs.
  */
-    func processRequest(request: Request, error: NSErrorPointer) -> Bool {
+    public func processRequest(request: Request, error: NSErrorPointer) -> Bool {
         assert(false)
         return false
     }
@@ -62,12 +62,12 @@ class Processor {
  *
  * @result The updated Response.
  */
-    func processResponse(response: Response, error: NSErrorPointer) -> Bool {
+    public func processResponse(response: Response, error: NSErrorPointer) -> Bool {
         assert(false)
         return false
     }
 
-    init() {
+    public init() {
 
     }
 }
@@ -76,17 +76,17 @@ class Processor {
  * @discussion 
  * This class add Basic Authentication header to the Request.
  */
-class BasicAuthProcessor : Processor {
+public class BasicAuthProcessor : Processor {
     var username: String
     var password: String
 
-    init(username: String, password: String) {
+    public init(username: String, password: String) {
         self.username = username
         self.password = password
         super.init()
     }
 
-    class func headerForUsernamePassword(username: String, password: String) -> String {
+    public class func headerForUsernamePassword(username: String, password: String) -> String {
         var str = "\(username):\(password)"
         if let data = str.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
             str = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(0))
@@ -97,14 +97,14 @@ class BasicAuthProcessor : Processor {
         return "Basic \(str)"
     }
 
-    override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
+    public override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
         var header = BasicAuthProcessor.headerForUsernamePassword(self.username,
                         password: self.password)
         request.core.setValue(header, forHTTPHeaderField: "Authorization")
         return true
     }
 
-    override func processResponse(response: Response, error: NSErrorPointer) -> Bool {
+    public override func processResponse(response: Response, error: NSErrorPointer) -> Bool {
         assert(false)
         return false
     }
@@ -116,8 +116,8 @@ class BasicAuthProcessor : Processor {
  * it assigns your object to the request data, so you need to ensure that your 
  * object is a NSData. For response, it assigns the response data to your object.
  */
-class DataProcessor : Processor {
-    override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
+public class DataProcessor : Processor {
+    public override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
         if let object = request.object as? NSData {
             request.data = object
 
@@ -133,7 +133,7 @@ class DataProcessor : Processor {
         return true
     }
 
-    override func processResponse(response: Response, error: NSErrorPointer) -> Bool {
+    public override func processResponse(response: Response, error: NSErrorPointer) -> Bool {
         response.object = response.data
         return true
     }
@@ -147,7 +147,7 @@ class DataProcessor : Processor {
  * class if you want to process the content in a specified queue.
  */
 
-class TextProcessor : Processor {
+public class TextProcessor : Processor {
 /*!
  * @discussion 
  * The encoding to use when converts your NSString to request data.
@@ -203,7 +203,7 @@ class TextProcessor : Processor {
                                               usedLossyConversion: nil)
     }
 
-    override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
+    public override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
         if let object = request.object as? NSString {
             if let data = object.dataUsingEncoding(self.writeEncoding) {
                 request.data = data
@@ -226,7 +226,7 @@ class TextProcessor : Processor {
         return true
     }
 
-    override func processResponse(response: Response, error: NSErrorPointer) -> Bool {
+    public override func processResponse(response: Response, error: NSErrorPointer) -> Bool {
         var encoding = self.readEncoding
         if !encoding {
             encoding = TextProcessor.textEncodingFromResponse(response)
@@ -249,8 +249,12 @@ class TextProcessor : Processor {
  * This class converts objects between your NSDictionary and request data with 
  * JSON format. For request, header "Content-Type: application/json" will be added.
  */
-class JSONProcessor : Processor {
-    override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
+public class JSONProcessor : Processor {
+    public init() {
+
+    }
+
+    public override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
         if let object = request.object as? NSDictionary {
             var e: NSError?
             request.data = NSJSONSerialization.dataWithJSONObject(object, options: nil, error: &e)
@@ -275,7 +279,7 @@ class JSONProcessor : Processor {
         return true
     }
 
-    override func processResponse(response: Response, error: NSErrorPointer) -> Bool {
+    public override func processResponse(response: Response, error: NSErrorPointer) -> Bool {
         var e: NSError?
         response.object = NSJSONSerialization.JSONObjectWithData(response.data,
                                                                  options: .AllowFragments,
@@ -295,8 +299,8 @@ class JSONProcessor : Processor {
  * This class converts your NSDictionary to a form encoded string as request 
  * body. Header "Content-Type: application/x-www-form-urlencoded" will be added.
  */
-class FORMProcessor : Processor {
-    override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
+public class FORMProcessor : Processor {
+    public override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
         if let object = request.object as? Dictionary<String, [String]> {
             request.object = FormencodeDictionary(object)
             request.core.setValue("application/x-www-form-urlencoded",
@@ -314,7 +318,7 @@ class FORMProcessor : Processor {
         return true
     }
 
-    override func processResponse(response: Response, error: NSErrorPointer) -> Bool {
+    public override func processResponse(response: Response, error: NSErrorPointer) -> Bool {
         assert(false)
         return false
     }

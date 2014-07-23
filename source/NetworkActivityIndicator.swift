@@ -32,7 +32,7 @@ import UIKit
  * the method `increate` each time a request is issued, and call the method 
  * `decrease` each time a response is received or ended with an error.
  */
-class NetworkActivityIndicator {
+public class NetworkActivityIndicator {
     var count = 0
 
     class func sharedInstance() -> NetworkActivityIndicator {
@@ -48,7 +48,7 @@ class NetworkActivityIndicator {
         return Singleton.instance!
     }
 
-    @required init() {
+    public required init() {
 
     }
 
@@ -57,7 +57,7 @@ class NetworkActivityIndicator {
  * Increase the internal count. Display the network activity if the count is 
  * larger than 0.
  */
-    func increase() {
+    public func increase() {
         ++self.count;
         if 1 == self.count {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true;
@@ -68,7 +68,7 @@ class NetworkActivityIndicator {
  * @discussion 
  * Decrease the internal count. Hide the network activity when the count reaches 0.
  */
-    func decrease() {
+    public func decrease() {
         --self.count;
         if 0 == self.count {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false;

@@ -23,45 +23,45 @@
 
 import Foundation
 
-enum CycleType {
+public enum CycleType {
     case Data, Upload, Download
 }
 
-typealias CycleCompletionHandler = (cycle: Cycle, error: NSError?) -> Void
-typealias CycleDidSendBodyDataHandler = (cycle: Cycle, bytesSent: Int64,
-                                         totalBytesSent: Int64,
-                                         totalBytesExpectedToSend: Int64) -> Void
-typealias CycleDidWriteBodyDataHandler = (cycle: Cycle, bytesWritten: Int64,
-                                          totalBytesWritten: Int64,
-                                          totalBytesExpectedToWrite: Int64) -> Void
-typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
+public typealias CycleCompletionHandler = (cycle: Cycle, error: NSError?) -> Void
+public typealias CycleDidSendBodyDataHandler = (cycle: Cycle, bytesSent: Int64,
+                                                totalBytesSent: Int64,
+                                                totalBytesExpectedToSend: Int64) -> Void
+public typealias CycleDidWriteBodyDataHandler = (cycle: Cycle, bytesWritten: Int64,
+                                                 totalBytesWritten: Int64,
+                                                 totalBytesExpectedToWrite: Int64) -> Void
+public typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
 
 /*!
  * This class represents a HTTP cycle, including request and response.
  */
-@objc class Cycle {
+@objc public class Cycle {
 /*!
  * The CycleType determines what kind of NSURLSessionTask to create. The
  * default type is Data.
  */
-    var taskType: CycleType
+    public var taskType: CycleType
 
 /*!
  * The Session which acts as the manager of the Cycle.
  */
-    weak var session: Session!
+    public weak var session: Session!
 
 /*!
  * The URL for the request.
  */
-    var requestURL: NSURL {
+    public var requestURL: NSURL {
         return self.request.core.URL
     }
 
 /*!
  * The HTTP method for the request.
  */
-    var requestMethod: String {
+    public var requestMethod: String {
     get {
         return self.request.core.HTTPMethod
     }
@@ -76,7 +76,7 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
  * the Request goes through all the processor objects to initialize parameters.
  * If nil, the session's requestProcessors will be used.
  */
-    var requestProcessors: [Processor] {
+    public var requestProcessors: [Processor] {
     get{
         if (self._requestProcessors) {
             return self._requestProcessors!
@@ -94,7 +94,7 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
  * the Response goes through all the processor objects to build the response object.
  * If nil, the session's responseProcessors will be used.
  */
-    var responseProcessors: [Processor] {
+    public var responseProcessors: [Processor] {
     get{
         if (self._responseProcessors) {
             return self._responseProcessors!
@@ -109,13 +109,13 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
 /*!
  * Called when the content of the given URL is retrieved or an error occurs.
  */
-    var completionHandler: CycleCompletionHandler!
+    public var completionHandler: CycleCompletionHandler!
 
 /*!
  * Affect the Cycle's retry logic. If solicited is true, the number of retries is
  * unlimited until the transfer finishes successfully.
  */
-    var solicited = false
+    public var solicited = false
 
     var _authentications: [Authentication]?
 /*!
@@ -126,7 +126,7 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
  * authentication. If nil, the session's authenticationHandlers will be
  * used.
  */
-    var authentications: [Authentication] {
+    public var authentications: [Authentication] {
     get{
         if (self._authentications) {
             return self._authentications!
@@ -141,54 +141,54 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
 /*!
  * Called with upload progress information.
  */
-    var didSendBodyDataHandler: CycleDidSendBodyDataHandler?
+    public var didSendBodyDataHandler: CycleDidSendBodyDataHandler?
 
 /*!
  * Called with download progress information.
  */
-    var didWriteDataHandler: CycleDidWriteBodyDataHandler?
+    public var didWriteDataHandler: CycleDidWriteBodyDataHandler?
 
 /*!
  * Called with the URL to a temporary file where the downloaded content is stored.
  */
-    var downloadFileHandler: CycleDownloadFileHander?
+    public var downloadFileHandler: CycleDownloadFileHander?
 
 /*!
  * The NSData to upload for a upload task.
  */
-    var dataToUpload: NSData?
+    public var dataToUpload: NSData?
 
 /*!
  * The URL of the file to upload for a upload task.
  */
-    var fileToUpload: NSURL?
+    public var fileToUpload: NSURL?
 
 /*!
  * The NSURLSessionTask that Cycle creates for you.
  */
-    var core: NSURLSessionTask?
+    public var core: NSURLSessionTask?
 
 /*!
  * The Request represents the HTTP request. Cycle creates it for you, you should
  * not create it by yourself
  */
-    var request: Request
+    public var request: Request
 
 /*!
  * The Response represents the HTTP response. Cycle creates it for you, you should
  * not create it by yourself
  */
-    var response: Response!
+    public var response: Response!
 
 /*!
  * How many retries have been attempted.
  */
-    var retriedCount = 0
+    public var retriedCount = 0
 
 /*!
  * Indicate if the operation was cancelled explicitly.
  */
-    var explicitlyCanceling = false
+    public var explicitlyCanceling = false
 
 /*!
  * @abstract 
@@ -215,7 +215,7 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
  * @param responseProcessors 
  * An array of Processor subclass objects.
  */
-    init(requestURL: NSURL,
+    public init(requestURL: NSURL,
     taskType: CycleType = CycleType.Data,
     session: Session? = nil,
     requestMethod: String = "GET",
@@ -248,7 +248,7 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
         self.reset()
     }
 
-    func taskForType(type: CycleType) -> NSURLSessionTask {
+    public func taskForType(type: CycleType) -> NSURLSessionTask {
         var task: NSURLSessionTask?
         switch (self.taskType) {
         case .Data:
@@ -271,7 +271,7 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
         return task!
     }
 
-    func prepare(completionHandler: ((result: Bool) -> Void)) {
+    public func prepare(completionHandler: ((result: Bool) -> Void)) {
         if self.core {
             return
         }
@@ -302,7 +302,7 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
  * Called when the content of the given URL is retrieved
  * or an error occurred.
  */
-    func start(completionHandler: CycleCompletionHandler? = nil) {
+    public func start(completionHandler: CycleCompletionHandler? = nil) {
         if completionHandler {
             self.completionHandler = completionHandler
         }
@@ -334,7 +334,7 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
         return
     }
 
-    func reset() {
+    public func reset() {
         self.core = nil
         self.request.timestamp = nil
         self.response = nil
@@ -345,7 +345,7 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
  * @abstract 
  * Stop the current HTTP request operation and start again.
  */
-    func restart() {
+    public func restart() {
         self.cancel(true)
         self.reset()
         self.start()
@@ -360,7 +360,7 @@ typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> Void
  * in property explicitlyCanceling. Your app can use this value for cancellation 
  * interface.
  */
-    func cancel(explicitly: Bool) {
+    public func cancel(explicitly: Bool) {
         self.session.cancelCycles([self], explicitly:explicitly)
     }
 }
