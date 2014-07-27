@@ -32,7 +32,7 @@ helper methods provided by Cycles::
 
 The function `MergeParametersToURL` will correctly encode the values, join the
 parameter pairs with character `&` and concatenate the following parts: the
-original URL, a characher `&` and the query.
+original URL, a characher `?` and the query.
 
 `MergeParametersToURL` also allows query string to appear in the original URL,
 the method will parse the query and merge them with the new parameters. In the
