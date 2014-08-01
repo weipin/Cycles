@@ -22,7 +22,7 @@
 		1613F9EB1955E29200CDD9FD /* CycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9EA1955E29200CDD9FD /* CycleTests.swift */; };
 		162019BE195CF68E00CA3A80 /* ProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162019BD195CF68E00CA3A80 /* ProcessorTests.swift */; };
 		1648FC6D198B9EF000C5BAE5 /* URITemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648FC6C198B9EF000C5BAE5 /* URITemplate.swift */; };
-		1648FC6F198BA17C00C5BAE5 /* service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648FC6E198BA17C00C5BAE5 /* service.swift */; };
+		1648FC6F198BA17C00C5BAE5 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648FC6E198BA17C00C5BAE5 /* Service.swift */; };
 		165866BD1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */; };
 		165866BE1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */; };
 		16D07506196A21C100045CE0 /* SessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D07505196A21C100045CE0 /* SessionTests.swift */; };
@@ -125,7 +125,7 @@
 		1613F9EA1955E29200CDD9FD /* CycleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CycleTests.swift; path = ../../tests/CycleTests.swift; sourceTree = "<group>"; };
 		162019BD195CF68E00CA3A80 /* ProcessorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessorTests.swift; path = ../../tests/ProcessorTests.swift; sourceTree = "<group>"; };
 		1648FC6C198B9EF000C5BAE5 /* URITemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = URITemplate.swift; path = ../source/URITemplate.swift; sourceTree = "<group>"; };
-		1648FC6E198BA17C00C5BAE5 /* service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = service.swift; path = ../source/service.swift; sourceTree = "<group>"; };
+		1648FC6E198BA17C00C5BAE5 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Service.swift; path = ../source/Service.swift; sourceTree = "<group>"; };
 		165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkActivityIndicator.swift; path = ../source/NetworkActivityIndicator.swift; sourceTree = "<group>"; };
 		16D07505196A21C100045CE0 /* SessionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionTests.swift; path = ../../tests/SessionTests.swift; sourceTree = "<group>"; };
 		16E51782195A23270015DCB8 /* Cycle+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Cycle+Convenience.swift"; path = "../source/Cycle+Convenience.swift"; sourceTree = "<group>"; };
@@ -227,7 +227,7 @@
 				1613F9D91955AA5800CDD9FD /* Response.swift */,
 				1613F9DA1955AA5800CDD9FD /* Session.swift */,
 				1648FC6C198B9EF000C5BAE5 /* URITemplate.swift */,
-				1648FC6E198BA17C00C5BAE5 /* service.swift */,
+				1648FC6E198BA17C00C5BAE5 /* Service.swift */,
 			);
 			name = Cycles;
 			sourceTree = "<group>";
@@ -356,7 +356,7 @@
 				1613F9DE1955AA5800CDD9FD /* Error.swift in Sources */,
 				1613F9BA1955AA2500CDD9FD /* AppDelegate.swift in Sources */,
 				16E51783195A23270015DCB8 /* Cycle+Convenience.swift in Sources */,
-				1648FC6F198BA17C00C5BAE5 /* service.swift in Sources */,
+				1648FC6F198BA17C00C5BAE5 /* Service.swift in Sources */,
 				1613F9DF1955AA5800CDD9FD /* Helper.swift in Sources */,
 				1613F9E11955AA5800CDD9FD /* Request.swift in Sources */,
 				1613F9DB1955AA5800CDD9FD /* Authentication.swift in Sources */,
