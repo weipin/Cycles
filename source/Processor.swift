@@ -31,7 +31,11 @@ import Foundation
  * subclass or use one of the existing subclasses. You create subclass to convert
  * data between request/response data and your specific object.
  */
-public class Processor {
+public class Processor: NSObject {
+    public required init() {
+
+    }
+
 /*!
  * @abstract 
  * Process the specified Request.
@@ -66,10 +70,6 @@ public class Processor {
         assert(false)
         return false
     }
-
-    public init() {
-
-    }
 }
 
 /*!
@@ -80,10 +80,13 @@ public class BasicAuthProcessor : Processor {
     var username: String
     var password: String
 
+    public convenience init() {
+        self.init(username: "", password: "")
+    }
+
     public init(username: String, password: String) {
         self.username = username
         self.password = password
-        super.init()
     }
 
     public class func headerForUsernamePassword(username: String, password: String) -> String {
@@ -117,6 +120,10 @@ public class BasicAuthProcessor : Processor {
  * object is a NSData. For response, it assigns the response data to your object.
  */
 public class DataProcessor : Processor {
+    public init() {
+
+    }
+
     public override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
         if let object = request.object as? NSData {
             request.data = object
@@ -166,6 +173,10 @@ public class TextProcessor : Processor {
  * The encoding of the response data, determined by examining the response.
  */
     var textEncoding: NSStringEncoding?
+
+    public init() {
+
+    }
 
 /*!
  * @discussion
@@ -292,6 +303,7 @@ public class JSONProcessor : Processor {
         }
         return true
     }
+
 }
 
 /*!
@@ -300,6 +312,10 @@ public class JSONProcessor : Processor {
  * body. Header "Content-Type: application/x-www-form-urlencoded" will be added.
  */
 public class FORMProcessor : Processor {
+    public init() {
+
+    }
+
     public override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
         if let object = request.object as? Dictionary<String, [String]> {
             request.object = FormencodeDictionary(object)

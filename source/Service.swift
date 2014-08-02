@@ -28,13 +28,14 @@ enum ServiceKey: String {
     case Resources = "Resources"
     case Name = "Name"
     case URITemplate = "URITemplate"
+    case Method = "Method"
     case RequestProcessors = "RequestProcessors"
     case ResponseProcessors = "ResponseProcessors"
 }
 
 enum CycleForResourceOption {
-    case Create
     case Reuse
+    case Replace
 }
 
 public class Service: NSObject {
@@ -60,7 +61,7 @@ public class Service: NSObject {
     var session: Session!
     var cyclesWithIdentifier = Dictionary<String, Cycle>()
 
-    class func filenameOfProfile() -> String {
+    class func filenameOfDefaultProfile() -> String {
         var className = NSStringFromClass(self)
         var filename = className + ".plist"
         return filename
@@ -104,29 +105,212 @@ public class Service: NSObject {
         self.session = self.defaultSession()
         if profile {
             self.profile = profile
+
+        } else {
+            self.updateProfileFromLocalFile()
         }
     }
 
-    func updateProfileFromLocalFile(URL: NSURL?) -> Bool {
+    func updateProfileFromLocalFile(URL: NSURL? = nil) -> Bool {
+        var objectClass: AnyClass! = self.classForCoder
 
+        if !URL {
+            var filename = objectClass.filenameOfDefaultProfile()
+            if let profile = objectClass.profileForFilename(filename) {
+                self.profile = profile
+            }
+            return false
+        }
+
+        var error: NSError?
+        var data = NSData.dataWithContentsOfURL(URL, options: NSDataReadingOptions(0), error: &error)
+        if data == nil {
+            println("\(error?.description)");
+            return false
+        }
+        if let profile = objectClass.profileForData(data) {
+            self.profile = profile
+        }
+        return false
     }
 
-    func verifyProfile(profile: Dictionary<String, AnyObject>?) -> Bool {
+    func verifyProfile(profile: Dictionary<String, AnyObject>? = nil) -> Bool {
+        if !profile {
+            self.profile = profile
+        }
+        assert(profile)
 
+        var names = NSMutableSet()
+        if let value: AnyObject = profile![ServiceKey.Resources.toRaw()] {
+            if let resources = value as? [Dictionary<String, String>] {
+                for (index, resource) in enumerate(resources) {
+                    if let name = resource[ServiceKey.Name.toRaw()] {
+                        if names.containsObject(name) {
+                            println("Error: Malformed Resources (duplicate name) in Service profile (resource index: \(index))!");
+                            return false
+                        }
+                        names.addObject(name)
+
+                    } else {
+                        println("Error: Malformed Resources (name not found) in Service profile (resource index: \(index))!");
+                        return false
+                    }
+
+                    if !resource[ServiceKey.URITemplate.toRaw()] {
+                        println("Error: Malformed Resources (URL Template not found) in Service profile (resource index: \(index))!");
+                        return false
+                    }
+
+                }
+            } else {
+                println("Error: Malformed Resources in Service profile (type does not match)!");
+                return false
+            }
+
+        } else {
+            println("Warning: no resources found in Service profile!");
+        }
+
+        return true
     }
 
-    func cycleForResource(name: String, identifier: String? = nil,
-    option: CycleForResourceOption = .Create, URIValues: AnyObject? = nil,
+    func resourceProfileForName(name: String) -> Dictionary<String, String>? {
+        assert(self.profile)
+
+        if let value: AnyObject = profile![ServiceKey.Resources.toRaw()] {
+            if let resources = value as? [Dictionary<String, String>] {
+                for resource in resources {
+                    if let n = resource[ServiceKey.Name.toRaw()] {
+                        if n == name {
+                            return resource
+                        }
+                    }
+                }
+            }
+        }
+
+        return nil
+    }
+
+    func cycleForIdentifer(identifier: String) -> Cycle? {
+        return self.cyclesWithIdentifier[identifier]
+    }
+
+    func cycleForResourceWithIdentifer(name: String, identifier: String? = nil,
+    option: CycleForResourceOption = .Reuse, URIValues: AnyObject? = nil,
     requestObject: AnyObject? = nil,
-    solicited: Bool? = false) -> Cycle {
+    solicited: Bool = false) -> Cycle {
+        var cycle: Cycle!
+        if identifier {
+            cycle = self.cyclesWithIdentifier[identifier!]
+            if cycle {
+                if option == .Reuse {
+                    return cycle!
+                } else if option == .Replace {
+                    cycle!.cancel(true)
+                    self.cyclesWithIdentifier.removeValueForKey(identifier!)
+                    cycle = nil
+                } else {
+                    assert(false)
+                }
+            }
+        } // if identifier
 
+        if cycle {
+            return cycle
+        }
+
+        if let resourceProfile = self.resourceProfileForName(name) {
+            var value = resourceProfile[ServiceKey.RequestProcessors.toRaw()]
+            var requestProcessorObjects = [Processor]()
+            if let requestProcessorClasses = value?.componentsSeparatedByString(",") {
+                for i in requestProcessorClasses {
+                    if let theClass: AnyClass = NSClassFromString(i) {
+                        if let type = theClass as? Processor.Type {
+                            var processor = type()
+                            requestProcessorObjects.append(processor)
+                        }
+                    }
+                } // for requestProcessorClasses
+            } // if requestProcessorClasses
+
+            value = resourceProfile[ServiceKey.ResponseProcessors.toRaw()]
+            var responseProcessorObjects = [Processor]()
+            if let responseProcessorClasses = value?.componentsSeparatedByString(",") {
+                for i in responseProcessorClasses {
+                    if let theClass: AnyClass = NSClassFromString(i) {
+                        if let type = theClass as? Processor.Type {
+                            var processor = type()
+                            responseProcessorObjects.append(processor)
+                        }
+                    }
+                } // for responseProcessorClasses
+            } // if responseProcessorClasses
+
+            var URLString = self.baseURLString
+            var URITemplate = resourceProfile[ServiceKey.URITemplate.toRaw()]
+            if countElements(URITemplate!) > 0 {
+                var part1 = self.baseURLString
+                var part2 = ExpandURITemplate(URITemplate!, URIValues)
+                if countElements(part1) > 0 && part1[part1.endIndex] == "/" {
+                    part1 = part1[part1.startIndex ..< advance(part1.endIndex, -1)]
+                }
+                if countElements(part2) > 0 && part2[part2.startIndex] == "/" {
+                    part2 = part2[advance(part2.startIndex, 1) ..< part1.endIndex]
+                }
+                URLString = part1 + "/" + part2
+            }
+
+            var URL = NSURL.URLWithString(URLString)
+            assert(URL)
+
+            var method = resourceProfile[ServiceKey.Method.toRaw()]
+            if !method {
+                method = "GET"
+            }
+
+            cycle = Cycle(requestURL: URL, taskType: .Data, session: self.session,
+                requestMethod: method!, requestObject: requestObject)
+            cycle.solicited = solicited
+            if countElements(requestProcessorObjects) > 0 {
+                cycle.requestProcessors = cycle.requestProcessors + requestProcessorObjects
+            }
+            if countElements(responseProcessorObjects) > 0 {
+                cycle.responseProcessors = cycle.responseProcessors + responseProcessorObjects
+            }
+
+        } else {
+            assert(false)
+        }
+
+        return cycle!
     }
 
-    func requestResource(name: String, identifier: String? = nil,
-    option: CycleForResourceOption = .Create, URIValues: AnyObject? = nil,
+    func cycleForResource(name: String, URIValues: AnyObject? = nil,
     requestObject: AnyObject? = nil,
-    solicited: Bool? = false, completionHandler: CycleCompletionHandler) -> Cycle {
-            
+    solicited: Bool = false) -> Cycle {
+        var cycle = self.cycleForResourceWithIdentifer(name,
+            URIValues: URIValues, requestObject: requestObject, solicited: solicited)
+        return cycle
+    }
+
+    func requestResourceWithIdentifer(name: String, identifier: String? = nil,
+    URIValues: AnyObject? = nil,
+    requestObject: AnyObject? = nil,
+    solicited: Bool = false, completionHandler: CycleCompletionHandler) -> Cycle {
+        var cycle = self.cycleForResourceWithIdentifer(name, identifier: identifier,
+            URIValues: URIValues, requestObject: requestObject, solicited: solicited)
+        cycle.start(completionHandler: completionHandler)
+        return cycle
+    }
+
+    func requestResource(name: String, URIValues: AnyObject? = nil,
+    requestObject: AnyObject? = nil,
+    solicited: Bool = false, completionHandler: CycleCompletionHandler) -> Cycle {
+        var cycle = self.requestResourceWithIdentifer(name, identifier: nil,
+            URIValues: URIValues, requestObject: requestObject, solicited: solicited,
+            completionHandler: completionHandler)
+        return cycle
     }
 
 } // class Service
