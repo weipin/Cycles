@@ -417,7 +417,7 @@ public class URITemplate {
                     state = .ScanningExpression
                     ++expressionCount
 
-                } else if (countElements(pctEncoded) > 0) {
+                } else if (!pctEncoded.isEmpty) {
                     switch countElements(pctEncoded) {
                     case 1:
                         if find(HEXDIG, c) {
@@ -516,7 +516,7 @@ public class URITemplate {
 
                             if (estate == .ScanningVarName) {
                                 if (j == "*" || j == ":") {
-                                    if countElements(varName) == 0 {
+                                    if varName.isEmpty {
                                         eError = .MalformedVarSpec
                                         break;
                                     }
@@ -589,7 +589,7 @@ public class URITemplate {
         // Handle ending
         var endingIndex = countElements(template)
         if state == .ScanningLiteral {
-            if countElements(pctEncoded) > 0 {
+            if !pctEncoded.isEmpty {
                 syntaxErrors += (URITemplateError.MalformedPctEncodedInLiteral, endingIndex)
                 result += encodeLiteralString(pctEncoded)
             }

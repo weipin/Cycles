@@ -61,7 +61,7 @@ public func ParseContentTypeLikeHeader(header: String) -> (type: String?,
             if let loc = find(str, "=") {
                 var k = str[str.startIndex..<loc]
                 k = k.stringByTrimmingCharactersInSet(wset)
-                if countElements(k) == 0 {
+                if k.isEmpty {
                     continue
                 }
                 var v = str[advance(loc, 1)..<str.endIndex]
@@ -177,7 +177,7 @@ parameters: Dictionary<String, [String]>) {
     for str in ary {
         if let loc = find(str, "=") {
             var k = str[str.startIndex..<loc]
-            if countElements(k) == 0 {
+            if k.isEmpty {
                 continue
             }
             k = k.lowercaseString

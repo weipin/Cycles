@@ -105,20 +105,20 @@ public class Service: NSObject {
     }
 
     public class func URLStringByJoiningComponents(part1: String, part2: String) -> String {
-        if countElements(part1) == 0 {
+        if part1.isEmpty {
             return part2
         }
 
-        if countElements(part2) == 0 {
+        if part2.isEmpty {
             return part1
         }
 
         var p1 = part1
         var p2 = part2
-        if countElements(part1) > 0 && part1[advance(part1.endIndex, -1)] == "/" {
+        if !part1.isEmpty && part1[advance(part1.endIndex, -1)] == "/" {
             p1 = part1[part1.startIndex ..< advance(part1.endIndex, -1)]
         }
-        if countElements(part2) > 0 && part2[part2.startIndex] == "/" {
+        if !part2.isEmpty && part2[part2.startIndex] == "/" {
             p2 = part2[advance(part2.startIndex, 1) ..< part2.endIndex]
         }
         var result = p1 + "/" + p2
