@@ -39,6 +39,8 @@
 		16E51785195A2F990015DCB8 /* Cycle+ConvenienceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */; };
 		16F874C1198E831E002B642C /* FooTestMoreService.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C51150198E7A2D00698BD5 /* FooTestMoreService.plist */; };
 		16F874C3198E8734002B642C /* GitHub.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16F874C2198E8734002B642C /* GitHub.plist */; };
+		16F874C5198E8EDB002B642C /* URITemplateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F874C4198E8EDB002B642C /* URITemplateTests.swift */; };
+		16F874C7198E8EE2002B642C /* URITemplateRFCTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 16F874C6198E8EE2002B642C /* URITemplateRFCTests.json */; };
 		16FAA01E19589E1C00CE1F47 /* upload.txt in Resources */ = {isa = PBXBuildFile; fileRef = 16FAA01D19589E1C00CE1F47 /* upload.txt */; };
 		16FAA0261958A17400CE1F47 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FAA0251958A17400CE1F47 /* Tests.swift */; };
 /* End PBXBuildFile section */
@@ -152,6 +154,8 @@
 		16E51782195A23270015DCB8 /* Cycle+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Cycle+Convenience.swift"; path = "../source/Cycle+Convenience.swift"; sourceTree = "<group>"; };
 		16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Cycle+ConvenienceTests.swift"; path = "../../tests/Cycle+ConvenienceTests.swift"; sourceTree = "<group>"; };
 		16F874C2198E8734002B642C /* GitHub.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GitHub.plist; sourceTree = SOURCE_ROOT; };
+		16F874C4198E8EDB002B642C /* URITemplateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = URITemplateTests.swift; path = ../../tests/URITemplateTests.swift; sourceTree = "<group>"; };
+		16F874C6198E8EE2002B642C /* URITemplateRFCTests.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = URITemplateRFCTests.json; sourceTree = "<group>"; };
 		16FAA01D19589E1C00CE1F47 /* upload.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = upload.txt; sourceTree = "<group>"; };
 		16FAA0251958A17400CE1F47 /* Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tests.swift; path = ../../tests/Tests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -226,6 +230,7 @@
 				1613F9E41955AA6B00CDD9FD /* HelperTests.swift */,
 				162019BD195CF68E00CA3A80 /* ProcessorTests.swift */,
 				16C5113E198DDBB800698BD5 /* ServiceTests.swift */,
+				16F874C4198E8EDB002B642C /* URITemplateTests.swift */,
 				1613F9C51955AA2500CDD9FD /* Supporting Files */,
 			);
 			path = CyclesTouchTests;
@@ -269,6 +274,7 @@
 				16C51149198E484D00698BD5 /* FooTestService_NameNotFound.plist */,
 				16C5114A198E484D00698BD5 /* FooTestService_NoResources.plist */,
 				16C5114B198E484D00698BD5 /* FooTestService_URITemplateNotFound.plist */,
+				16F874C6198E8EE2002B642C /* URITemplateRFCTests.json */,
 			);
 			name = data;
 			path = ../../tests/data;
@@ -376,6 +382,7 @@
 			files = (
 				16FAA01E19589E1C00CE1F47 /* upload.txt in Resources */,
 				16C51147198E461800698BD5 /* FooTestService.plist in Resources */,
+				16F874C7198E8EE2002B642C /* URITemplateRFCTests.json in Resources */,
 				16C5114C198E484D00698BD5 /* FooTestService_DuplicateName.plist in Resources */,
 				16C5114D198E484D00698BD5 /* FooTestService_NameNotFound.plist in Resources */,
 				16C51151198E7A2D00698BD5 /* FooTestMoreService.plist in Resources */,
@@ -415,6 +422,7 @@
 				1613F9EB1955E29200CDD9FD /* CycleTests.swift in Sources */,
 				16C5113F198DDBB800698BD5 /* ServiceTests.swift in Sources */,
 				165866BE1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */,
+				16F874C5198E8EDB002B642C /* URITemplateTests.swift in Sources */,
 				16D07506196A21C100045CE0 /* SessionTests.swift in Sources */,
 				162019BE195CF68E00CA3A80 /* ProcessorTests.swift in Sources */,
 				1613F9E51955AA6B00CDD9FD /* HelperTests.swift in Sources */,
