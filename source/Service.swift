@@ -29,11 +29,9 @@ enum ServiceKey: String {
     case Name = "Name"
     case URITemplate = "URITemplate"
     case Method = "Method"
-    case RequestProcessors = "RequestProcessors"
-    case ResponseProcessors = "ResponseProcessors"
 }
 
-enum CycleForResourceOption {
+public enum CycleForResourceOption {
     case Reuse
     case Replace
 }
@@ -59,21 +57,28 @@ public class Service: NSObject {
 
     var profile: Dictionary<String, AnyObject>!
     var session: Session!
-    var cyclesWithIdentifier = Dictionary<String, Cycle>()
+
+    public class func className() -> String {
+        assert(false)
+        return "Service"
+    }
 
     class func filenameOfDefaultProfile() -> String {
-        var className = NSStringFromClass(self)
+        var className = self.className()
         var filename = className + ".plist"
         return filename
     }
 
-    func defaultSession() -> Session {
+    public func defaultSession() -> Session {
         return Session()
     }
 
+    public func cycleDidCreateWithResourceName(cycle: Cycle, name: String) {
+    }
+
     class func profileForFilename(filename: String) -> Dictionary<String, AnyObject>? {
-        var className = NSStringFromClass(self)
-        var bundle = NSBundle(forClass: NSClassFromString(className))
+        var theClass: AnyClass! = self.classForCoder()
+        var bundle = NSBundle(forClass: theClass)
         if bundle == nil {
             return nil
         }
@@ -120,7 +125,7 @@ public class Service: NSObject {
         return result
     }
 
-    init(profile: Dictionary<String, AnyObject>?) {
+    public init(profile: Dictionary<String, AnyObject>? = nil) {
         super.init()
 
         self.session = self.defaultSession()
@@ -132,13 +137,14 @@ public class Service: NSObject {
         }
     }
 
-    func updateProfileFromLocalFile(URL: NSURL? = nil) -> Bool {
+    public func updateProfileFromLocalFile(URL: NSURL? = nil) -> Bool {
         var objectClass: AnyClass! = self.classForCoder
 
         if !URL {
-            var filename = objectClass.filenameOfDefaultProfile()
-            if let profile = objectClass.profileForFilename(filename) {
+            var filename = self.dynamicType.filenameOfDefaultProfile()
+            if let profile = self.dynamicType.profileForFilename(filename) {
                 self.profile = profile
+                return true
             }
             return false
         }
@@ -151,13 +157,15 @@ public class Service: NSObject {
         }
         if let profile = objectClass.profileForData(data) {
             self.profile = profile
+            return true
         }
         return false
     }
 
-    func verifyProfile(profile: Dictionary<String, AnyObject>? = nil) -> Bool {
+    public func verifyProfile(serviceProfile: Dictionary<String, AnyObject>? = nil) -> Bool {
+        var profile = serviceProfile
         if !profile {
-            self.profile = profile
+            profile = self.profile
         }
         assert(profile)
 
@@ -190,12 +198,13 @@ public class Service: NSObject {
 
         } else {
             println("Warning: no resources found in Service profile!");
+            return false
         }
 
         return true
     }
 
-    func resourceProfileForName(name: String) -> Dictionary<String, String>? {
+    public func resourceProfileForName(name: String) -> Dictionary<String, String>? {
         assert(self.profile)
 
         if let value: AnyObject = profile![ServiceKey.Resources.toRaw()] {
@@ -213,23 +222,22 @@ public class Service: NSObject {
         return nil
     }
 
-    func cycleForIdentifer(identifier: String) -> Cycle? {
-        return self.cyclesWithIdentifier[identifier]
+    public func cycleForIdentifer(identifier: String) -> Cycle? {
+        return self.session.cycleForIdentifer(identifier)
     }
 
-    func cycleForResourceWithIdentifer(name: String, identifier: String? = nil,
-    option: CycleForResourceOption = .Reuse, URIValues: AnyObject? = nil,
+    public func cycleForResourceWithIdentifer(name: String, identifier: String? = nil,
+    option: CycleForResourceOption = .Replace, URIValues: AnyObject? = nil,
     requestObject: AnyObject? = nil,
     solicited: Bool = false) -> Cycle {
         var cycle: Cycle!
         if identifier {
-            cycle = self.cyclesWithIdentifier[identifier!]
+            cycle = self.cycleForIdentifer(identifier!)
             if cycle {
                 if option == .Reuse {
-                    return cycle
+
                 } else if option == .Replace {
                     cycle.cancel(true)
-                    self.cyclesWithIdentifier.removeValueForKey(identifier!)
                     cycle = nil
                 } else {
                     assert(false)
@@ -242,32 +250,6 @@ public class Service: NSObject {
         }
 
         if let resourceProfile = self.resourceProfileForName(name) {
-            var value = resourceProfile[ServiceKey.RequestProcessors.toRaw()]
-            var requestProcessorObjects = [Processor]()
-            if let requestProcessorClasses = value?.componentsSeparatedByString(",") {
-                for i in requestProcessorClasses {
-                    if let theClass: AnyClass = NSClassFromString(i) {
-                        if let type = theClass as? Processor.Type {
-                            var processor = type()
-                            requestProcessorObjects.append(processor)
-                        }
-                    }
-                } // for requestProcessorClasses
-            } // if requestProcessorClasses
-
-            value = resourceProfile[ServiceKey.ResponseProcessors.toRaw()]
-            var responseProcessorObjects = [Processor]()
-            if let responseProcessorClasses = value?.componentsSeparatedByString(",") {
-                for i in responseProcessorClasses {
-                    if let theClass: AnyClass = NSClassFromString(i) {
-                        if let type = theClass as? Processor.Type {
-                            var processor = type()
-                            responseProcessorObjects.append(processor)
-                        }
-                    }
-                } // for responseProcessorClasses
-            } // if responseProcessorClasses
-
             var URITemplate = resourceProfile[ServiceKey.URITemplate.toRaw()]
             var part2 = ExpandURITemplate(URITemplate!, values: URIValues)
             var URLString = Service.URLStringByJoiningComponents(self.baseURLString, part2: part2)
@@ -283,12 +265,11 @@ public class Service: NSObject {
             cycle = Cycle(requestURL: URL, taskType: .Data, session: self.session,
                 requestMethod: method!, requestObject: requestObject)
             cycle.solicited = solicited
-            if countElements(requestProcessorObjects) > 0 {
-                cycle.requestProcessors = cycle.requestProcessors + requestProcessorObjects
+            if identifier {
+                cycle.identifier = identifier!
+                self.session.addCycleToCycleWithIdentifiers(cycle)
             }
-            if countElements(responseProcessorObjects) > 0 {
-                cycle.responseProcessors = cycle.responseProcessors + responseProcessorObjects
-            }
+            self.cycleDidCreateWithResourceName(cycle, name: name)
 
         } else {
             assert(false)
@@ -297,17 +278,15 @@ public class Service: NSObject {
         return cycle!
     }
 
-    func cycleForResource(name: String, URIValues: AnyObject? = nil,
-    requestObject: AnyObject? = nil,
-    solicited: Bool = false) -> Cycle {
+    public func cycleForResource(name: String, URIValues: AnyObject? = nil,
+    requestObject: AnyObject? = nil, solicited: Bool = false) -> Cycle {
         var cycle = self.cycleForResourceWithIdentifer(name,
             URIValues: URIValues, requestObject: requestObject, solicited: solicited)
         return cycle
     }
 
-    func requestResourceWithIdentifer(name: String, identifier: String? = nil,
-    URIValues: AnyObject? = nil,
-    requestObject: AnyObject? = nil,
+    public func requestResourceWithIdentifer(name: String, identifier: String,
+    URIValues: AnyObject? = nil, requestObject: AnyObject? = nil,
     solicited: Bool = false, completionHandler: CycleCompletionHandler) -> Cycle {
         var cycle = self.cycleForResourceWithIdentifer(name, identifier: identifier,
             URIValues: URIValues, requestObject: requestObject, solicited: solicited)
@@ -315,12 +294,12 @@ public class Service: NSObject {
         return cycle
     }
 
-    func requestResource(name: String, URIValues: AnyObject? = nil,
-    requestObject: AnyObject? = nil,
-    solicited: Bool = false, completionHandler: CycleCompletionHandler) -> Cycle {
-        var cycle = self.requestResourceWithIdentifer(name, identifier: nil,
-            URIValues: URIValues, requestObject: requestObject, solicited: solicited,
-            completionHandler: completionHandler)
+    public func requestResource(name: String, URIValues: AnyObject? = nil,
+    requestObject: AnyObject? = nil, solicited: Bool = false,
+    completionHandler: CycleCompletionHandler) -> Cycle {
+        var cycle = self.cycleForResourceWithIdentifer(name, identifier: nil,
+            URIValues: URIValues, requestObject: requestObject, solicited: solicited)
+        cycle.start(completionHandler: completionHandler)
         return cycle
     }
 

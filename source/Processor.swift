@@ -31,7 +31,7 @@ import Foundation
  * subclass or use one of the existing subclasses. You create subclass to convert
  * data between request/response data and your specific object.
  */
-public class Processor: NSObject {
+public class Processor {
     public required init() {
 
     }
@@ -266,7 +266,7 @@ public class JSONProcessor : Processor {
     }
 
     public override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
-        if let object = request.object as? NSDictionary {
+        if let object: AnyObject = request.object {
             var e: NSError?
             request.data = NSJSONSerialization.dataWithJSONObject(object, options: nil, error: &e)
             if e {

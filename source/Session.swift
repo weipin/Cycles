@@ -78,6 +78,7 @@ NSURLSessionDataDelegate {
     public var authentications = [Authentication]()
 
     public var cycles = [Cycle]()
+    var cyclesWithIdentifier = Dictionary<String, Cycle>()
 
     public let RetryPolicyMaximumRetryCount = 3 // TODO, use Type Variable
 
@@ -181,6 +182,9 @@ NSURLSessionDataDelegate {
         }
 
         self.cycles.append(cycle)
+        if !cycle.identifier.isEmpty {
+            self.cyclesWithIdentifier[cycle.identifier] = cycle
+        }
     }
 
 /*!
@@ -195,6 +199,9 @@ NSURLSessionDataDelegate {
         if index {
             self.cycles.removeAtIndex(index!)
         }
+        if !cycle.identifier.isEmpty {
+            self.cyclesWithIdentifier.removeValueForKey(cycle.identifier)
+        }
     }
 
     func cycleForTask(task: NSURLSessionTask) -> Cycle? {
@@ -206,7 +213,23 @@ NSURLSessionDataDelegate {
             cycle = i
             break
         }
+
+        // If this happens, probably the NSURLSessionTask was overwritten.
+        // Check if the cycle was `started` multiple times in the same loop
+        assert(cycle !== nil)
         return cycle
+    }
+
+    public func cycleForIdentifer(identifier: String) -> Cycle? {
+        var cycle = self.cyclesWithIdentifier[identifier]
+        return cycle
+    }
+
+    public func addCycleToCycleWithIdentifiers(cycle: Cycle) {
+        if cycle.identifier.isEmpty {
+            return
+        }
+        self.cyclesWithIdentifier[cycle.identifier] = cycle
     }
 
     public func shouldRetry(solicited: Bool, retriedCount: Int, request: Request,
@@ -400,7 +423,9 @@ NSURLSessionDataDelegate {
     public func cancelCycles(cycles: [Cycle], explicitly: Bool) {
         for cycle in cycles {
             cycle.explicitlyCanceling = explicitly
-            cycle.core!.cancel()
+            if let core = cycle.core {
+                core.cancel()
+            }
         }
     }
 

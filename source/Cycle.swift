@@ -117,6 +117,11 @@ public typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> V
  */
     public var solicited = false
 
+/*!
+ * The identifier for a cycle, supposed to be unique in one `Service`.
+ */
+    public var identifier = ""
+
     var _authentications: [Authentication]?
 /*!
  * An array of Authentication subclass objects. If the HTTP task requires
@@ -308,7 +313,8 @@ public typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> V
         }
         assert(self.completionHandler)
 
-        if self.core && self.core!.state == NSURLSessionTaskState.Running {
+        if self.core {
+            self.core!.resume()
             return
         }
 
@@ -320,6 +326,11 @@ public typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> V
         }
 
         self.prepare {(result: Bool) in
+            if self.core {
+                // task could have been assigned and started in another thread
+                return
+            }
+
             if !result {
                 var e = NSError(domain: CycleErrorDomain,
                     code: CycleErrorCode.PreparationFailure.toRaw(),

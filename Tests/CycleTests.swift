@@ -38,7 +38,7 @@ class CycleTests: XCTestCase {
     }
 
     func testGETShouldWork() {
-        var expection = self.expectationWithDescription("get")
+        var expection = self.expectationWithDescription("")
         var URL = tu_("hello")
         var cycle = Cycle(requestURL: URL)
 
@@ -53,7 +53,7 @@ class CycleTests: XCTestCase {
 
     // encoding
     func testGETTextEncodingFromHeaderShouldWork() {
-        var expection = self.expectationWithDescription("get")
+        var expection = self.expectationWithDescription("")
         var URL = tu_("echo?header=Content-Type%3Atext%2Fhtml%3B%20charset%3Dgb2312")
         var cycle = Cycle(requestURL: URL)
 
@@ -69,7 +69,7 @@ class CycleTests: XCTestCase {
     }
 
     func testGetTextEncodingWhenContentTypeContainsTextAndCharsetIsMissingShouldWork() {
-        var expection = self.expectationWithDescription("get")
+        var expection = self.expectationWithDescription("")
         var URL = tu_("echo?header=Content-Type%3Atext%2Fhtml")
         var cycle = Cycle(requestURL: URL)
 
@@ -85,7 +85,7 @@ class CycleTests: XCTestCase {
     }
 
     func testGetTextEncodingWithDetectionShouldWork() {
-        var expection = self.expectationWithDescription("get")
+        var expection = self.expectationWithDescription("")
         var URL = tu_("echo?header=Content-Type%3AXXXXXXX&content=%E4%BD%A0%E5%A5%BD&encoding=gb2312")
         var cycle = Cycle(requestURL: URL)
 
@@ -101,7 +101,7 @@ class CycleTests: XCTestCase {
     }
 
     func testGetTextEncodingWithLastFallBackShouldWork() {
-        var expection = self.expectationWithDescription("get")
+        var expection = self.expectationWithDescription("")
         var URL = tu_("echo?header=Content-Type%3AXXXXXXX")
         var cycle = Cycle(requestURL: URL)
 
@@ -118,7 +118,7 @@ class CycleTests: XCTestCase {
     // requests
     func testUploadDataShouldWork() {
         var data = "Hello World".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-        var expection = self.expectationWithDescription("upload")
+        var expection = self.expectationWithDescription("")
         var URL = tu_("dumpupload/")
         var cycle = Cycle(requestURL: URL, taskType: .Upload, requestMethod: "POST")
         cycle.dataToUpload = data
@@ -136,7 +136,7 @@ class CycleTests: XCTestCase {
         var bundle = NSBundle(identifier: TestBundleIdentifier)
         var file = bundle.URLForResource("upload", withExtension: "txt")
 
-        var expection = self.expectationWithDescription("upload")
+        var expection = self.expectationWithDescription("")
         var URL = tu_("dumpupload/")
         var cycle = Cycle(requestURL: URL, taskType: .Upload, requestMethod: "POST")
         cycle.fileToUpload = file
@@ -151,7 +151,7 @@ class CycleTests: XCTestCase {
     }
 
     func testDownloadShouldWork() {
-        var expection = self.expectationWithDescription("download")
+        var expection = self.expectationWithDescription("")
         var URL = tu_("echo?content=helloworld")
         var cycle = Cycle(requestURL: URL, taskType: .Download)
         cycle.downloadFileHandler = {(cycle: Cycle, location: NSURL?) in
@@ -169,7 +169,7 @@ class CycleTests: XCTestCase {
 
     // Auth
     func testBasicAuthShouldFail() {
-        var expection = self.expectationWithDescription("get")
+        var expection = self.expectationWithDescription("")
         var URL = tu_("hello_with_basic_auth")
         var cycle = Cycle(requestURL: URL)
 
@@ -183,7 +183,7 @@ class CycleTests: XCTestCase {
 
     func testBasicAuthShouldWork() {
         var auth = BasicAuthentication(username: "test", password: "12345")
-        var expection = self.expectationWithDescription("get")
+        var expection = self.expectationWithDescription("")
         var URL = tu_("hello_with_basic_auth")
         var cycle = Cycle(requestURL: URL)
         cycle.authentications = [auth]
@@ -198,7 +198,7 @@ class CycleTests: XCTestCase {
     }
 
     func testDigestAuthShouldFail() {
-        var expection = self.expectationWithDescription("get")
+        var expection = self.expectationWithDescription("")
         var URL = tu_("hello_with_digest_auth")
         var cycle = Cycle(requestURL: URL)
 
@@ -212,7 +212,7 @@ class CycleTests: XCTestCase {
 
     func testDigestAuthShouldWork() {
         var auth = BasicAuthentication(username: "test", password: "12345")
-        var expection = self.expectationWithDescription("get")
+        var expection = self.expectationWithDescription("")
         var URL = tu_("hello_with_digest_auth")
         var cycle = Cycle(requestURL: URL)
         cycle.authentications = [auth]
@@ -242,7 +242,7 @@ class CycleTests: XCTestCase {
     }
 
     func testRetryAboveMaxCountShouldFail() {
-        var expection = self.expectationWithDescription("get")
+        var expection = self.expectationWithDescription("")
         var URL = tu_("echo?code=408")
         var cycle = Cycle(requestURL: URL)
 
@@ -254,7 +254,7 @@ class CycleTests: XCTestCase {
     }
 
     func testRetryOnTimeoutAboveMaxCountShouldFail() {
-        var expection = self.expectationWithDescription("get")
+        var expection = self.expectationWithDescription("")
         var configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         configuration.timeoutIntervalForRequest = 1;
         configuration.timeoutIntervalForResource = 1
@@ -276,7 +276,7 @@ class CycleTests: XCTestCase {
 
     // processor
     func testJSONProcessorShouldWork() {
-        var expection = self.expectationWithDescription("JSON cycle")
+        var expection = self.expectationWithDescription("")
         var URL = tu_("dumpupload/")
         var cycle = Cycle(requestURL: URL, requestMethod: "POST",
                           requestObject: NSDictionary(object: "v1", forKey: "k1"),
@@ -296,7 +296,7 @@ class CycleTests: XCTestCase {
 
     // reserved
     func testReservedHTTPHeaderFieldsShouldWork() {
-        var expection = self.expectationWithDescription("get")
+        var expection = self.expectationWithDescription("")
         var URL = tu_("dumpmeta/")
         var session = Session()
         let str = "a reserved HTTP header"
@@ -311,7 +311,7 @@ class CycleTests: XCTestCase {
     }
 
     func testPreservedHTTPQueryParametersShouldWork() {
-        var expection = self.expectationWithDescription("get")
+        var expection = self.expectationWithDescription("")
         var URL = tu_("dumpmeta?k2=v2")
         var session = Session()
         session.setPreservedHTTPQueryParameter("k1", value: ["v1"])
@@ -325,7 +325,7 @@ class CycleTests: XCTestCase {
     }
 
     func testPreservedStateCodingShouldWork() {
-        var expection = self.expectationWithDescription("get")
+        var expection = self.expectationWithDescription("")
 
         var session1 = Session()
         let str = "a reserved HTTP header"

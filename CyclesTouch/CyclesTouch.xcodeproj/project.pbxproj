@@ -25,11 +25,20 @@
 		1648FC6F198BA17C00C5BAE5 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648FC6E198BA17C00C5BAE5 /* Service.swift */; };
 		165866BD1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */; };
 		165866BE1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */; };
-		16C5113D198DDA0D00698BD5 /* FooService.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C5113C198DDA0D00698BD5 /* FooService.plist */; };
 		16C5113F198DDBB800698BD5 /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C5113E198DDBB800698BD5 /* ServiceTests.swift */; };
+		16C51143198E163400698BD5 /* FooService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C51142198E163400698BD5 /* FooService.swift */; };
+		16C51145198E42AF00698BD5 /* FooService.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C51144198E42AF00698BD5 /* FooService.plist */; };
+		16C51147198E461800698BD5 /* FooTestService.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C51146198E461800698BD5 /* FooTestService.plist */; };
+		16C5114C198E484D00698BD5 /* FooTestService_DuplicateName.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C51148198E484D00698BD5 /* FooTestService_DuplicateName.plist */; };
+		16C5114D198E484D00698BD5 /* FooTestService_NameNotFound.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C51149198E484D00698BD5 /* FooTestService_NameNotFound.plist */; };
+		16C5114E198E484D00698BD5 /* FooTestService_NoResources.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C5114A198E484D00698BD5 /* FooTestService_NoResources.plist */; };
+		16C5114F198E484D00698BD5 /* FooTestService_URITemplateNotFound.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C5114B198E484D00698BD5 /* FooTestService_URITemplateNotFound.plist */; };
+		16C51151198E7A2D00698BD5 /* FooTestMoreService.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C51150198E7A2D00698BD5 /* FooTestMoreService.plist */; };
 		16D07506196A21C100045CE0 /* SessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D07505196A21C100045CE0 /* SessionTests.swift */; };
 		16E51783195A23270015DCB8 /* Cycle+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E51782195A23270015DCB8 /* Cycle+Convenience.swift */; };
 		16E51785195A2F990015DCB8 /* Cycle+ConvenienceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */; };
+		16F874C1198E831E002B642C /* FooTestMoreService.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C51150198E7A2D00698BD5 /* FooTestMoreService.plist */; };
+		16F874C3198E8734002B642C /* GitHub.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16F874C2198E8734002B642C /* GitHub.plist */; };
 		16FAA01E19589E1C00CE1F47 /* upload.txt in Resources */ = {isa = PBXBuildFile; fileRef = 16FAA01D19589E1C00CE1F47 /* upload.txt */; };
 		16FAA0261958A17400CE1F47 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FAA0251958A17400CE1F47 /* Tests.swift */; };
 /* End PBXBuildFile section */
@@ -129,11 +138,20 @@
 		1648FC6C198B9EF000C5BAE5 /* URITemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = URITemplate.swift; path = ../source/URITemplate.swift; sourceTree = "<group>"; };
 		1648FC6E198BA17C00C5BAE5 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Service.swift; path = ../source/Service.swift; sourceTree = "<group>"; };
 		165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkActivityIndicator.swift; path = ../source/NetworkActivityIndicator.swift; sourceTree = "<group>"; };
-		16C5113C198DDA0D00698BD5 /* FooService.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = FooService.plist; path = ../../tests/data/FooService.plist; sourceTree = "<group>"; };
 		16C5113E198DDBB800698BD5 /* ServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceTests.swift; path = ../../tests/ServiceTests.swift; sourceTree = "<group>"; };
+		16C51140198E160300698BD5 /* Playground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Playground.swift; sourceTree = "<group>"; };
+		16C51142198E163400698BD5 /* FooService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooService.swift; sourceTree = "<group>"; };
+		16C51144198E42AF00698BD5 /* FooService.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FooService.plist; sourceTree = SOURCE_ROOT; };
+		16C51146198E461800698BD5 /* FooTestService.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FooTestService.plist; sourceTree = "<group>"; };
+		16C51148198E484D00698BD5 /* FooTestService_DuplicateName.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FooTestService_DuplicateName.plist; sourceTree = "<group>"; };
+		16C51149198E484D00698BD5 /* FooTestService_NameNotFound.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FooTestService_NameNotFound.plist; sourceTree = "<group>"; };
+		16C5114A198E484D00698BD5 /* FooTestService_NoResources.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FooTestService_NoResources.plist; sourceTree = "<group>"; };
+		16C5114B198E484D00698BD5 /* FooTestService_URITemplateNotFound.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FooTestService_URITemplateNotFound.plist; sourceTree = "<group>"; };
+		16C51150198E7A2D00698BD5 /* FooTestMoreService.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FooTestMoreService.plist; sourceTree = "<group>"; };
 		16D07505196A21C100045CE0 /* SessionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionTests.swift; path = ../../tests/SessionTests.swift; sourceTree = "<group>"; };
 		16E51782195A23270015DCB8 /* Cycle+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Cycle+Convenience.swift"; path = "../source/Cycle+Convenience.swift"; sourceTree = "<group>"; };
 		16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Cycle+ConvenienceTests.swift"; path = "../../tests/Cycle+ConvenienceTests.swift"; sourceTree = "<group>"; };
+		16F874C2198E8734002B642C /* GitHub.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GitHub.plist; sourceTree = SOURCE_ROOT; };
 		16FAA01D19589E1C00CE1F47 /* upload.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = upload.txt; sourceTree = "<group>"; };
 		16FAA0251958A17400CE1F47 /* Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tests.swift; path = ../../tests/Tests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -179,9 +197,12 @@
 			isa = PBXGroup;
 			children = (
 				1613F9B91955AA2500CDD9FD /* AppDelegate.swift */,
-				16C5113C198DDA0D00698BD5 /* FooService.plist */,
+				16C51142198E163400698BD5 /* FooService.swift */,
+				16C51144198E42AF00698BD5 /* FooService.plist */,
+				16F874C2198E8734002B642C /* GitHub.plist */,
 				1613F9BB1955AA2500CDD9FD /* Images.xcassets */,
 				1613F9B71955AA2500CDD9FD /* Supporting Files */,
+				16C51140198E160300698BD5 /* Playground.swift */,
 			);
 			path = CyclesTouch;
 			sourceTree = "<group>";
@@ -242,6 +263,12 @@
 			isa = PBXGroup;
 			children = (
 				16FAA01D19589E1C00CE1F47 /* upload.txt */,
+				16C51146198E461800698BD5 /* FooTestService.plist */,
+				16C51150198E7A2D00698BD5 /* FooTestMoreService.plist */,
+				16C51148198E484D00698BD5 /* FooTestService_DuplicateName.plist */,
+				16C51149198E484D00698BD5 /* FooTestService_NameNotFound.plist */,
+				16C5114A198E484D00698BD5 /* FooTestService_NoResources.plist */,
+				16C5114B198E484D00698BD5 /* FooTestService_URITemplateNotFound.plist */,
 			);
 			name = data;
 			path = ../../tests/data;
@@ -337,7 +364,9 @@
 			files = (
 				1613F9BC1955AA2500CDD9FD /* Images.xcassets in Resources */,
 				1613F9DD1955AA5800CDD9FD /* Cycles.strings in Resources */,
-				16C5113D198DDA0D00698BD5 /* FooService.plist in Resources */,
+				16F874C1198E831E002B642C /* FooTestMoreService.plist in Resources */,
+				16C51145198E42AF00698BD5 /* FooService.plist in Resources */,
+				16F874C3198E8734002B642C /* GitHub.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +375,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				16FAA01E19589E1C00CE1F47 /* upload.txt in Resources */,
+				16C51147198E461800698BD5 /* FooTestService.plist in Resources */,
+				16C5114C198E484D00698BD5 /* FooTestService_DuplicateName.plist in Resources */,
+				16C5114D198E484D00698BD5 /* FooTestService_NameNotFound.plist in Resources */,
+				16C51151198E7A2D00698BD5 /* FooTestMoreService.plist in Resources */,
+				16C5114E198E484D00698BD5 /* FooTestService_NoResources.plist in Resources */,
+				16C5114F198E484D00698BD5 /* FooTestService_URITemplateNotFound.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,6 +395,7 @@
 				1613F9E21955AA5800CDD9FD /* Response.swift in Sources */,
 				165866BD1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */,
 				1613F9E01955AA5800CDD9FD /* Processor.swift in Sources */,
+				16C51143198E163400698BD5 /* FooService.swift in Sources */,
 				1613F9DE1955AA5800CDD9FD /* Error.swift in Sources */,
 				1613F9BA1955AA2500CDD9FD /* AppDelegate.swift in Sources */,
 				16E51783195A23270015DCB8 /* Cycle+Convenience.swift in Sources */,

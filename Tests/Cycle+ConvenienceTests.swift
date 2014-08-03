@@ -39,7 +39,7 @@ class CycleConvenienceTests: XCTestCase {
     }
 
     func testGETShouldWork() {
-        var expection = self.expectationWithDescription("get")
+        var expection = self.expectationWithDescription("")
         var URLString = t_("hello")
         Cycle.get(URLString, completionHandler: {(cycle, error) in
             XCTAssertFalse(error)
@@ -52,7 +52,7 @@ class CycleConvenienceTests: XCTestCase {
     }
 
     func testGETWithParametersShouldWork() {
-        var expection = self.expectationWithDescription("get")
+        var expection = self.expectationWithDescription("")
         var URLString = t_("echo")
         Cycle.get(URLString, parameters: ["content": ["helloworld"]],
                   completionHandler: {(cycle, error) in
@@ -66,7 +66,7 @@ class CycleConvenienceTests: XCTestCase {
     }
 
     func testPOSTShouldWork() {
-        var expection = self.expectationWithDescription("post")
+        var expection = self.expectationWithDescription("")
         var URLStrng = t_("dumpupload/")
         var requestObject = NSDictionary(object: "v1", forKey: "k1")
         Cycle.post(URLStrng, requestObject: requestObject,
@@ -87,7 +87,7 @@ class CycleConvenienceTests: XCTestCase {
 
     func testUploadShouldWork() {
         var data = "Hello World".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-        var expection = self.expectationWithDescription("upload")
+        var expection = self.expectationWithDescription("")
         var URLString = t_("dumpupload/")
         Cycle.upload(URLString, data: data!, completionHandler: {
             (cycle, error) in
@@ -100,7 +100,7 @@ class CycleConvenienceTests: XCTestCase {
     }
 
     func testDownloadShouldWork() {
-        var expection = self.expectationWithDescription("download")
+        var expection = self.expectationWithDescription("")
         var URLString = t_("echo?content=helloworld")
         Cycle.download(URLString,
             downloadFileHandler: {(cycle, location) in
