@@ -32,8 +32,6 @@ public enum URITemplateError {
     case MalformedVarSpec
 }
 
-let URITemplateSyntaxErrorsKey = "SyntaxErrors"
-
 public class URITemplate {
     enum State {
         case ScanningLiteral
@@ -79,7 +77,7 @@ public class URITemplate {
  * error, the second element indicates the position (index) of the error in the URITemplate.
  */
     public class func process(template: String, values: AnyObject) -> (String, Array<(URITemplateError, Int)>) {
-        // TODO: Use class variable
+        // FIXME: Use class variable
         struct ClassVariable {
             static let BehaviorTable = [
                 "NUL": Behavior(first: "",  sep: ",", named: false, ifemp: "",  allow: .U),
@@ -408,7 +406,7 @@ public class URITemplate {
         var pctEncoded = ""
         var expression = ""
         var expressionCount = 0
-        var syntaxErrors = Array<(URITemplateError, Int)>()
+        var errors = Array<(URITemplateError, Int)>()
 
         for (index, c) in enumerate(template) {
             switch state {
@@ -423,7 +421,7 @@ public class URITemplate {
                         if find(HEXDIG, c) {
                             pctEncoded += c
                         } else {
-                            syntaxErrors += (URITemplateError.MalformedPctEncodedInLiteral, index)
+                            errors += (URITemplateError.MalformedPctEncodedInLiteral, index)
                             result += encodeLiteralString(pctEncoded)
                             result += encodeLiteralCharacter(c)
                             state = .ScanningLiteral
@@ -438,7 +436,7 @@ public class URITemplate {
                             pctEncoded = ""
 
                         } else {
-                            syntaxErrors += (URITemplateError.MalformedPctEncodedInLiteral, index)
+                            errors += (URITemplateError.MalformedPctEncodedInLiteral, index)
                             result += encodeLiteralString(pctEncoded)
                             result += encodeLiteralCharacter(c)
                             state = .ScanningLiteral
@@ -457,7 +455,7 @@ public class URITemplate {
                     result += c
 
                 } else {
-                    syntaxErrors += (URITemplateError.NonLiteralsCharacterFoundInLiteral, index)
+                    errors += (URITemplateError.NonLiteralsCharacterFoundInLiteral, index)
                     result += c
                 }
 
@@ -467,7 +465,7 @@ public class URITemplate {
                     // Process expression
                     let (operator, error) = findOperatorInExpression(expression)
                     if error {
-                        syntaxErrors += (URITemplateError.MalformedPctEncodedInLiteral, index)
+                        errors += (URITemplateError.MalformedPctEncodedInLiteral, index)
                         result = result + "{" + expression + "}"
 
                     } else {
@@ -476,7 +474,7 @@ public class URITemplate {
                         // Skip the operator
                         var skipCount = 0
                         if operator {
-                            if expression[expression.startIndex] == "%" {
+                            if expression.hasPrefix("%") {
                                 skipCount = 3
                             } else {
                                 skipCount = 1
@@ -557,7 +555,7 @@ public class URITemplate {
                         } // for expression
 
                         if eError {
-                            syntaxErrors += (eError!, index + jIndex)
+                            errors += (eError!, index + jIndex)
                             let remainingExpression = str[advance(str.startIndex, jIndex)..<str.endIndex]
                             if operator {
                                 result = result + "{" + operator! + remainingExpression + "}"
@@ -590,22 +588,22 @@ public class URITemplate {
         var endingIndex = countElements(template)
         if state == .ScanningLiteral {
             if !pctEncoded.isEmpty {
-                syntaxErrors += (URITemplateError.MalformedPctEncodedInLiteral, endingIndex)
+                errors += (URITemplateError.MalformedPctEncodedInLiteral, endingIndex)
                 result += encodeLiteralString(pctEncoded)
             }
 
         } else if (state == .ScanningExpression) {
-            syntaxErrors += (URITemplateError.ExpressionEndedWithoutClosing, endingIndex)
+            errors += (URITemplateError.ExpressionEndedWithoutClosing, endingIndex)
             result = result + "{" + expression
 
         } else {
             assert(false);
         }
         if expressionCount == 0 {
-            syntaxErrors += (URITemplateError.NonExpressionFound, endingIndex)
+            errors += (URITemplateError.NonExpressionFound, endingIndex)
         }
 
-        return (result, syntaxErrors)
+        return (result, errors)
     } // process
 
 } // URITemplate

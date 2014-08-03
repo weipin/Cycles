@@ -249,7 +249,7 @@ public class TextProcessor : Processor {
             encoding = NSUTF8StringEncoding
         }
 
-        // TODO: How can we tell if the string creating fails?
+        // TODO: How can we tell if the string creation fails?
         response.text = NSString(data: response.data, encoding: encoding!)
         return true
     }

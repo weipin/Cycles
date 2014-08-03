@@ -115,10 +115,10 @@ public class Service: NSObject {
 
         var p1 = part1
         var p2 = part2
-        if !part1.isEmpty && part1[advance(part1.endIndex, -1)] == "/" {
+        if !part1.isEmpty && part1.hasSuffix("/") {
             p1 = part1[part1.startIndex ..< advance(part1.endIndex, -1)]
         }
-        if !part2.isEmpty && part2[part2.startIndex] == "/" {
+        if !part2.isEmpty && part2.hasPrefix("/") {
             p2 = part2[advance(part2.startIndex, 1) ..< part2.endIndex]
         }
         var result = p1 + "/" + p2

@@ -36,7 +36,7 @@ import UIKit
  */
 public class Session: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate,
 NSURLSessionDataDelegate {
-     // TODO: Type Variable
+     // FIXME: Type Variable
     public let PreservedHTTPHeadersKey = "PreservedHTTPHeaders"
     public let PreservedHTTPQueryParametersKey = "PreservedHTTPQueryParameters"
 
@@ -80,7 +80,7 @@ NSURLSessionDataDelegate {
     public var cycles = [Cycle]()
     var cyclesWithIdentifier = Dictionary<String, Cycle>()
 
-    public let RetryPolicyMaximumRetryCount = 3 // TODO, use Type Variable
+    public let RetryPolicyMaximumRetryCount = 3 // FIXME, use Type Variable
 
 /*!
  * @discussion 
@@ -255,7 +255,7 @@ NSURLSessionDataDelegate {
         return false
     }
 
-    // NSURLSessionTaskDelegate
+    //MARK: NSURLSessionTaskDelegate
     public func URLSession(session: NSURLSession!, task: NSURLSessionTask!,
     didCompleteWithError error: NSError!) {
         if let indicator = self.networkActivityIndicator {
@@ -366,7 +366,7 @@ NSURLSessionDataDelegate {
         }
     }
 
-    // NSURLSessionDataDelegate
+    //MARK: NSURLSessionDataDelegate
     public func URLSession(session: NSURLSession!, dataTask: NSURLSessionDataTask!,
     didReceiveData data: NSData!) {
         var cycle = self.cycleForTask(dataTask)!
@@ -374,7 +374,7 @@ NSURLSessionDataDelegate {
         cycle.response.appendData(data)
     }
 
-    // NSURLSessionDownloadDelegate
+    //MARK: NSURLSessionDownloadDelegate
     func URLSession(session: NSURLSession!, downloadTask: NSURLSessionDownloadTask!,
     didFinishDownloadingToURL location: NSURL!) {
         var cycle = self.cycleForTask(downloadTask)!
@@ -407,7 +407,7 @@ NSURLSessionDataDelegate {
         }
     }
 
-// ---
+//MARK: Cancel
 /*!
  * @abstract 
  * Cancel an array of HTTP request operations.
@@ -464,7 +464,7 @@ NSURLSessionDataDelegate {
         self.core.finishTasksAndInvalidate()
     }
 
-// -- Preserved
+//MARK: Preserved
     public func setPreservedHTTPHeaderField(field: String, value: String) {
         self.preservedHTTPHeaders[field.lowercaseString] = value
     }

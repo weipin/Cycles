@@ -176,7 +176,7 @@ public class BasicAuthentication : Authentication {
     var presentingViewController: UIViewController?
     var interactionCompletionHandler: AuthenticationInteractionCompletionHandler! = nil
     let Methods = [NSURLAuthenticationMethodHTTPBasic, NSURLAuthenticationMethodHTTPDigest,
-        NSURLAuthenticationMethodNTLM] // TODO: use Type Variable once available
+        NSURLAuthenticationMethodNTLM] // FIXME: use Type Variable
 
     public init(username: String, password: String) {
         self.username = username
