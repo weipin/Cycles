@@ -308,6 +308,10 @@ public typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> V
         }
         assert(self.completionHandler)
 
+        if self.core && self.core!.state == NSURLSessionTaskState.Running {
+            return
+        }
+
         var index = self.session.indexOfCycle(self)
         if !index {
             // Cycle already cancelled.

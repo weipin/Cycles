@@ -25,6 +25,8 @@
 		1648FC6F198BA17C00C5BAE5 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648FC6E198BA17C00C5BAE5 /* Service.swift */; };
 		165866BD1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */; };
 		165866BE1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */; };
+		16C5113D198DDA0D00698BD5 /* FooService.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C5113C198DDA0D00698BD5 /* FooService.plist */; };
+		16C5113F198DDBB800698BD5 /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C5113E198DDBB800698BD5 /* ServiceTests.swift */; };
 		16D07506196A21C100045CE0 /* SessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D07505196A21C100045CE0 /* SessionTests.swift */; };
 		16E51783195A23270015DCB8 /* Cycle+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E51782195A23270015DCB8 /* Cycle+Convenience.swift */; };
 		16E51785195A2F990015DCB8 /* Cycle+ConvenienceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */; };
@@ -127,6 +129,8 @@
 		1648FC6C198B9EF000C5BAE5 /* URITemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = URITemplate.swift; path = ../source/URITemplate.swift; sourceTree = "<group>"; };
 		1648FC6E198BA17C00C5BAE5 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Service.swift; path = ../source/Service.swift; sourceTree = "<group>"; };
 		165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkActivityIndicator.swift; path = ../source/NetworkActivityIndicator.swift; sourceTree = "<group>"; };
+		16C5113C198DDA0D00698BD5 /* FooService.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = FooService.plist; path = ../../tests/data/FooService.plist; sourceTree = "<group>"; };
+		16C5113E198DDBB800698BD5 /* ServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceTests.swift; path = ../../tests/ServiceTests.swift; sourceTree = "<group>"; };
 		16D07505196A21C100045CE0 /* SessionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionTests.swift; path = ../../tests/SessionTests.swift; sourceTree = "<group>"; };
 		16E51782195A23270015DCB8 /* Cycle+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Cycle+Convenience.swift"; path = "../source/Cycle+Convenience.swift"; sourceTree = "<group>"; };
 		16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Cycle+ConvenienceTests.swift"; path = "../../tests/Cycle+ConvenienceTests.swift"; sourceTree = "<group>"; };
@@ -175,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				1613F9B91955AA2500CDD9FD /* AppDelegate.swift */,
+				16C5113C198DDA0D00698BD5 /* FooService.plist */,
 				1613F9BB1955AA2500CDD9FD /* Images.xcassets */,
 				1613F9B71955AA2500CDD9FD /* Supporting Files */,
 			);
@@ -199,6 +204,7 @@
 				16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */,
 				1613F9E41955AA6B00CDD9FD /* HelperTests.swift */,
 				162019BD195CF68E00CA3A80 /* ProcessorTests.swift */,
+				16C5113E198DDBB800698BD5 /* ServiceTests.swift */,
 				1613F9C51955AA2500CDD9FD /* Supporting Files */,
 			);
 			path = CyclesTouchTests;
@@ -331,6 +337,7 @@
 			files = (
 				1613F9BC1955AA2500CDD9FD /* Images.xcassets in Resources */,
 				1613F9DD1955AA5800CDD9FD /* Cycles.strings in Resources */,
+				16C5113D198DDA0D00698BD5 /* FooService.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +377,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1613F9EB1955E29200CDD9FD /* CycleTests.swift in Sources */,
+				16C5113F198DDBB800698BD5 /* ServiceTests.swift in Sources */,
 				165866BE1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */,
 				16D07506196A21C100045CE0 /* SessionTests.swift in Sources */,
 				162019BE195CF68E00CA3A80 /* ProcessorTests.swift in Sources */,

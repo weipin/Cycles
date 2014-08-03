@@ -78,7 +78,7 @@ public class URITemplate {
  * recorded in expanding the URITemplate. The first element indicates the type of 
  * error, the second element indicates the position (index) of the error in the URITemplate.
  */
-    public class func process(template: String, values: AnyObject? = nil) -> (String, Array<(URITemplateError, Int)>) {
+    public class func process(template: String, values: AnyObject) -> (String, Array<(URITemplateError, Int)>) {
         // TODO: Use class variable
         struct ClassVariable {
             static let BehaviorTable = [
@@ -203,7 +203,7 @@ public class URITemplate {
         }
 
         func expandVarSpec(varName: String, modifier: Character?, prefixLength :Int,
-        behavior: Behavior, values: AnyObject?) -> String {
+        behavior: Behavior, values: AnyObject) -> String {
             var result = ""
 
             if varName == "" {
@@ -216,7 +216,7 @@ public class URITemplate {
             } else if let d = values as? NSDictionary {
                 value = d.objectForKey(varName)
             } else {
-                value = values?.objectForKey?(varName)
+                value = values.objectForKey?(varName)
             }
 
             if let str = stringOfAnyObject(value) {
@@ -628,8 +628,12 @@ public class URITemplate {
 * @result
 * The expanded URITemplate
 */
-public func ExpandURITemplate(template: String, values: AnyObject?) -> String {
-    let (URLString, errors) = URITemplate.process(template, values: values);
+public func ExpandURITemplate(template: String, values: AnyObject? = nil) -> String {
+    var provider: AnyObject? = values
+    if !provider {
+        provider = Dictionary<String, AnyObject>()
+    }
+    let (URLString, errors) = URITemplate.process(template, values: provider!);
     return URLString
 }
 

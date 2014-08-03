@@ -99,6 +99,27 @@ public class Service: NSObject {
         return profile
     }
 
+    public class func URLStringByJoiningComponents(part1: String, part2: String) -> String {
+        if countElements(part1) == 0 {
+            return part2
+        }
+
+        if countElements(part2) == 0 {
+            return part1
+        }
+
+        var p1 = part1
+        var p2 = part2
+        if countElements(part1) > 0 && part1[advance(part1.endIndex, -1)] == "/" {
+            p1 = part1[part1.startIndex ..< advance(part1.endIndex, -1)]
+        }
+        if countElements(part2) > 0 && part2[part2.startIndex] == "/" {
+            p2 = part2[advance(part2.startIndex, 1) ..< part2.endIndex]
+        }
+        var result = p1 + "/" + p2
+        return result
+    }
+
     init(profile: Dictionary<String, AnyObject>?) {
         super.init()
 
@@ -205,9 +226,9 @@ public class Service: NSObject {
             cycle = self.cyclesWithIdentifier[identifier!]
             if cycle {
                 if option == .Reuse {
-                    return cycle!
+                    return cycle
                 } else if option == .Replace {
-                    cycle!.cancel(true)
+                    cycle.cancel(true)
                     self.cyclesWithIdentifier.removeValueForKey(identifier!)
                     cycle = nil
                 } else {
@@ -247,19 +268,9 @@ public class Service: NSObject {
                 } // for responseProcessorClasses
             } // if responseProcessorClasses
 
-            var URLString = self.baseURLString
             var URITemplate = resourceProfile[ServiceKey.URITemplate.toRaw()]
-            if countElements(URITemplate!) > 0 {
-                var part1 = self.baseURLString
-                var part2 = ExpandURITemplate(URITemplate!, URIValues)
-                if countElements(part1) > 0 && part1[part1.endIndex] == "/" {
-                    part1 = part1[part1.startIndex ..< advance(part1.endIndex, -1)]
-                }
-                if countElements(part2) > 0 && part2[part2.startIndex] == "/" {
-                    part2 = part2[advance(part2.startIndex, 1) ..< part1.endIndex]
-                }
-                URLString = part1 + "/" + part2
-            }
+            var part2 = ExpandURITemplate(URITemplate!, values: URIValues)
+            var URLString = Service.URLStringByJoiningComponents(self.baseURLString, part2: part2)
 
             var URL = NSURL.URLWithString(URLString)
             assert(URL)
