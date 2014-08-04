@@ -12,6 +12,12 @@
 			<key>URITemplate</key>
 			<string>/user</string>
 		</dict>
+		<dict>
+			<key>Name</key>
+			<string>search</string>
+			<key>URITemplate</key>
+			<string>/search/repositories{?q,sort,order}</string>
+		</dict>
 	</array>
 </dict>
 </plist>

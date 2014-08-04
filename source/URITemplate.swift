@@ -23,6 +23,33 @@
 
 import Foundation
 
+/*!
+* @abstract
+* Expand a URITemplate
+*
+* @dicussion
+* This is a convenient version of the `process` method in class `URITemplate`
+*
+* @param template
+* The URITemplate to expand
+*
+* @param values
+* The object to provide values when the function expands the URI Template.
+* It can be a Swift Dictionary, a NSDictionary, a NSDictionary subclass or any
+* object has method `objectForKey`.
+*
+* @result
+* The expanded URITemplate
+*/
+public func ExpandURITemplate(template: String, values: AnyObject? = nil) -> String {
+    var provider: AnyObject? = values
+    if !provider {
+        provider = Dictionary<String, AnyObject>()
+    }
+    let (URLString, errors) = URITemplate.process(template, values: provider!);
+    return URLString
+}
+
 public enum URITemplateError {
     case MalformedPctEncodedInLiteral
     case NonLiteralsCharacterFoundInLiteral
@@ -32,6 +59,11 @@ public enum URITemplateError {
     case MalformedVarSpec
 }
 
+/*!
+* @discussion
+* This class is an implementation of URI Template (RFC6570). You probably
+* wouldn't need to use this class but the convenient function ExpandURITemplate.
+*/
 public class URITemplate {
     enum State {
         case ScanningLiteral
@@ -607,31 +639,4 @@ public class URITemplate {
     } // process
 
 } // URITemplate
-
-/*!
-* @abstract
-* Expand a URITemplate
-*
-* @dicussion
-* This is a convenient version for the `process` method in class `URITemplate`
-*
-* @param template
-* The URITemplate to expand
-*
-* @param values
-* The object to provide values when the function expands the URITemplate.
-* It can be a Swift Dictionary, a NSDictionary, a NSDictionary subclass or any
-* object has method `objectForKey`.
-*
-* @result
-* The expanded URITemplate
-*/
-public func ExpandURITemplate(template: String, values: AnyObject? = nil) -> String {
-    var provider: AnyObject? = values
-    if !provider {
-        provider = Dictionary<String, AnyObject>()
-    }
-    let (URLString, errors) = URITemplate.process(template, values: provider!);
-    return URLString
-}
 

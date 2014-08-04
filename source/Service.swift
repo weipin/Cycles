@@ -32,13 +32,22 @@ enum ServiceKey: String {
 }
 
 public enum CycleForResourceOption {
-    case Reuse
-    case Replace
+    case Reuse /* If there is a Cycle with the specified identifier, the Service will reuse it. */
+    case Replace /* If there is a Cycle with the specified identifier, the Service will cancel it, create a new Cycle and replace the existing one. */
 }
 
+/*!
+ * @discussion 
+ * This class is an abstract class you use to represent a "service".
+ * Because it is abstract, you do not use this class directly but instead
+ * subclass.
+ */
 public class Service: NSObject {
     var _baseURLString: String?
 
+/*!
+ * The string represents the first part of all URLs the Serivce will produce.
+ */
     var baseURLString: String {
     get {
         if (_baseURLString) {
@@ -55,10 +64,17 @@ public class Service: NSObject {
     }
     }
 
+/*!
+ * A Dictionary describes the resources of a service.
+ */
     var profile: Dictionary<String, AnyObject>!
     var session: Session!
 
+/*!
+ * MUST be overridden
+ */
     public class func className() -> String {
+        //TODO: Find a way to obtain class name
         assert(false)
         return "Service"
     }
@@ -69,13 +85,23 @@ public class Service: NSObject {
         return filename
     }
 
+/*!
+ * Override this method to customize the Session
+ */
     public func defaultSession() -> Session {
         return Session()
     }
 
+/*!
+ * Override this method to customize the specific Cycles.
+ */
     public func cycleDidCreateWithResourceName(cycle: Cycle, name: String) {
+
     }
 
+/*!
+ * Find and read a service profile in the bundle with specified filename.
+ */
     class func profileForFilename(filename: String) -> Dictionary<String, AnyObject>? {
         var theClass: AnyClass! = self.classForCoder()
         var bundle = NSBundle(forClass: theClass)
@@ -226,6 +252,31 @@ public class Service: NSObject {
         return self.session.cycleForIdentifer(identifier)
     }
 
+/*!
+ * @abstract 
+ * Create a Cycle object based on the specified resource profile and parameters
+ *
+ * @param name
+ * The name of the resouce, MUST present in the profile. The name is case sensitive.
+ *
+ * @param identifer
+ * If present, the identifer will be used to locate an existing cycle.
+ *
+ * @param option
+ * Decide the Cycle creation logic if a Cycle with the specified identifer already exists.
+ *
+ * @param URIValues
+ * The object to provide values for the URI Template expanding.
+ *
+ * @param requestObject 
+ * The property object of the Request for the Cycle.
+ *
+ * @param solicited
+ * The same property of Cycle.
+ *
+ * @result
+ * A new or existing Cycle.
+ */
     public func cycleForResourceWithIdentifer(name: String, identifier: String? = nil,
     option: CycleForResourceOption = .Replace, URIValues: AnyObject? = nil,
     requestObject: AnyObject? = nil,
@@ -278,6 +329,25 @@ public class Service: NSObject {
         return cycle!
     }
 
+/*!
+ * @abstract 
+ * Create a Cycle object based on the specified resource profile and parameters
+ *
+ * @param name
+ * The name of the resouce, MUST present in the profile. The name is case sensitive.
+ *
+ * @param URIValues
+ * The object to provide values for the URI Template expanding.
+ *
+ * @param requestObject 
+ * The property object of the Request for the Cycle.
+ *
+ * @param solicited
+ * The same property of Cycle.
+ *
+ * @result
+ * A new or existing Cycle.
+ */
     public func cycleForResource(name: String, URIValues: AnyObject? = nil,
     requestObject: AnyObject? = nil, solicited: Bool = false) -> Cycle {
         var cycle = self.cycleForResourceWithIdentifer(name,
@@ -285,6 +355,33 @@ public class Service: NSObject {
         return cycle
     }
 
+/*!
+ * @abstract 
+ * Create a Cycle object based on the specified resource profile and parameters,
+ * and start the Cycle.
+ *
+ * @param name
+ * The name of the resouce, MUST present in the profile. The name is case sensitive.
+ *
+ * @param identifer
+ * If present, the identifer will be used to locate an existing cycle.
+ *
+ * @param URIValues
+ * The object to provide values for the URI Template expanding.
+ *
+ * @param requestObject 
+ * The property object of the Request for the Cycle.
+ *
+ * @param solicited
+ * The same property of Cycle.
+ *
+ * @param completionHandler
+ * Called when the content of the given resource is retrieved
+ * or an error occurred.
+ *
+ * @result
+ * A new or existing Cycle.
+ */
     public func requestResourceWithIdentifer(name: String, identifier: String,
     URIValues: AnyObject? = nil, requestObject: AnyObject? = nil,
     solicited: Bool = false, completionHandler: CycleCompletionHandler) -> Cycle {
@@ -294,6 +391,30 @@ public class Service: NSObject {
         return cycle
     }
 
+/*!
+ * @abstract 
+ * Create a Cycle object based on the specified resource profile and parameters,
+ * and start the Cycle.
+ *
+ * @param name
+ * The name of the resouce, MUST present in the profile. The name is case sensitive.
+ *
+ * @param URIValues
+ * The object to provide values for the URI Template expanding.
+ *
+ * @param requestObject 
+ * The property object of the Request for the Cycle.
+ *
+ * @param solicited
+ * The same property of Cycle.
+ *
+ * @param completionHandler
+ * Called when the content of the given resource is retrieved
+ * or an error occurred.
+ *
+ * @result
+ * A new or existing Cycle.
+ */
     public func requestResource(name: String, URIValues: AnyObject? = nil,
     requestObject: AnyObject? = nil, solicited: Bool = false,
     completionHandler: CycleCompletionHandler) -> Cycle {
