@@ -67,7 +67,7 @@ public class Service: NSObject {
 /*!
  * A Dictionary describes the resources of a service.
  */
-    var profile: Dictionary<String, AnyObject>!
+    public var profile: Dictionary<String, AnyObject>!
     var session: Session!
 
 /*!

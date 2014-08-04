@@ -1,39 +1,47 @@
 Service profile
 ===============
 
-A Service profile is a `Property Lists`_ file which describes a Service for base 
+A Service profile is a dictionary which describes a Service with base 
 URL, endpoints, etc. Here is a `profile example`_ of the GH service.
 
-.. _`Property Lists`: https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/PropertyLists/Introduction/Introduction.html.
 .. _`profile example`: https://github.com/weipin/Cycles/blob/master/CyclesTouch/GH.plist
+
+
+Use a Property Lists as profile
+-------------------------------
+
+You can store a profile in a `Property Lists`_ file and bundle the file into
+the app. The Property Lists file must be named after the Service subclass name. 
+For example, the default profile name of class GH must be "GH.plist".
+
+.. _`Property Lists`: https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/PropertyLists/Introduction/Introduction.html.
 
 
 Assign a profile to the Service
 -------------------------------
 
-"One Service subclass pairs one physical Profile file" isn't required but a 
+"One physical Profile pairs one Service subclass" isn't required but a 
 convention. The convention simplifies the management of the Service subclasses, 
 and can make creating a Service easy.
 
-A profile is nothing but a dictionary. As long as the profile is valid, you can 
-assign the dictionary to the property `profile` of the Service. The dictionary 
-can be passed to the initializer when the Session is being created, or assigned 
-after the creation to replace the existing one.
+As mentioned above, a profile is nothing but a dictionary. As long as the profile 
+is valid, the dictionary can be passed to the initializer when the Session is 
+being created, or assigned to an existing one as property `profile`.
 
-In such case, how to create the profile dictionary is completely under your 
+In such case, creating the profile dictionary is completely under your 
 control. You can create it from code, from another local file or a remote file 
 fetched from web.
 
-Pass the profile through initializer.
-```
-// dict is a Dictionary with valid profile data
-var session = GH(profile: dict)
-```
+Pass a profile through initializer::
 
-Replace the existing profile.
-```
-session.profile = dict
-```
+  // dict is a Dictionary with valid profile data
+  var session = GH(profile: dict)
+
+
+Replace the existing profile::
+
+  session.profile = dict
+
 
 Profile specification
 ---------------------
@@ -65,10 +73,9 @@ Verifying
 ---------
 
 Use the method `verifyProfile` to verify a specified profile. The method will 
-return `false` and print error messages in the console if the profile does not 
-valid.
+return `false` and print error messages in the console if the profile isn't valid.
 
-You may want to verify profiles only in the "debug mode" of the application. 
+You may want to verify profiles only in the "debug mode" of an application. 
 But if the data is downloaded from web or other unsafe sources, verifying and 
-rejecting the invalid ones sounds a good idea.
+rejecting the invalid ones in the "production mode" is also necessary.
 

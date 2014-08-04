@@ -6,9 +6,8 @@
 Welcome to Cycles!
 ==================
 
-Cycles is a HTTP library written in Swift, inspired by AFNetworking_ and
-Requests_. The target of Cycles is to free you from writing glue code around
-the NSURLSession classes::
+Cycles is a HTTP library written in Swift. The target of Cycles is to free you 
+from writing glue code around the NSURLSession classes::
 
   Cycle.get("https://api.github.com/user/",
       requestProcessors: [BasicAuthProcessor(username: "user", password: "pass")],
@@ -21,10 +20,6 @@ the NSURLSession classes::
           println("\(cycle.response.text)") // {"login":"user","id":3 ...
           println("\(cycle.response.object)") // {"avatar_url" = ...
       })
-
-.. _AFNetworking: http://www.afnetworking.com
-.. _Requests: http://docs.python-requests.org
-
 
 Cycles offers a set of higher-level objects. With these objects, there is no
 need to manually build query strings, or to create collection objects from
@@ -66,6 +61,21 @@ Quickstart
     authentication
     restart
 
+Service
+-------
+
+`Service` is a higher level class you can use to manage Cycles with similar 
+attributes.
+
+.. toctree::
+    :maxdepth: 2
+
+    rewrite_gh_snippet
+    service_subclass
+    service_profile
+    service_base_url
+    service_methods
+    
 Advanced Usage
 --------------
 
@@ -76,20 +86,4 @@ Advanced Usage
     retry_policy
     http_status_error
     preserved_request_state
-    tests
-
-Service
--------
-
-`Service` is a higher level class you can use to manage Cycles which share 
-similar attributes.
-
-
-.. toctree::
-    :maxdepth: 2
-
-    rewrite_gh_snippet
-    service_subclass
-    service_profile
-    service_base_url
-    service_methods
+    tests    

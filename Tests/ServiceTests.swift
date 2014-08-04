@@ -76,7 +76,7 @@ class ServiceBasicTests: XCTestCase {
         var URL = bundle.URLForResource("FooTestService", withExtension: "plist")
         var service = FooTestService()
         XCTAssertTrue(service.updateProfileFromLocalFile(URL: URL))
-        XCTAssertTrue(service.verifyProfile())
+        XCTAssertTrue(service.verifyProfile(service.profile))
     }
 
     func testVerifyProfileShouldFailForDuplicateName() {
@@ -84,7 +84,7 @@ class ServiceBasicTests: XCTestCase {
         var URL = bundle.URLForResource("FooTestService_DuplicateName", withExtension: "plist")
         var service = FooTestService()
         XCTAssertTrue(service.updateProfileFromLocalFile(URL: URL))
-        XCTAssertFalse(service.verifyProfile())
+        XCTAssertFalse(service.verifyProfile(service.profile))
     }
 
     func testVerifyProfileShouldFailForNameNotFound() {
@@ -92,7 +92,7 @@ class ServiceBasicTests: XCTestCase {
         var URL = bundle.URLForResource("FooTestService_NameNotFound", withExtension: "plist")
         var service = FooTestService()
         XCTAssertTrue(service.updateProfileFromLocalFile(URL: URL))
-        XCTAssertFalse(service.verifyProfile())
+        XCTAssertFalse(service.verifyProfile(service.profile))
     }
 
     func testVerifyProfileShouldFailForNoResources() {
@@ -100,7 +100,7 @@ class ServiceBasicTests: XCTestCase {
         var URL = bundle.URLForResource("FooTestService_NoResources", withExtension: "plist")
         var service = FooTestService()
         XCTAssertTrue(service.updateProfileFromLocalFile(URL: URL))
-        XCTAssertFalse(service.verifyProfile())
+        XCTAssertFalse(service.verifyProfile(service.profile))
     }
 
     func testVerifyProfileShouldFailForURITemplateNotFound() {
@@ -108,7 +108,7 @@ class ServiceBasicTests: XCTestCase {
         var URL = bundle.URLForResource("FooTestService_URITemplateNotFound", withExtension: "plist")
         var service = FooTestService()
         XCTAssertTrue(service.updateProfileFromLocalFile(URL: URL))
-        XCTAssertFalse(service.verifyProfile())
+        XCTAssertFalse(service.verifyProfile(service.profile))
     }
 }
 

@@ -28,7 +28,7 @@ class GH: Service {
 
     override func defaultSession() -> Session {
         var session = super.defaultSession()
-        session.setPreservedHTTPHeaderField("Swift-Cycles/0.1.0", value: "User-Agent")
+        session.setPreservedHTTPHeaderField("User-Agent", value: "Swift-Cycles/0.1.0")
 
         session.requestProcessors = [BasicAuthProcessor(username: "user", password: "pass")]
         session.responseProcessors = [JSONProcessor()]
