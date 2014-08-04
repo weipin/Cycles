@@ -358,7 +358,7 @@ public class Service: NSObject {
  * The same property of Cycle.
  *
  * @result
- * A new or existing Cycle.
+ * A new Cycle.
  */
     public func cycleForResource(name: String, URIValues: AnyObject? = nil,
     requestObject: AnyObject? = nil, solicited: Bool = false) -> Cycle {
@@ -392,7 +392,7 @@ public class Service: NSObject {
  * or an error occurred.
  *
  * @result
- * A new or existing Cycle.
+ * A new Cycle.
  */
     public func requestResourceWithIdentifer(name: String, identifier: String,
     URIValues: AnyObject? = nil, requestObject: AnyObject? = nil,
@@ -425,7 +425,7 @@ public class Service: NSObject {
  * or an error occurred.
  *
  * @result
- * A new or existing Cycle.
+ * A new Cycle.
  */
     public func requestResource(name: String, URIValues: AnyObject? = nil,
     requestObject: AnyObject? = nil, solicited: Bool = false,
