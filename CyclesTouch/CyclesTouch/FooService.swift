@@ -39,21 +39,3 @@ class FooTestMoreService: Service {
     }
     
 }
-
-class GitHub: Service {
-    override class func className() -> String {
-        return "GitHub"
-    }
-
-    override func defaultSession() -> Session {
-        var session = super.defaultSession()
-        session.requestProcessors = [BasicAuthProcessor(username: "user", password: "pass")]
-        session.responseProcessors = [JSONProcessor()]
-
-        return session
-    }
-
-    override func cycleDidCreateWithResourceName(cycle: Cycle, name: String) {
-    }
-    
-}

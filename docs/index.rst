@@ -77,3 +77,19 @@ Advanced Usage
     http_status_error
     preserved_request_state
     tests
+
+Service
+-------
+
+`Service` is a higher level class you can use to manage Cycles which share 
+similar attributes.
+
+
+.. toctree::
+    :maxdepth: 2
+
+    rewrite_gh_snippet
+    service_subclass
+    service_profile
+    service_base_url
+    service_methods

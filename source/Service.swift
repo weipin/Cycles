@@ -151,6 +151,14 @@ public class Service: NSObject {
         return result
     }
 
+/*!
+ * @abstract 
+ * Initialize a Session object
+ *
+ * @param profile
+ * A dictionary for profile. If nil, the bundled default file will be read to create
+ * the dictionary.
+ */
     public init(profile: Dictionary<String, AnyObject>? = nil) {
         super.init()
 
@@ -188,15 +196,19 @@ public class Service: NSObject {
         return false
     }
 
-    public func verifyProfile(serviceProfile: Dictionary<String, AnyObject>? = nil) -> Bool {
-        var profile = serviceProfile
-        if !profile {
-            profile = self.profile
-        }
-        assert(profile)
-
+/*!
+ * @abstract 
+ * Check if specified profile is valid
+ *
+ * @param profile
+ * A dictionary as profile.
+ *
+ * @result
+ * true if valid, or false if an error occurs.
+ */
+    public func verifyProfile(profile: Dictionary<String, AnyObject>) -> Bool {
         var names = NSMutableSet()
-        if let value: AnyObject = profile![ServiceKey.Resources.toRaw()] {
+        if let value: AnyObject = profile[ServiceKey.Resources.toRaw()] {
             if let resources = value as? [Dictionary<String, String>] {
                 for (index, resource) in enumerate(resources) {
                     if let name = resource[ServiceKey.Name.toRaw()] {

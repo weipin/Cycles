@@ -18,6 +18,14 @@
 			<key>URITemplate</key>
 			<string>/search/repositories{?q,sort,order}</string>
 		</dict>
+		<dict>
+			<key>Name</key>
+			<string>create_ gist</string>
+			<key>URITemplate</key>
+			<string>/gists</string>
+			<key>Method</key>
+			<string>POST</string>
+		</dict>
 	</array>
 </dict>
 </plist>
