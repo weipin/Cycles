@@ -27,6 +27,9 @@ JSON response. More importantly, Cycles is designed in a way to help you
 build HTTP functionality into your model layer. Also, properties like
 `solicited` encourage you to build delightful user experiences.
 
+- [Download source](https://github.com/weipin/Cycles).
+- [Visit swift-cycles.org](http://www.swift-cycles.org).
+
 Introduction
 ------------
 

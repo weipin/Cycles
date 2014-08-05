@@ -12,8 +12,7 @@ Pod::Spec.new do |s|
   s.version          = "0.3.0"
   s.summary          = "HTTP library written in Swift."
   s.description      = <<-DESC
-                       Cycles is a HTTP library written in Swift, inspired by [AFNetworking](http://afnetworking.com/)
-                       and [Requests](http://docs.python-requests.org/). The target of Cycles is to
+                       Cycles is a HTTP library written in Swift. The target of Cycles is to
                        free you from writing glue code around the NSURLSession classes.
 
                        ```
@@ -36,7 +35,7 @@ Pod::Spec.new do |s|
                        HTTP functionality into your model layer. Also, properties like `solicited`
                        encourage you to build delightful user experiences.
                        DESC
-  s.homepage         = "https://github.com/weipin/Cycles"
+  s.homepage         = "http://www.swift-cycles.org"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { "Weipin Xia" => "weipin@me.com" }
@@ -48,5 +47,5 @@ Pod::Spec.new do |s|
 
   s.source_files = 'source/*'
 
-  s.documentation_url = 'https://cycles.readthedocs.org/'
+  s.documentation_url = 'http://docs.swift-cycles.org'
 end
