@@ -20,7 +20,7 @@
 		</dict>
 		<dict>
 			<key>Name</key>
-			<string>create_ gist</string>
+			<string>create_gist</string>
 			<key>URITemplate</key>
 			<string>/gists</string>
 			<key>Method</key>
