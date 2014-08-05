@@ -50,7 +50,7 @@ public class Service: NSObject {
  */
     var baseURLString: String {
     get {
-        if (_baseURLString) {
+        if (_baseURLString != nil) {
             return _baseURLString!
         }
         var value: AnyObject? = self.profile[ServiceKey.BaseURL.toRaw()]
@@ -163,7 +163,7 @@ public class Service: NSObject {
         super.init()
 
         self.session = self.defaultSession()
-        if profile {
+        if profile != nil {
             self.profile = profile
 
         } else {
@@ -174,7 +174,7 @@ public class Service: NSObject {
     public func updateProfileFromLocalFile(URL: NSURL? = nil) -> Bool {
         var objectClass: AnyClass! = self.classForCoder
 
-        if !URL {
+        if URL == nil {
             var filename = self.dynamicType.filenameOfDefaultProfile()
             if let profile = self.dynamicType.profileForFilename(filename) {
                 self.profile = profile
@@ -223,7 +223,7 @@ public class Service: NSObject {
                         return false
                     }
 
-                    if !resource[ServiceKey.URITemplate.toRaw()] {
+                    if resource[ServiceKey.URITemplate.toRaw()] == nil {
                         println("Error: Malformed Resources (URL Template not found) in Service profile (resource index: \(index))!");
                         return false
                     }
@@ -294,7 +294,7 @@ public class Service: NSObject {
     requestObject: AnyObject? = nil,
     solicited: Bool = false) -> Cycle {
         var cycle: Cycle!
-        if identifier {
+        if identifier != nil {
             cycle = self.cycleForIdentifer(identifier!)
             if cycle {
                 if option == .Reuse {
@@ -321,14 +321,14 @@ public class Service: NSObject {
             assert(URL)
 
             var method = resourceProfile[ServiceKey.Method.toRaw()]
-            if !method {
+            if method == nil {
                 method = "GET"
             }
 
             cycle = Cycle(requestURL: URL, taskType: .Data, session: self.session,
                 requestMethod: method!, requestObject: requestObject)
             cycle.solicited = solicited
-            if identifier {
+            if identifier != nil {
                 cycle.identifier = identifier!
                 self.session.addCycleToCycleWithIdentifiers(cycle)
             }

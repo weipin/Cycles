@@ -42,7 +42,7 @@ class CycleConvenienceTests: XCTestCase {
         var expection = self.expectationWithDescription("")
         var URLString = t_("hello")
         Cycle.get(URLString, completionHandler: {(cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
             XCTAssertEqual(cycle.response.text, "Hello World");
             XCTAssertEqual(cycle.response!.statusCode!, 200);
             expection.fulfill()
@@ -56,7 +56,7 @@ class CycleConvenienceTests: XCTestCase {
         var URLString = t_("echo")
         Cycle.get(URLString, parameters: ["content": ["helloworld"]],
                   completionHandler: {(cycle, error) in
-                    XCTAssertFalse(error)
+                    XCTAssertNil(error)
                     XCTAssertEqual(cycle.response.text, "helloworld");
                     XCTAssertEqual(cycle.response!.statusCode!, 200);
                     expection.fulfill()
@@ -73,11 +73,11 @@ class CycleConvenienceTests: XCTestCase {
                    requestProcessors: [JSONProcessor()],
                    responseProcessors: [JSONProcessor()],
                    completionHandler: {(cycle, error) in
-                        XCTAssertFalse(error)
+                        XCTAssertNil(error)
                         var dict = cycle.response.object as? NSDictionary
-                        XCTAssertTrue(dict)
+                        XCTAssertNotNil(dict)
                         var value = dict!.objectForKey("k1") as? String
-                        XCTAssertTrue(value)
+                        XCTAssertNotNil(value)
                         XCTAssertEqual(value!, "v1")
                         expection.fulfill()
                 })
@@ -91,7 +91,7 @@ class CycleConvenienceTests: XCTestCase {
         var URLString = t_("dumpupload/")
         Cycle.upload(URLString, data: data!, completionHandler: {
             (cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
 
             XCTAssertEqual(cycle.response.text, "Hello World")
             expection.fulfill()
@@ -104,12 +104,12 @@ class CycleConvenienceTests: XCTestCase {
         var URLString = t_("echo?content=helloworld")
         Cycle.download(URLString,
             downloadFileHandler: {(cycle, location) in
-                XCTAssertTrue(location)
+                XCTAssertNotNil(location)
                 var content = NSString(contentsOfURL: location, encoding: NSUTF8StringEncoding, error: nil)
                 XCTAssertEqual(content, "helloworld")
             },
             completionHandler: {(cycle, error) in
-                XCTAssertFalse(error)
+                XCTAssertNil(error)
                 expection.fulfill()
             })
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)

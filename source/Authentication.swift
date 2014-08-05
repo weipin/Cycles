@@ -184,14 +184,14 @@ public class BasicAuthentication : Authentication {
         super.init()
     }
 
-    convenience init() {
+    convenience override init() {
         return self.init(username: "", password: "")
     }
 
     public override func canHandleAuthenticationChallenge(challenge: NSURLAuthenticationChallenge,
         cycle: Cycle) -> Bool {
         var method = challenge.protectionSpace.authenticationMethod
-        if (self.Methods.bridgeToObjectiveC().containsObject(method)) {
+        if (self.Methods as NSArray).containsObject(method) {
             return true
         }
             

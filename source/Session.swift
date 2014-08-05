@@ -131,7 +131,7 @@ NSURLSessionDataDelegate {
  * If nil, a NSOperationQueue object will be created so the blocks will be run 
  * asynchronously on a separate thread.
  */
-    public init(configuration: NSURLSessionConfiguration? = nil,
+    public required init(configuration: NSURLSessionConfiguration? = nil,
     delegateQueue: NSOperationQueue? = nil,
     workerQueue: NSOperationQueue? = nil) {
         var c = configuration
@@ -196,7 +196,7 @@ NSURLSessionDataDelegate {
  */
     func removeCycle(cycle: Cycle) {
         var index = indexOfCycle(cycle)
-        if index {
+        if index != nil {
             self.cycles.removeAtIndex(index!)
         }
         if !cycle.identifier.isEmpty {
@@ -337,7 +337,7 @@ NSURLSessionDataDelegate {
     didSendBodyData bytesSent: Int64, totalBytesSent: Int64,
     totalBytesExpectedToSend: Int64) {
         var cycle = self.cycleForTask(task)
-        assert(cycle)
+        assert(cycle != nil)
 
         cycle?.didSendBodyDataHandler?(cycle: cycle!, bytesSent: bytesSent,
                                        totalBytesSent: totalBytesSent,

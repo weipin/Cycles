@@ -63,7 +63,7 @@ class HelperTests: XCTestCase {
         XCTAssertEqual(FormencodeDictionary(parameters), "k1=v1&k1=v11&k2=v2")
 
         (base, parameters) = ParseURLWithQueryParameters("k1=v1&k1=v11&k2=v2")
-        XCTAssertFalse(base)
+        XCTAssertNil(base)
         XCTAssertEqual(FormencodeDictionary(parameters), "k1=v1&k1=v11&k2=v2")
 
         (base, parameters) = ParseURLWithQueryParameters("http://mydomain.com")

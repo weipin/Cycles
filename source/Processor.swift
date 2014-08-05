@@ -193,7 +193,7 @@ public class TextProcessor : Processor {
         // Defaults to "ISO-8859-1" if there is no charset in header and 
         // Content-Type contains "text" (RFC 2616, 3.7.1)
         if charset == nil && contentType != nil {
-            if contentType!.rangeOfString("text") != nil {
+            if (contentType! as NSString).containsString("text") {
                 var enc = CFStringBuiltInEncodings.ISOLatin1.toRaw()
                 return CFStringConvertEncodingToNSStringEncoding(enc)
             }

@@ -87,7 +87,7 @@ public func ParseContentTypeLikeHeader(header: String) -> (type: String?,
  */
 public func EscapeStringToURLArgumentString(str: String) -> String {
     var s = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                                                    str.bridgeToObjectiveC(), nil,
+                                                    str as NSString, nil,
                                                     "!*'();:@&=+$,/?%#[]",
                                                     CFStringBuiltInEncodings.UTF8.toRaw()) as NSString
     return s
@@ -145,7 +145,7 @@ public func FormencodeDictionary(dict: Dictionary<String, [String]>) -> String {
         }
     }
 
-    return result.bridgeToObjectiveC().componentsJoinedByString("&")
+    return (result as NSArray).componentsJoinedByString("&")
 }
 
 /*!
@@ -192,7 +192,7 @@ parameters: Dictionary<String, [String]>) {
         }
     }
 
-    if !base && parameters.count == 0 {
+    if base == nil && parameters.count == 0 {
         base = URLString
     }
     return (base, parameters)
@@ -227,12 +227,12 @@ public func MergeParametersToURL(URLString: String, parameters: Dictionary<Strin
 
     let query = FormencodeDictionary(existing_params)
     var ary = [String]()
-    if base {
+    if base != nil {
         ary.append(base!)
     }
     if !query.isEmpty {
         ary.append(query)
     }
-    return ary.bridgeToObjectiveC().componentsJoinedByString("?")
+    return (ary as NSArray).componentsJoinedByString("?")
 }
 

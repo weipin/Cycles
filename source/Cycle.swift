@@ -78,7 +78,7 @@ public typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> V
  */
     public var requestProcessors: [Processor] {
     get{
-        if (self._requestProcessors) {
+        if self._requestProcessors != nil {
             return self._requestProcessors!
         }
         return self.session.requestProcessors
@@ -96,7 +96,7 @@ public typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> V
  */
     public var responseProcessors: [Processor] {
     get{
-        if (self._responseProcessors) {
+        if self._responseProcessors != nil {
             return self._responseProcessors!
         }
         return self.session.responseProcessors
@@ -133,7 +133,7 @@ public typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> V
  */
     public var authentications: [Authentication] {
     get{
-        if (self._authentications) {
+        if self._authentications != nil {
             return self._authentications!
         }
         return self.session.authentications
@@ -233,16 +233,16 @@ public typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> V
         self.request.object = requestObject
         self.requestMethod = requestMethod
 
-        if session {
+        if session != nil {
             self.session = session!
         } else {
             self.session = Session.defaultSession()
         }
 
-        if requestProcessors {
+        if requestProcessors != nil {
             self.requestProcessors = requestProcessors!
         }
-        if responseProcessors {
+        if responseProcessors != nil {
             self.responseProcessors = responseProcessors!
         }
 
@@ -259,16 +259,16 @@ public typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> V
         case .Data:
             task = self.session.core.dataTaskWithRequest(self.request.core)
         case .Upload:
-            assert((self.dataToUpload && !self.fileToUpload)
-                || (!self.dataToUpload && self.fileToUpload));
-            if (self.dataToUpload) {
+            assert((self.dataToUpload != nil && self.fileToUpload == nil)
+                || (self.dataToUpload == nil && self.fileToUpload != nil));
+            if self.dataToUpload != nil {
                 task = self.session.core.uploadTaskWithRequest(self.request.core, fromData:self.dataToUpload);
             }
-            if (self.fileToUpload) {
+            if self.fileToUpload != nil {
                 task = self.session.core.uploadTaskWithRequest(self.request.core, fromFile:self.fileToUpload);
             }
         case .Download:
-            assert(self.downloadFileHandler);
+            assert(self.downloadFileHandler != nil);
             task = self.session.core.downloadTaskWithRequest(self.request.core);
         default:
             assert(false)
@@ -277,7 +277,7 @@ public typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> V
     }
 
     public func prepare(completionHandler: ((result: Bool) -> Void)) {
-        if self.core {
+        if self.core != nil {
             return
         }
 
@@ -308,25 +308,25 @@ public typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> V
  * or an error occurred.
  */
     public func start(completionHandler: CycleCompletionHandler? = nil) {
-        if completionHandler {
+        if completionHandler != nil {
             self.completionHandler = completionHandler
         }
         assert(self.completionHandler)
 
-        if self.core {
+        if self.core != nil {
             self.core!.resume()
             return
         }
 
         var index = self.session.indexOfCycle(self)
-        if !index {
+        if index == nil {
             // Cycle already cancelled.
             // For example, cancelled when the cycle is waiting for a retry.
             return
         }
 
         self.prepare {(result: Bool) in
-            if self.core {
+            if self.core != nil {
                 // task could have been assigned and started in another thread
                 return
             }

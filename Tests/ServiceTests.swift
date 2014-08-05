@@ -130,7 +130,7 @@ class ServiceHTTPTests: XCTestCase {
         var cycle = service.cycleForResourceWithIdentifer("hello",
             URIValues: ["content": "hello world"])
         cycle.start {(cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
             XCTAssertEqual(cycle.response.text, "hello world");
             XCTAssertEqual(cycle.response!.statusCode!, 200);
             expection.fulfill()
@@ -155,7 +155,7 @@ class ServiceHTTPTests: XCTestCase {
             option: .Replace, URIValues: ["delay": 0, "content": "hello 2"])
         XCTAssertFalse(cycle1 === cycle2)
         cycle2.start {(cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
             XCTAssertEqual(cycle.response.text, "hello 2");
             XCTAssertEqual(cycle.response!.statusCode!, 200);
             expection.fulfill()
@@ -181,7 +181,7 @@ class ServiceHTTPTests: XCTestCase {
             option: .Reuse, URIValues: ["delay": 0, "content": "hello 2"])
         XCTAssertTrue(cycle1 === cycle2)
         cycle2.start {(cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
             XCTAssertEqual(cycle.response.text, "hello 1");
             XCTAssertEqual(cycle.response!.statusCode!, 200);
             expection.fulfill()
@@ -195,7 +195,7 @@ class ServiceHTTPTests: XCTestCase {
         var service = FooTestService()
         var cycle = service.cycleForResource("hello", URIValues: ["content": "hello world"])
         cycle.start {(cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
             XCTAssertEqual(cycle.response.text, "hello world");
             XCTAssertEqual(cycle.response!.statusCode!, 200);
             expection.fulfill()
@@ -208,7 +208,7 @@ class ServiceHTTPTests: XCTestCase {
         var service = FooTestService()
         var cycle = service.requestResourceWithIdentifer("hello", identifier: "test_task",
             URIValues: ["content": "hello world"], completionHandler: {(cycle, error) in
-                XCTAssertFalse(error)
+                XCTAssertNil(error)
                 XCTAssertEqual(cycle.response.text, "hello world");
                 XCTAssertEqual(cycle.response!.statusCode!, 200);
                 expection.fulfill()
@@ -221,7 +221,7 @@ class ServiceHTTPTests: XCTestCase {
         var service = FooTestService()
         var cycle = service.requestResource("hello",
             URIValues: ["content": "hello world"], completionHandler: {(cycle, error) in
-                XCTAssertFalse(error)
+                XCTAssertNil(error)
                 XCTAssertEqual(cycle.response.text, "hello world");
                 XCTAssertEqual(cycle.response!.statusCode!, 200);
                 expection.fulfill()
@@ -269,7 +269,7 @@ class ServiceHTTPMoreTests: XCTestCase {
         var service = FooTestMoreService()
         service.requestResource("postjson", requestObject: ["k1": "v1"],
             completionHandler: { (cycle, error) in
-                XCTAssertFalse(error)
+                XCTAssertNil(error)
                 var dict = cycle.response.object as Dictionary<String, String>
                 XCTAssertEqual(dict["k1"]!, "v1")
                 expection.fulfill()
@@ -283,7 +283,7 @@ class ServiceHTTPMoreTests: XCTestCase {
         var service = FooTestMoreService()
         service.requestResource("postdata", requestObject: data,
             completionHandler: { (cycle, error) in
-                XCTAssertFalse(error)
+                XCTAssertNil(error)
                 XCTAssertEqual(cycle.response.text, "hello world")
                 expection.fulfill()
             })

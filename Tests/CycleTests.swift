@@ -43,7 +43,7 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL)
 
         cycle.start {(cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
             XCTAssertEqual(cycle.response.text, "Hello World");
             XCTAssertEqual(cycle.response!.statusCode!, 200);
             expection.fulfill()
@@ -58,7 +58,7 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL)
 
         cycle.start {(cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
 
             var enc = CFStringEncoding(CFStringEncodings.EUC_CN.toRaw())
             var encoding = cycle.response.textEncoding
@@ -74,7 +74,7 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL)
 
         cycle.start {(cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
 
             var enc = CFStringEncoding(CFStringBuiltInEncodings.ISOLatin1.toRaw())
             var encoding = cycle.response.textEncoding
@@ -90,7 +90,7 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL)
 
         cycle.start {(cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
 
             var enc = CFStringEncoding(CFStringEncodings.GB_18030_2000.toRaw())
             var encoding = cycle.response.textEncoding
@@ -106,7 +106,7 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL)
 
         cycle.start {(cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
 
             var encoding = cycle.response.textEncoding
             XCTAssertTrue(encoding == NSUTF8StringEncoding);
@@ -124,7 +124,7 @@ class CycleTests: XCTestCase {
         cycle.dataToUpload = data
 
         cycle.start {(cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
 
             XCTAssertEqual(cycle.response.text, "Hello World")
             expection.fulfill()
@@ -142,7 +142,7 @@ class CycleTests: XCTestCase {
         cycle.fileToUpload = file
 
         cycle.start {(cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
 
             XCTAssertEqual(cycle.response.text, "Hello World File")
             expection.fulfill()
@@ -155,12 +155,12 @@ class CycleTests: XCTestCase {
         var URL = tu_("echo?content=helloworld")
         var cycle = Cycle(requestURL: URL, taskType: .Download)
         cycle.downloadFileHandler = {(cycle: Cycle, location: NSURL?) in
-            XCTAssertTrue(location)
+            XCTAssertNotNil(location)
             var content = NSString(contentsOfURL: location, encoding: NSUTF8StringEncoding, error: nil)
             XCTAssertEqual(content, "helloworld")
         }
         cycle.start {(cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
 
             expection.fulfill()
         }
@@ -174,7 +174,7 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL)
 
         cycle.start {(cycle, error) in
-            XCTAssertTrue(error)
+            XCTAssertNotNil(error)
             XCTAssertEqual(cycle.response.statusCode!, NSInteger(401))
             expection.fulfill()
         }
@@ -189,7 +189,7 @@ class CycleTests: XCTestCase {
         cycle.authentications = [auth]
 
         cycle.start {(cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
             XCTAssertEqual(cycle.response.statusCode!, NSInteger(200))
             XCTAssertEqual(cycle.response.text, "Hello World")
             expection.fulfill()
@@ -203,7 +203,7 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL)
 
         cycle.start {(cycle, error) in
-            XCTAssertTrue(error)
+            XCTAssertNotNil(error)
             XCTAssertEqual(cycle.response.statusCode!, NSInteger(401))
             expection.fulfill()
         }
@@ -218,7 +218,7 @@ class CycleTests: XCTestCase {
         cycle.authentications = [auth]
 
         cycle.start {(cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
             XCTAssertEqual(cycle.response.statusCode!, NSInteger(200))
             XCTAssertEqual(cycle.response.text, "Hello World")
             expection.fulfill()
@@ -264,7 +264,7 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL, session: session)
 
         cycle.start {(cycle, error) in
-            XCTAssertTrue(error)
+            XCTAssertNotNil(error)
             XCTAssertTrue(error!.domain == NSURLErrorDomain)
             XCTAssertEqual(error!.code, NSURLErrorTimedOut)
             XCTAssertTrue(cycle.retriedCount > cycle.session.RetryPolicyMaximumRetryCount)
@@ -283,11 +283,11 @@ class CycleTests: XCTestCase {
                           requestProcessors: [JSONProcessor()],
                           responseProcessors: [JSONProcessor()])
         cycle.start {(cycle, error) in
-            XCTAssertFalse(error)
+            XCTAssertNil(error)
             var dict = cycle.response.object as? NSDictionary
-            XCTAssertTrue(dict)
+            XCTAssertNotNil(dict)
             var value = dict!.objectForKey("k1") as? String
-            XCTAssertTrue(value)
+            XCTAssertNotNil(value)
             XCTAssertEqual(value!, "v1")
             expection.fulfill()
         }
@@ -303,8 +303,8 @@ class CycleTests: XCTestCase {
         session.setPreservedHTTPHeaderField("X-CYCLES-HEADER", value: str)
         var cycle = Cycle(requestURL: URL, session: session)
         cycle.start { (cycle, error) in
-            XCTAssertFalse(error)
-            XCTAssertTrue(cycle.response.text.rangeOfString("HTTP_X_CYCLES_HEADER=a reserved HTTP header"))
+            XCTAssertNil(error)
+            XCTAssertTrue((cycle.response.text as NSString).containsString("HTTP_X_CYCLES_HEADER=a reserved HTTP header"))
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -317,8 +317,8 @@ class CycleTests: XCTestCase {
         session.setPreservedHTTPQueryParameter("k1", value: ["v1"])
         var cycle = Cycle(requestURL: URL, session: session)
         cycle.start { (cycle, error) in
-            XCTAssertFalse(error)
-            XCTAssertTrue(cycle.response.text.rangeOfString("QUERY_STRING=k1=v1&k2=v2"))
+            XCTAssertNil(error)
+            XCTAssertTrue((cycle.response.text as NSString).containsString("QUERY_STRING=k1=v1&k2=v2"))
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -340,9 +340,9 @@ class CycleTests: XCTestCase {
         var URL = tu_("dumpmeta?k2=v2")
         var cycle = Cycle(requestURL: URL, session: session2)
         cycle.start { (cycle, error) in
-            XCTAssertFalse(error)
-            XCTAssertTrue(cycle.response.text.rangeOfString("HTTP_X_CYCLES_HEADER=a reserved HTTP header"))
-            XCTAssertTrue(cycle.response.text.rangeOfString("QUERY_STRING=k1=v1a&k1=v1b&k2=v2"))
+            XCTAssertNil(error)
+            XCTAssertTrue((cycle.response.text as NSString).containsString("HTTP_X_CYCLES_HEADER=a reserved HTTP header"))
+            XCTAssertTrue((cycle.response.text as NSString).containsString("QUERY_STRING=k1=v1a&k1=v1b&k2=v2"))
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
