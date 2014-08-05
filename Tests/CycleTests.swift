@@ -334,7 +334,8 @@ class CycleTests: XCTestCase {
         var data = session1.dataForPreservedState(nil)
 
         var session2 = Session()
-        var result = session2.loadPreservedStateFromData(data, error: nil)
+        var error: NSError?
+        var result = session2.loadPreservedStateFromData(data, error: &error)
         XCTAssertTrue(result)
 
         var URL = tu_("dumpmeta?k2=v2")

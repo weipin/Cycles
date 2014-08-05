@@ -304,7 +304,7 @@ public class URITemplate {
                                 if let v: AnyObject = dict[k] {
                                     str = stringOfAnyObject(v)
                                 }
-                                if str != nil {
+                                if str == nil {
                                     continue
                                 }
                                 if count > 0 {
@@ -588,7 +588,9 @@ public class URITemplate {
                         } // for expression
 
                         if (eError != nil) {
-//                            errors.append((eError!, index + jIndex))
+                            let e = eError!
+                            let ti = index + jIndex
+                            errors.append((e, ti))
                             let remainingExpression = str[advance(str.startIndex, jIndex)..<str.endIndex]
                             if op != nil {
                                 result = result + "{" + op! + remainingExpression + "}"
@@ -618,22 +620,22 @@ public class URITemplate {
         }// for
 
         // Handle ending
-        var endingIndex = countElements(template)
+        let endingIndex: Int = countElements(template)
         if state == .ScanningLiteral {
             if !pctEncoded.isEmpty {
-//                errors.append((URITemplateError.MalformedPctEncodedInLiteral, endingIndex))
+                errors.append((URITemplateError.MalformedPctEncodedInLiteral, endingIndex))
                 result += encodeLiteralString(pctEncoded)
             }
 
         } else if (state == .ScanningExpression) {
-//            errors.append((URITemplateError.ExpressionEndedWithoutClosing, endingIndex))
+            errors.append((URITemplateError.ExpressionEndedWithoutClosing, endingIndex))
             result = result + "{" + expression
 
         } else {
             assert(false);
         }
         if expressionCount == 0 {
-//            errors.append((URITemplateError.NonExpressionFound, endingIndex))
+            errors.append((URITemplateError.NonExpressionFound, endingIndex))
         }
 
         return (result, errors)

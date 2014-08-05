@@ -478,7 +478,7 @@ NSURLSessionDataDelegate {
         var keys = [PreservedHTTPHeadersKey, PreservedHTTPQueryParametersKey]
         var dict = NSDictionary(objects: objects, forKeys: keys)
         var data = NSPropertyListSerialization.dataWithPropertyList(dict,
-                    format: .BinaryFormat_v1_0, options: 0, error:error)
+                    format: .XMLFormat_v1_0, options: 0, error:error)
 
         return data
     }
@@ -493,9 +493,10 @@ NSURLSessionDataDelegate {
             if let parameters = dict[PreservedHTTPQueryParametersKey] as? Dictionary<String, [String]> {
                 self.preservedHTTPQueryParameters = parameters
             }
+            return true
         }
 
-        return true
+        return false
     }
 
     public func applyPreservedStateToRequest(request: Request) {
