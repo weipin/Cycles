@@ -131,11 +131,11 @@ NSURLSessionDataDelegate {
  * If nil, a NSOperationQueue object will be created so the blocks will be run 
  * asynchronously on a separate thread.
  */
-    required public init(configuration: NSURLSessionConfiguration? = nil,
+    public init(configuration: NSURLSessionConfiguration? = nil,
     delegateQueue: NSOperationQueue? = nil,
     workerQueue: NSOperationQueue? = nil) {
         var c = configuration
-        if !c {
+        if c == nil {
             c = NSURLSessionConfiguration.defaultSessionConfiguration()
         }
         if let delegate = delegateQueue {

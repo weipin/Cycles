@@ -32,7 +32,7 @@ extension Cycle {
     solicited: Bool = false,
     completionHandler: CycleCompletionHandler) -> Cycle {
         var str = URLString
-        if parameters {
+        if parameters != nil {
             str = MergeParametersToURL(URLString, parameters!)
         }
         var URL = NSURL.URLWithString(str)
@@ -42,7 +42,7 @@ extension Cycle {
                           requestObject: requestObject,
                           requestProcessors: requestProcessors,
                           responseProcessors: responseProcessors)
-        if (authentications) {
+        if authentications != nil {
             cycle.authentications = authentications!
         }
         cycle.solicited = solicited
@@ -210,14 +210,14 @@ extension Cycle {
     didSendBodyDataHandler: CycleDidSendBodyDataHandler? = nil,
     completionHandler: CycleCompletionHandler) -> Cycle {
         var str = URLString
-        if parameters {
+        if parameters != nil {
             str = MergeParametersToURL(URLString, parameters!)
         }
         var URL = NSURL.URLWithString(str)
         var cycle = Cycle(requestURL: URL,
                           taskType: CycleType.Upload,
                           requestMethod: "POST")
-        if (authentications) {
+        if authentications != nil {
             cycle.authentications = authentications!
         }
         cycle.dataToUpload = data
@@ -239,14 +239,14 @@ extension Cycle {
     didSendBodyDataHandler: CycleDidSendBodyDataHandler? = nil,
     completionHandler: CycleCompletionHandler) -> Cycle {
         var str = URLString
-        if parameters {
+        if parameters != nil {
             str = MergeParametersToURL(URLString, parameters!)
         }
         var URL = NSURL.URLWithString(str)
         var cycle = Cycle(requestURL: URL,
                           taskType: CycleType.Upload,
                           requestMethod: "POST")
-        if (authentications) {
+        if authentications != nil {
             cycle.authentications = authentications!
         }
         cycle.fileToUpload = file
@@ -284,14 +284,14 @@ extension Cycle {
     downloadFileHandler: CycleDownloadFileHander,
     completionHandler: CycleCompletionHandler) -> Cycle {
         var str = URLString
-        if parameters {
+        if parameters != nil {
             str = MergeParametersToURL(URLString, parameters!)
         }
         var URL = NSURL.URLWithString(str)
         var cycle = Cycle(requestURL: URL,
                           taskType: CycleType.Download,
                           requestMethod: "GET")
-        if (authentications) {
+        if authentications != nil {
             cycle.authentications = authentications!
         }
         cycle.didWriteDataHandler = didWriteDataHandler

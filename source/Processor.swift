@@ -32,7 +32,7 @@ import Foundation
  * data between request/response data and your specific object.
  */
 public class Processor {
-    public required init() {
+    public init() {
 
     }
 
@@ -80,7 +80,7 @@ public class BasicAuthProcessor : Processor {
     var username: String
     var password: String
 
-    public convenience init() {
+    public convenience override init() {
         self.init(username: "", password: "")
     }
 
@@ -120,10 +120,6 @@ public class BasicAuthProcessor : Processor {
  * object is a NSData. For response, it assigns the response data to your object.
  */
 public class DataProcessor : Processor {
-    public init() {
-
-    }
-
     public override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
         if let object = request.object as? NSData {
             request.data = object
@@ -174,10 +170,6 @@ public class TextProcessor : Processor {
  */
     var textEncoding: NSStringEncoding?
 
-    public init() {
-
-    }
-
 /*!
  * @discussion
  * Determine the text encoding by examining the response.
@@ -187,11 +179,11 @@ public class TextProcessor : Processor {
         var charset: String?
 
         // Try charset in the header
-        if contentType {
+        if contentType != nil {
             let (type, parameters) = ParseContentTypeLikeHeader(contentType!)
             charset = parameters["charset"]
-            if type && charset {
-                var enc = CFStringConvertIANACharSetNameToEncoding(charset!.bridgeToObjectiveC())
+            if type != nil && charset != nil {
+                var enc = CFStringConvertIANACharSetNameToEncoding(charset! as NSString)
                 if enc != kCFStringEncodingInvalidId {
                     return CFStringConvertEncodingToNSStringEncoding(enc)
                 }
@@ -200,8 +192,8 @@ public class TextProcessor : Processor {
 
         // Defaults to "ISO-8859-1" if there is no charset in header and 
         // Content-Type contains "text" (RFC 2616, 3.7.1)
-        if !charset && contentType {
-            if contentType!.rangeOfString("text") {
+        if charset == nil && contentType != nil {
+            if contentType!.rangeOfString("text") != nil {
                 var enc = CFStringBuiltInEncodings.ISOLatin1.toRaw()
                 return CFStringConvertEncodingToNSStringEncoding(enc)
             }
@@ -239,13 +231,13 @@ public class TextProcessor : Processor {
 
     public override func processResponse(response: Response, error: NSErrorPointer) -> Bool {
         var encoding = self.readEncoding
-        if !encoding {
+        if encoding != nil {
             encoding = TextProcessor.textEncodingFromResponse(response)
-            if encoding {
+            if encoding != nil {
                 response.textEncoding = encoding!
             }
         }
-        if !encoding {
+        if encoding == nil {
             encoding = NSUTF8StringEncoding
         }
 
@@ -261,15 +253,11 @@ public class TextProcessor : Processor {
  * JSON format. For request, header "Content-Type: application/json" will be added.
  */
 public class JSONProcessor : Processor {
-    public init() {
-
-    }
-
     public override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
         if let object: AnyObject = request.object {
             var e: NSError?
             request.data = NSJSONSerialization.dataWithJSONObject(object, options: nil, error: &e)
-            if e {
+            if (e != nil) {
                 if (error) {
                     error.memory = e
                 }
@@ -295,7 +283,7 @@ public class JSONProcessor : Processor {
         response.object = NSJSONSerialization.JSONObjectWithData(response.data,
                                                                  options: .AllowFragments,
                                                                  error: &e)
-        if e {
+        if e != nil {
             if (error) {
                 error.memory = e
             }
@@ -312,10 +300,6 @@ public class JSONProcessor : Processor {
  * body. Header "Content-Type: application/x-www-form-urlencoded" will be added.
  */
 public class FORMProcessor : Processor {
-    public init() {
-
-    }
-
     public override func processRequest(request: Request, error: NSErrorPointer) -> Bool {
         if let object = request.object as? Dictionary<String, [String]> {
             request.object = FormencodeDictionary(object)

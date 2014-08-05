@@ -62,10 +62,10 @@ public class Response {
 
     public lazy var text: String = {
         var encoding = self.textReadEncoding
-        if !encoding {
+        if encoding == nil {
             encoding = self.textEncoding
         }
-        if !encoding {
+        if encoding == nil {
             encoding = NSUTF8StringEncoding
         }
         return NSString(data: self.data, encoding: encoding!);
@@ -102,7 +102,7 @@ public class Response {
  */
     public func valueForHTTPHeaderField(header: String) -> String? {
         var result: String? = nil
-        if !self.headers {
+        if self.headers == nil {
             return nil
         }
         for (var k: AnyObject, v: AnyObject) in self.headers! {

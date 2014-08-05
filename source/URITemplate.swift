@@ -43,7 +43,7 @@ import Foundation
 */
 public func ExpandURITemplate(template: String, values: AnyObject? = nil) -> String {
     var provider: AnyObject? = values
-    if !provider {
+    if provider == nil {
         provider = Dictionary<String, AnyObject>()
     }
     let (URLString, errors) = URITemplate.process(template, values: provider!);
@@ -142,10 +142,10 @@ public class URITemplate {
         func encodeLiteralString(string: String) -> String {
             var charactersToLeaveUnescaped = RESERVED + UNRESERVED
             var s = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                string.bridgeToObjectiveC(), charactersToLeaveUnescaped.bridgeToObjectiveC(),
+                string as NSString, charactersToLeaveUnescaped as NSString,
                 nil,
                 CFStringBuiltInEncodings.UTF8.toRaw())
-            var result = String(s)
+            var result = s as NSString
             return result
         }
 
@@ -158,10 +158,10 @@ public class URITemplate {
 
             if allow == .U {
                 var s = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                    string.bridgeToObjectiveC(), UNRESERVED.bridgeToObjectiveC(),
-                    LEGAL.bridgeToObjectiveC(),
+                    string as NSString, UNRESERVED as NSString,
+                    LEGAL as NSString,
                     CFStringBuiltInEncodings.UTF8.toRaw())
-                result = String(s)
+                result = s as NSString
 
             } else if allow == .UR {
                 result = encodeLiteralString(string)
@@ -174,7 +174,7 @@ public class URITemplate {
 
 
         func stringOfAnyObject(object: AnyObject?) -> String? {
-            if !object {
+            if object == nil {
                 return nil
             }
 
@@ -189,14 +189,14 @@ public class URITemplate {
             return nil
         }
 
-        func findOperatorInExpression(expression: String) -> (operator: Character?, error: URITemplateError?) {
+        func findOperatorInExpression(expression: String) -> (op: Character?, error: URITemplateError?) {
             var count = countElements(expression)
 
             if count == 0 {
                 return (nil, URITemplateError.InvalidOperator)
             }
 
-            var operator: Character? = nil
+            var op: Character? = nil
             var error: URITemplateError? = nil
             var startCharacher = expression[expression.startIndex]
             if startCharacher == "%" {
@@ -206,22 +206,22 @@ public class URITemplate {
 
                 var c1 = expression[advance(expression.startIndex, 1)]
                 var c2 = expression[advance(expression.startIndex, 2)]
-                if !find(HEXDIG, c1) {
+                if find(HEXDIG, c1) == nil {
                     return (nil, URITemplateError.InvalidOperator)
                 }
-                if !find(HEXDIG, c2) {
+                if find(HEXDIG, c2) == nil {
                     return (nil, URITemplateError.InvalidOperator)
                 }
                 var str = "%" + c1 + c2
                 str = str.stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
-                operator = str[str.startIndex]
+                op = str[str.startIndex]
             } else {
-                operator = startCharacher
+                op = startCharacher
             }
 
-            if operator {
-                if (!BehaviorTable[String(operator!)]) {
-                    if (!find(VARCHAR, operator!)) {
+            if op != nil {
+                if (BehaviorTable[String(op!)] == nil) {
+                    if (find(VARCHAR, op!) == nil) {
                         return (nil, URITemplateError.InvalidOperator)
                     } else {
                         return (nil, nil)
@@ -229,7 +229,7 @@ public class URITemplate {
                 }
             }
 
-            return (operator, error)
+            return (op, error)
         }
 
         func expandVarSpec(varName: String, modifier: Character?, prefixLength :Int,
@@ -274,7 +274,7 @@ public class URITemplate {
                             var count = 0
                             for v in ary {
                                 var str = stringOfAnyObject(v)
-                                if !str {
+                                if str == nil {
                                     continue
                                 }
                                 if count > 0 {
@@ -304,7 +304,7 @@ public class URITemplate {
                                 if let v: AnyObject = dict[k] {
                                     str = stringOfAnyObject(v)
                                 }
-                                if !str {
+                                if str != nil {
                                     continue
                                 }
                                 if count > 0 {
@@ -329,7 +329,7 @@ public class URITemplate {
                             var count = 0
                             for v in ary {
                                 var str = stringOfAnyObject(v)
-                                if !str {
+                                if str != nil {
                                     continue
                                 }
                                 if count > 0 {
@@ -351,7 +351,7 @@ public class URITemplate {
                                 if let v: AnyObject = dict[k] {
                                     str = stringOfAnyObject(v)
                                 }
-                                if !str {
+                                if str == nil {
                                     continue
                                 }
                                 if count > 0 {
@@ -373,7 +373,7 @@ public class URITemplate {
                     var flag = true
                     if behavior.named {
                         result += encodeLiteralString(varName)
-                        if !value {
+                        if value == nil {
                             result += behavior.ifemp
                             flag = false
                         } else {
@@ -389,7 +389,7 @@ public class URITemplate {
                         var count = 0
                         for v in ary {
                             var str = stringOfAnyObject(v)
-                            if !str {
+                            if str == nil {
                                 continue
                             }
                             if count > 0 {
@@ -411,7 +411,7 @@ public class URITemplate {
                             if let v: AnyObject = dict[k] {
                                 str = stringOfAnyObject(v)
                             }
-                            if !str {
+                            if str == nil {
                                 continue
                             }
                             if count > 0 {
@@ -450,10 +450,10 @@ public class URITemplate {
                 } else if (!pctEncoded.isEmpty) {
                     switch countElements(pctEncoded) {
                     case 1:
-                        if find(HEXDIG, c) {
+                        if find(HEXDIG, c) != nil {
                             pctEncoded += c
                         } else {
-                            errors += (URITemplateError.MalformedPctEncodedInLiteral, index)
+                            errors.append((URITemplateError.MalformedPctEncodedInLiteral, index))
                             result += encodeLiteralString(pctEncoded)
                             result += encodeLiteralCharacter(c)
                             state = .ScanningLiteral
@@ -461,14 +461,14 @@ public class URITemplate {
                         }
 
                     case 2:
-                        if find(HEXDIG, c) {
+                        if find(HEXDIG, c) != nil {
                             pctEncoded += c
                             result += pctEncoded
                             state = .ScanningLiteral
                             pctEncoded = ""
 
                         } else {
-                            errors += (URITemplateError.MalformedPctEncodedInLiteral, index)
+                            errors.append((URITemplateError.MalformedPctEncodedInLiteral, index))
                             result += encodeLiteralString(pctEncoded)
                             result += encodeLiteralCharacter(c)
                             state = .ScanningLiteral
@@ -483,11 +483,11 @@ public class URITemplate {
                     pctEncoded += c
                     state = .ScanningLiteral
 
-                } else if find(UNRESERVED, c) || find(RESERVED, c) {
+                } else if find(UNRESERVED, c) != nil || find(RESERVED, c) != nil {
                     result += c
 
                 } else {
-                    errors += (URITemplateError.NonLiteralsCharacterFoundInLiteral, index)
+                    errors.append((URITemplateError.NonLiteralsCharacterFoundInLiteral, index))
                     result += c
                 }
 
@@ -495,17 +495,17 @@ public class URITemplate {
                 if c == "}" {
                     state = .ScanningLiteral
                     // Process expression
-                    let (operator, error) = findOperatorInExpression(expression)
-                    if error {
-                        errors += (URITemplateError.MalformedPctEncodedInLiteral, index)
+                    let (op, error) = findOperatorInExpression(expression)
+                    if error != nil {
+                        errors.append((URITemplateError.MalformedPctEncodedInLiteral, index))
                         result = result + "{" + expression + "}"
 
                     } else {
-                        var operatorString = operator ? String(operator!) : "NUL"
+                        var operatorString = (op != nil) ? String(op!) : "NUL"
                         var behavior = BehaviorTable[operatorString]!;
                         // Skip the operator
                         var skipCount = 0
-                        if operator {
+                        if op != nil {
                             if expression.hasPrefix("%") {
                                 skipCount = 3
                             } else {
@@ -554,7 +554,7 @@ public class URITemplate {
                                     estate = .ScanningModifier
                                     continue
                                 }
-                                if find(VARCHAR, j) || j == "." {
+                                if find(VARCHAR, j) != nil || j == "." {
                                     varName += j
                                 } else {
                                     eError = .MalformedVarSpec
@@ -566,8 +566,9 @@ public class URITemplate {
                                     eError = .MalformedVarSpec
                                     break;
                                 } else if modifier == ":" {
-                                    if find(DIGIT, j) {
-                                        prefixLength = prefixLength * 10 + Int(String(j).bridgeToObjectiveC().intValue)
+                                    if find(DIGIT, j) != nil {
+                                        var intValue = String(j).toInt()
+                                        prefixLength = prefixLength * 10 + intValue!
                                         if prefixLength >= 1000 {
                                             eError = .MalformedVarSpec
                                             break;
@@ -586,11 +587,11 @@ public class URITemplate {
                             }
                         } // for expression
 
-                        if eError {
-                            errors += (eError!, index + jIndex)
+                        if (eError != nil) {
+                            errors.append((eError!, index + jIndex))
                             let remainingExpression = str[advance(str.startIndex, jIndex)..<str.endIndex]
-                            if operator {
-                                result = result + "{" + operator! + remainingExpression + "}"
+                            if op != nil {
+                                result = result + "{" + op! + remainingExpression + "}"
                             } else {
                                 result = result + "{" + remainingExpression + "}"
                             }
@@ -620,19 +621,19 @@ public class URITemplate {
         var endingIndex = countElements(template)
         if state == .ScanningLiteral {
             if !pctEncoded.isEmpty {
-                errors += (URITemplateError.MalformedPctEncodedInLiteral, endingIndex)
+                errors.append((URITemplateError.MalformedPctEncodedInLiteral, endingIndex))
                 result += encodeLiteralString(pctEncoded)
             }
 
         } else if (state == .ScanningExpression) {
-            errors += (URITemplateError.ExpressionEndedWithoutClosing, endingIndex)
+            errors.append((URITemplateError.ExpressionEndedWithoutClosing, endingIndex))
             result = result + "{" + expression
 
         } else {
             assert(false);
         }
         if expressionCount == 0 {
-            errors += (URITemplateError.NonExpressionFound, endingIndex)
+            errors.append((URITemplateError.NonExpressionFound, endingIndex))
         }
 
         return (result, errors)
