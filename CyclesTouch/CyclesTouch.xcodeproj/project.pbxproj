@@ -36,6 +36,7 @@
 		16C5114F198E484D00698BD5 /* FooTestService_URITemplateNotFound.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C5114B198E484D00698BD5 /* FooTestService_URITemplateNotFound.plist */; };
 		16C51151198E7A2D00698BD5 /* FooTestMoreService.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C51150198E7A2D00698BD5 /* FooTestMoreService.plist */; };
 		16D07506196A21C100045CE0 /* SessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D07505196A21C100045CE0 /* SessionTests.swift */; };
+		16D80D11199BC900003A2183 /* KVOCenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D80D10199BC900003A2183 /* KVOCenterTests.swift */; };
 		16E4B970198FD4CA00043667 /* GH.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E4B96F198FD4CA00043667 /* GH.swift */; };
 		16E51783195A23270015DCB8 /* Cycle+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E51782195A23270015DCB8 /* Cycle+Convenience.swift */; };
 		16E51785195A2F990015DCB8 /* Cycle+ConvenienceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */; };
@@ -154,6 +155,7 @@
 		16C5114B198E484D00698BD5 /* FooTestService_URITemplateNotFound.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FooTestService_URITemplateNotFound.plist; sourceTree = "<group>"; };
 		16C51150198E7A2D00698BD5 /* FooTestMoreService.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FooTestMoreService.plist; sourceTree = "<group>"; };
 		16D07505196A21C100045CE0 /* SessionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionTests.swift; path = ../../tests/SessionTests.swift; sourceTree = "<group>"; };
+		16D80D10199BC900003A2183 /* KVOCenterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KVOCenterTests.swift; path = ../../source/contrib/tests/KVOCenterTests.swift; sourceTree = "<group>"; };
 		16E4B96F198FD4CA00043667 /* GH.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GH.swift; sourceTree = SOURCE_ROOT; };
 		16E51782195A23270015DCB8 /* Cycle+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Cycle+Convenience.swift"; path = "../source/Cycle+Convenience.swift"; sourceTree = "<group>"; };
 		16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Cycle+ConvenienceTests.swift"; path = "../../tests/Cycle+ConvenienceTests.swift"; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				162019BD195CF68E00CA3A80 /* ProcessorTests.swift */,
 				16C5113E198DDBB800698BD5 /* ServiceTests.swift */,
 				16F874C4198E8EDB002B642C /* URITemplateTests.swift */,
+				16D80D10199BC900003A2183 /* KVOCenterTests.swift */,
 				1613F9C51955AA2500CDD9FD /* Supporting Files */,
 			);
 			path = CyclesTouchTests;
@@ -436,6 +439,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1613F9EB1955E29200CDD9FD /* CycleTests.swift in Sources */,
+				16D80D11199BC900003A2183 /* KVOCenterTests.swift in Sources */,
 				16C5113F198DDBB800698BD5 /* ServiceTests.swift in Sources */,
 				165866BE1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */,
 				16F874C5198E8EDB002B642C /* URITemplateTests.swift in Sources */,

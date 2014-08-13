@@ -20,6 +20,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window!.rootViewController = UIViewController()
         self.window!.makeKeyAndVisible()
 
+        var dict = NSMutableDictionary(object: "last1", forKey: "lastName")
+        KeyValueObservingCenter.sharedInstance.addObserver(self, keyPath: "lastName",
+        options: .New, context: nil, observed:dict, queue: NSOperationQueue .mainQueue()) {
+            keyPath, observed, change, context in
+            var lastName: AnyObject? = change[NSKeyValueChangeNewKey]
+            var result = lastName as String
+        }
+        dict.setValue("last2", forKey: "lastName")
+
         return true
     }
 

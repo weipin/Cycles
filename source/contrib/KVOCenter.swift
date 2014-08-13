@@ -27,7 +27,7 @@ public typealias KeyValueObserverProxyCallback = (keyPath: String, observed: Any
 
 class KeyValueObserverProxy: NSObject {
     weak var observed: AnyObject!
-    weak var observer: NSObject!
+    weak var observer: AnyObject!
     var keyPath: String!
     var queue: NSOperationQueue!
     var callback: KeyValueObserverProxyCallback!
@@ -45,7 +45,7 @@ class KeyValueObserverProxy: NSObject {
 }
 
 public class KeyValueObservingCenter {
-    class var sharedInstance: KeyValueObservingCenter {
+    public class var sharedInstance: KeyValueObservingCenter {
         struct Singleton {
             static let instance = KeyValueObservingCenter()
         }
@@ -59,9 +59,9 @@ public class KeyValueObservingCenter {
         var proxies = self.dict[v]
         if proxies == nil {
             proxies = [KeyValueObserverProxy]()
-            self.dict[v] = proxies
         }
         proxies!.append(proxy)
+        self.dict[v] = proxies // TODO: Have to assign back, the value obtained from dictionary is always a copy?
     }
 
     public func addObserver(observer: NSObject!, keyPath: String!,
@@ -75,7 +75,7 @@ public class KeyValueObservingCenter {
         proxy.callback = callback
         self.addObserverProxy(proxy)
 
-        observed.addObserver(observer, forKeyPath: keyPath, options: options, context: context)
+        observed.addObserver(proxy, forKeyPath: keyPath, options: options, context: context)
     }
 
     public func removeObserver(observer: NSObject, keyPath: String? = nil, observed: AnyObject? = nil) {
