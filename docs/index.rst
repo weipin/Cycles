@@ -67,8 +67,8 @@ Quickstart
 Service
 -------
 
-`Service` is a higher level class you can use to manage Cycles with similar 
-attributes.
+`Service` is a higher level class you can use to manage the Cycle objects with 
+similar attributes.
 
 .. toctree::
     :maxdepth: 2
