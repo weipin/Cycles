@@ -25,14 +25,14 @@ import UIKit
 
 public typealias KeyValueObserverProxyCallback = (keyPath: String, observed: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) -> Void
 
-class KeyValueObserverProxy: NSObject {
+public class KeyValueObserverProxy: NSObject {
     weak var observed: AnyObject!
     weak var observer: AnyObject!
     var keyPath: String!
     var queue: NSOperationQueue!
     var callback: KeyValueObserverProxyCallback!
 
-    override func observeValueForKeyPath(keyPath: String, ofObject: AnyObject,
+    override public func observeValueForKeyPath(keyPath: String, ofObject: AnyObject,
     change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>) {
         if let queue = self.queue {
             queue.addOperationWithBlock {
@@ -65,8 +65,9 @@ public class KeyValueObservingCenter {
     }
 
     public func addObserver(observer: NSObject!, keyPath: String!,
-    options: NSKeyValueObservingOptions, context: UnsafeMutablePointer<()>,
-    observed: AnyObject!, queue: NSOperationQueue?, callback: KeyValueObserverProxyCallback) {
+    options: NSKeyValueObservingOptions = .New, context: UnsafeMutablePointer<()> = nil,
+    observed: AnyObject!, queue: NSOperationQueue = NSOperationQueue.mainQueue(),
+    callback: KeyValueObserverProxyCallback) -> KeyValueObserverProxy {
         var proxy = KeyValueObserverProxy()
         proxy.observed = observed
         proxy.observer = observer
@@ -76,6 +77,7 @@ public class KeyValueObservingCenter {
         self.addObserverProxy(proxy)
 
         observed.addObserver(proxy, forKeyPath: keyPath, options: options, context: context)
+        return proxy
     }
 
     public func removeObserver(observer: NSObject, keyPath: String? = nil, observed: AnyObject? = nil) {
@@ -92,7 +94,7 @@ public class KeyValueObservingCenter {
                 }
 
                 if found != nil {
-                    proxy.observer.removeObserver(proxy, forKeyPath: proxy.keyPath)
+                    proxy.observed.removeObserver(proxy, forKeyPath: proxy.keyPath)
                     proxies.removeAtIndex(found!)
                 }
             }

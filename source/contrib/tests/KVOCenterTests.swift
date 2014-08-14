@@ -42,7 +42,7 @@ class KVOCenterTests: XCTestCase {
         var lastName: AnyObject?
         var expection = self.expectationWithDescription("")
         KeyValueObservingCenter.sharedInstance.addObserver(self, keyPath: "lastName",
-        options: .New, context: nil, observed:dict, queue: NSOperationQueue .mainQueue()) {
+        options: .New, context: nil, observed:dict, queue: NSOperationQueue.mainQueue()) {
             keyPath, observed, change, context in
             lastName = change[NSKeyValueChangeNewKey]
             expection.fulfill()
@@ -52,5 +52,84 @@ class KVOCenterTests: XCTestCase {
         var result = lastName as String
         XCTAssertEqual(result, "last2")
     }
-    
+
+    func testAddObserverWithDefaultParameterShouldWork() {
+        var dict = NSMutableDictionary(object: "last1", forKey: "lastName")
+        var lastName: AnyObject?
+        var expection = self.expectationWithDescription("")
+        KeyValueObservingCenter.sharedInstance.addObserver(self, keyPath: "lastName",
+            observed:dict, callback: {
+                keyPath, observed, change, context in
+                lastName = change[NSKeyValueChangeNewKey]
+                expection.fulfill()
+        })
+        dict.setValue("last2", forKey: "lastName")
+        self.waitForExpectationsWithTimeout(Timeout, handler: nil)
+        var result = lastName as String
+        XCTAssertEqual(result, "last2")
+    }
+
+    func testRemoveObserverShouldWork() {
+        var dict = NSMutableDictionary(object: "last1", forKey: "lastName")
+        var lastName: AnyObject?
+        KeyValueObservingCenter.sharedInstance.addObserver(self, keyPath: "lastName",
+            observed:dict, callback: {
+                keyPath, observed, change, context in
+                lastName = change[NSKeyValueChangeNewKey]
+        })
+        KeyValueObservingCenter.sharedInstance.removeObserver(self, keyPath: "lastName")
+        dict.setValue("last2", forKey: "lastName")
+        WaitForWithTimeout(1) {
+            return false
+        }
+        XCTAssertTrue(lastName == nil)
+    }
+
+    func testRemoveObserverThroughProxyShouldWork() {
+        var dict = NSMutableDictionary(object: "last1", forKey: "lastName")
+        var lastName: AnyObject?
+        var proxy = KeyValueObservingCenter.sharedInstance.addObserver(self, keyPath: "lastName",
+            observed:dict, callback: {
+                keyPath, observed, change, context in
+                lastName = change[NSKeyValueChangeNewKey]
+        })
+        KeyValueObservingCenter.sharedInstance.removeObserver(proxy)
+        dict.setValue("last2", forKey: "lastName")
+        WaitForWithTimeout(1) {
+            return false
+        }
+        XCTAssertTrue(lastName == nil)
+    }
+
+    func testRemoveObserverWithNilPathShouldWork() {
+        var dict = NSMutableDictionary(object: "last1", forKey: "lastName")
+        var lastName: AnyObject?
+        KeyValueObservingCenter.sharedInstance.addObserver(self, keyPath: "lastName",
+            observed:dict, callback: {
+                keyPath, observed, change, context in
+                lastName = change[NSKeyValueChangeNewKey]
+        })
+        KeyValueObservingCenter.sharedInstance.removeObserver(self, keyPath: nil, observed: dict)
+        dict.setValue("last2", forKey: "lastName")
+        WaitForWithTimeout(1) {
+            return false
+        }
+        XCTAssertTrue(lastName == nil)
+    }
+
+    func testRemoveObserverWithNilObservedShouldWork() {
+        var dict = NSMutableDictionary(object: "last1", forKey: "lastName")
+        var lastName: AnyObject?
+        KeyValueObservingCenter.sharedInstance.addObserver(self, keyPath: "lastName",
+            observed:dict, callback: {
+                keyPath, observed, change, context in
+                lastName = change[NSKeyValueChangeNewKey]
+        })
+        KeyValueObservingCenter.sharedInstance.removeObserver(self, keyPath: "lastName", observed: nil)
+        dict.setValue("last2", forKey: "lastName")
+        WaitForWithTimeout(1) {
+            return false
+        }
+        XCTAssertTrue(lastName == nil)
+    }
 }
