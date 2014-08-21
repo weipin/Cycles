@@ -3,7 +3,7 @@ Cycles
 
 [Cycles is in early development, not fully tested. It's also iOS only for now.]
 
-** Xcode 6.0 Beta5 (6A279r) REQUIRED **
+** Xcode 6.0 Beta6 (6A280e) REQUIRED **
 
 Cycles is a HTTP library written in Swift. The target of Cycles is to
 free you from writing glue code around the NSURLSession classes.
