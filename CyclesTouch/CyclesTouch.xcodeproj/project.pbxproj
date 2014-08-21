@@ -21,11 +21,11 @@
 		1613F9E51955AA6B00CDD9FD /* HelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9E41955AA6B00CDD9FD /* HelperTests.swift */; };
 		1613F9EB1955E29200CDD9FD /* CycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1613F9EA1955E29200CDD9FD /* CycleTests.swift */; };
 		162019BE195CF68E00CA3A80 /* ProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162019BD195CF68E00CA3A80 /* ProcessorTests.swift */; };
-		1648FC6D198B9EF000C5BAE5 /* URITemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648FC6C198B9EF000C5BAE5 /* URITemplate.swift */; };
 		1648FC6F198BA17C00C5BAE5 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648FC6E198BA17C00C5BAE5 /* Service.swift */; };
 		165866BD1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */; };
 		165866BE1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */; };
 		16A38181199277550073A600 /* KVOCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A38180199277550073A600 /* KVOCenter.swift */; };
+		16A631F519A630B7000D7B00 /* URITemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648FC6C198B9EF000C5BAE5 /* URITemplate.swift */; };
 		16C5113F198DDBB800698BD5 /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C5113E198DDBB800698BD5 /* ServiceTests.swift */; };
 		16C51143198E163400698BD5 /* FooService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C51142198E163400698BD5 /* FooService.swift */; };
 		16C51145198E42AF00698BD5 /* FooService.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C51144198E42AF00698BD5 /* FooService.plist */; };
@@ -415,7 +415,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1648FC6D198B9EF000C5BAE5 /* URITemplate.swift in Sources */,
 				1613F9E21955AA5800CDD9FD /* Response.swift in Sources */,
 				165866BD1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */,
 				1613F9E01955AA5800CDD9FD /* Processor.swift in Sources */,
@@ -424,6 +423,7 @@
 				1613F9BA1955AA2500CDD9FD /* AppDelegate.swift in Sources */,
 				16E51783195A23270015DCB8 /* Cycle+Convenience.swift in Sources */,
 				16E4B970198FD4CA00043667 /* GH.swift in Sources */,
+				16A631F519A630B7000D7B00 /* URITemplate.swift in Sources */,
 				1648FC6F198BA17C00C5BAE5 /* Service.swift in Sources */,
 				1613F9DF1955AA5800CDD9FD /* Helper.swift in Sources */,
 				16A38181199277550073A600 /* KVOCenter.swift in Sources */,

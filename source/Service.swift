@@ -105,16 +105,13 @@ public class Service: NSObject {
     class func profileForFilename(filename: String) -> Dictionary<String, AnyObject>? {
         var theClass: AnyClass! = self.classForCoder()
         var bundle = NSBundle(forClass: theClass)
-        if bundle == nil {
-            return nil
-        }
         var URL = bundle.URLForResource(filename, withExtension: nil)
         if URL == nil {
-            println("file not found at: \(URL.absoluteString)");
+            println("file not found for: \(filename)");
             return nil
         }
         var error: NSError?
-        var data = NSData.dataWithContentsOfURL(URL, options: NSDataReadingOptions(0), error: &error)
+        var data = NSData.dataWithContentsOfURL(URL!, options: NSDataReadingOptions(0), error: &error)
         if data == nil {
             println("\(error?.description)");
             return nil
@@ -184,7 +181,7 @@ public class Service: NSObject {
         }
 
         var error: NSError?
-        var data = NSData.dataWithContentsOfURL(URL, options: NSDataReadingOptions(0), error: &error)
+        var data = NSData.dataWithContentsOfURL(URL!, options: NSDataReadingOptions(0), error: &error)
         if data == nil {
             println("\(error?.description)");
             return false
@@ -243,7 +240,7 @@ public class Service: NSObject {
     }
 
     public func resourceProfileForName(name: String) -> Dictionary<String, String>? {
-        assert(self.profile)
+        assert(self.profile != nil)
 
         if let value: AnyObject = profile![ServiceKey.Resources.toRaw()] {
             if let resources = value as? [Dictionary<String, String>] {
@@ -296,7 +293,7 @@ public class Service: NSObject {
         var cycle: Cycle!
         if identifier != nil {
             cycle = self.cycleForIdentifer(identifier!)
-            if cycle {
+            if cycle != nil {
                 if option == .Reuse {
 
                 } else if option == .Replace {
@@ -308,7 +305,7 @@ public class Service: NSObject {
             }
         } // if identifier
 
-        if cycle {
+        if cycle != nil {
             return cycle
         }
 
@@ -318,7 +315,7 @@ public class Service: NSObject {
             var URLString = Service.URLStringByJoiningComponents(self.baseURLString, part2: part2)
 
             var URL = NSURL.URLWithString(URLString)
-            assert(URL)
+            assert(URL != nil)
 
             var method = resourceProfile[ServiceKey.Method.toRaw()]
             if method == nil {

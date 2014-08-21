@@ -311,7 +311,7 @@ public typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> V
         if completionHandler != nil {
             self.completionHandler = completionHandler
         }
-        assert(self.completionHandler)
+        assert(self.completionHandler != nil)
 
         if self.core != nil {
             self.core!.resume()

@@ -125,7 +125,7 @@ public class DataProcessor : Processor {
             request.data = object
 
         } else {
-            if error {
+            if error != nil {
                 error.memory = NSError(domain: CycleErrorDomain,
                     code: CycleErrorCode.ObjectKindNotMatch.toRaw(),
                     userInfo: nil)
@@ -211,7 +211,7 @@ public class TextProcessor : Processor {
             if let data = object.dataUsingEncoding(self.writeEncoding) {
                 request.data = data
             } else {
-                if (error) {
+                if (error != nil) {
                     error.memory = NSError(domain: NSCocoaErrorDomain,
                         code: NSFileWriteInapplicableStringEncodingError,
                         userInfo: nil)
@@ -219,7 +219,7 @@ public class TextProcessor : Processor {
             }
 
         } else {
-            if (error) {
+            if (error != nil) {
                 error.memory = NSError(domain: CycleErrorDomain,
                     code: CycleErrorCode.ObjectKindNotMatch.toRaw(),
                     userInfo: nil)
@@ -258,7 +258,7 @@ public class JSONProcessor : Processor {
             var e: NSError?
             request.data = NSJSONSerialization.dataWithJSONObject(object, options: nil, error: &e)
             if (e != nil) {
-                if (error) {
+                if (error != nil) {
                     error.memory = e
                 }
                 return false
@@ -267,7 +267,7 @@ public class JSONProcessor : Processor {
             }
 
         } else {
-            if (error) {
+            if (error != nil) {
                 error.memory = NSError(domain: CycleErrorDomain,
                     code: CycleErrorCode.ObjectKindNotMatch.toRaw(),
                     userInfo: nil)
@@ -284,7 +284,7 @@ public class JSONProcessor : Processor {
                                                                  options: .AllowFragments,
                                                                  error: &e)
         if e != nil {
-            if (error) {
+            if (error != nil) {
                 error.memory = e
             }
             return false
@@ -307,7 +307,7 @@ public class FORMProcessor : Processor {
                                   forHTTPHeaderField: "Content-Type")
 
         } else {
-            if (error) {
+            if (error != nil) {
                 error.memory = NSError(domain: CycleErrorDomain,
                     code: CycleErrorCode.ObjectKindNotMatch.toRaw(),
                     userInfo: nil)

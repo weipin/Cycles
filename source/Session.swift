@@ -242,7 +242,7 @@ NSURLSessionDataDelegate {
             return false
         }
 
-        if error {
+        if error != nil {
             if error.domain == NSURLErrorDomain && error.code == NSURLErrorTimedOut {
                 return true
             }
@@ -267,7 +267,7 @@ NSURLSessionDataDelegate {
         cycle.response.core = task.response as? NSHTTPURLResponse
         cycle.response.timestamp = NSDate()
 
-        if error {
+        if error != nil {
             if error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled {
                 self.delegateQueue.addOperationWithBlock {
                     if !cycle.explicitlyCanceling {
@@ -316,7 +316,7 @@ NSURLSessionDataDelegate {
             return
         }
 
-        if error {
+        if error != nil {
             self.cycleDidFinish(cycle, error: error)
             return
         }
@@ -508,8 +508,8 @@ NSURLSessionDataDelegate {
         // parameters
         if self.preservedHTTPQueryParameters.count > 0 {
             var URLString = request.core.URL.absoluteString
-            URLString = MergeParametersToURL(URLString, self.preservedHTTPQueryParameters)
-            if let URL = NSURL.URLWithString(URLString) {
+            URLString = MergeParametersToURL(URLString!, self.preservedHTTPQueryParameters)
+            if let URL = NSURL.URLWithString(URLString!) {
                 var URLString = request.core.URL.absoluteString
                 request.core.URL = URL
             }

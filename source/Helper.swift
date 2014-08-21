@@ -109,7 +109,7 @@ public func UnescapeStringFromURLArgumentString(str: String) -> String {
     s = s.stringByReplacingOccurrencesOfString("+", withString: " ",
                                                options: NSStringCompareOptions.LiteralSearch,
                                                range: range)
-    s = s.stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+    s = s.stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding) ?? ""
     return s
 }
 

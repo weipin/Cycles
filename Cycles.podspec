@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "Cycles"
-  s.version          = "0.3.0"
+  s.version          = "0.3.1"
   s.summary          = "HTTP library written in Swift."
   s.description      = <<-DESC
                        Cycles is a HTTP library written in Swift. The target of Cycles is to

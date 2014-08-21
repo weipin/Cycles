@@ -46,7 +46,7 @@ public func ExpandURITemplate(template: String, values: AnyObject? = nil) -> Str
     if provider == nil {
         provider = Dictionary<String, AnyObject>()
     }
-    let (URLString, errors) = URITemplate.process(template, values: provider!);
+    let (URLString, errors) = URITemplate().process(template, values: provider!);
     return URLString
 }
 
@@ -59,180 +59,159 @@ public enum URITemplateError {
     case MalformedVarSpec
 }
 
+enum State {
+    case ScanningLiteral
+    case ScanningExpression
+}
+
+enum ExpressionState {
+    case ScanningVarName
+    case ScanningModifier
+}
+
+enum BehaviorAllow {
+    case U // any character not in the unreserved set will be encoded
+    case UR // any character not in the union of (unreserved / reserved / pct-encoding) will be encoded
+}
+
+struct Behavior {
+    var first: String
+    var sep: String
+    var named: Bool
+    var ifemp: String
+    var allow: BehaviorAllow
+}
+
 /*!
 * @discussion
 * This class is an implementation of URI Template (RFC6570). You probably
 * wouldn't need to use this class but the convenient function ExpandURITemplate.
 */
 public class URITemplate {
-    enum State {
-        case ScanningLiteral
-        case ScanningExpression
+    // TODO: Use type variable
+    struct ClassVariable {
+        static let BehaviorTable = [
+            "NUL": Behavior(first: "",  sep: ",", named: false, ifemp: "",  allow: .U),
+            "+"  : Behavior(first: "",  sep: ",", named: false, ifemp: "",  allow: .UR),
+            "."  : Behavior(first: ".", sep: ".", named: false, ifemp: "",  allow: .U),
+            "/"  : Behavior(first: "/", sep: "/", named: false, ifemp: "",  allow: .U),
+            ";"  : Behavior(first: ";", sep: ";", named: true,  ifemp: "",  allow: .U),
+            "?"  : Behavior(first: "?", sep: "&", named: true,  ifemp: "=", allow: .U),
+            "&"  : Behavior(first: "&", sep: "&", named: true,  ifemp: "=", allow: .U),
+            "#"  : Behavior(first: "#", sep: ",", named: false, ifemp: "",  allow: .UR),
+        ]
+
+        static let LEGAL = "!*'();:@&=+$,/?%#[]" // Legal URL characters (based on RFC 3986)
+        static let HEXDIG = "0123456789abcdefABCDEF"
+        static let DIGIT = "0123456789"
+        static let RESERVED = ":/?#[]@!$&'()*+,;="
+        static let UNRESERVED = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~" // 66
+        static let VARCHAR = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_" // exclude pct-encoded
     }
 
-    enum ExpressionState {
-        case ScanningVarName
-        case ScanningModifier
+    let BehaviorTable = ClassVariable.BehaviorTable
+    let LEGAL = ClassVariable.LEGAL
+    let HEXDIG = ClassVariable.HEXDIG
+    let DIGIT = ClassVariable.DIGIT
+    let RESERVED = ClassVariable.RESERVED
+    let UNRESERVED = ClassVariable.UNRESERVED
+    let VARCHAR = ClassVariable.VARCHAR
+
+    // Pct-encoded ignored
+    func encodeLiteralString(string: String) -> String {
+        var charactersToLeaveUnescaped = self.RESERVED + self.UNRESERVED
+        var s = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+            string as NSString, charactersToLeaveUnescaped as NSString,
+            nil,
+            CFStringBuiltInEncodings.UTF8.toRaw())
+        var result = s as NSString
+        return result
     }
 
-    enum BehaviorAllow {
-        case U // any character not in the unreserved set will be encoded
-        case UR // any character not in the union of (unreserved / reserved / pct-encoding) will be encoded
+    func encodeLiteralCharacter(character: Character) -> String {
+        return encodeLiteralString(String(character))
     }
 
-    struct Behavior {
-        var first: String
-        var sep: String
-        var named: Bool
-        var ifemp: String
-        var allow: BehaviorAllow
-    }
+    func encodeStringWithBehaviorAllowSet(string: String, allow: BehaviorAllow) -> String {
+        var result = ""
 
-/*!
- * @abstract 
- * Expand a URITemplate
- *
- * @param template
- * The URITemplate to expand
- *
- * @param values
- * The object to provide values when the method expands the URITemplate. 
- * It can be a Swift Dictionary, a NSDictionary, a NSDictionary subclass or any 
- * object has method `objectForKey`.
- * 
- * @result (result, errors)
- * result
- * The expanded URITemplate
- * errors
- * An array of tuple (URITemplateError, Int) which represents the errors this method 
- * recorded in expanding the URITemplate. The first element indicates the type of 
- * error, the second element indicates the position (index) of the error in the URITemplate.
- */
-    public class func process(template: String, values: AnyObject) -> (String, Array<(URITemplateError, Int)>) {
-        // FIXME: Use class variable
-        struct ClassVariable {
-            static let BehaviorTable = [
-                "NUL": Behavior(first: "",  sep: ",", named: false, ifemp: "",  allow: .U),
-                "+"  : Behavior(first: "",  sep: ",", named: false, ifemp: "",  allow: .UR),
-                "."  : Behavior(first: ".", sep: ".", named: false, ifemp: "",  allow: .U),
-                "/"  : Behavior(first: "/", sep: "/", named: false, ifemp: "",  allow: .U),
-                ";"  : Behavior(first: ";", sep: ";", named: true,  ifemp: "",  allow: .U),
-                "?"  : Behavior(first: "?", sep: "&", named: true,  ifemp: "=", allow: .U),
-                "&"  : Behavior(first: "&", sep: "&", named: true,  ifemp: "=", allow: .U),
-                "#"  : Behavior(first: "#", sep: ",", named: false, ifemp: "",  allow: .UR),
-            ]
-
-            static let LEGAL = "!*'();:@&=+$,/?%#[]" // Legal URL characters (based on RFC 3986)
-            static let HEXDIG = "0123456789abcdefABCDEF"
-            static let DIGIT = "0123456789"
-            static let RESERVED = ":/?#[]@!$&'()*+,;="
-            static let UNRESERVED = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~" // 66
-            static let VARCHAR = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_" // exclude pct-encoded
-        }
-
-        let BehaviorTable = ClassVariable.BehaviorTable
-        let LEGAL = ClassVariable.LEGAL
-        let HEXDIG = ClassVariable.HEXDIG
-        let DIGIT = ClassVariable.DIGIT
-        let RESERVED = ClassVariable.RESERVED
-        let UNRESERVED = ClassVariable.UNRESERVED
-        let VARCHAR = ClassVariable.VARCHAR
-
-        // Pct-encoded ignored
-        func encodeLiteralString(string: String) -> String {
-            var charactersToLeaveUnescaped = RESERVED + UNRESERVED
+        if allow == .U {
             var s = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                string as NSString, charactersToLeaveUnescaped as NSString,
-                nil,
+                string as NSString, UNRESERVED as NSString,
+                LEGAL as NSString,
                 CFStringBuiltInEncodings.UTF8.toRaw())
-            var result = s as NSString
-            return result
+            result = s as NSString
+
+        } else if allow == .UR {
+            result = encodeLiteralString(string)
+        } else {
+            assert(false)
         }
 
-        func encodeLiteralCharacter(character: Character) -> String {
-            return encodeLiteralString(String(character))
-        }
-
-        func encodeStringWithBehaviorAllowSet(string: String, allow: BehaviorAllow) -> String {
-            var result = ""
-
-            if allow == .U {
-                var s = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                    string as NSString, UNRESERVED as NSString,
-                    LEGAL as NSString,
-                    CFStringBuiltInEncodings.UTF8.toRaw())
-                result = s as NSString
-
-            } else if allow == .UR {
-                result = encodeLiteralString(string)
-            } else {
-                assert(false)
-            }
-
-            return result
-        }
+        return result
+    }
 
 
-        func stringOfAnyObject(object: AnyObject?) -> String? {
-            if object == nil {
-                return nil
-            }
-
-            if let str = object as? String {
-                return str
-            }
-
-            if let str = object?.stringValue {
-                return str
-            }
-
+    func stringOfAnyObject(object: AnyObject?) -> String? {
+        if object == nil {
             return nil
         }
 
-        func findOperatorInExpression(expression: String) -> (op: Character?, error: URITemplateError?) {
-            var count = countElements(expression)
+        if let str = object as? String {
+            return str
+        }
 
-            if count == 0 {
+        if let str = object?.stringValue {
+            return str
+        }
+
+        return nil
+    }
+
+    func findOperatorInExpression(expression: String) -> (op: Character?, error: URITemplateError?) {
+        var count = countElements(expression)
+
+        if count == 0 {
+            return (nil, URITemplateError.InvalidOperator)
+        }
+
+        var op: Character? = nil
+        var error: URITemplateError? = nil
+        var startCharacher = expression[expression.startIndex]
+        if startCharacher == "%" {
+            if count < 3 {
                 return (nil, URITemplateError.InvalidOperator)
             }
 
-            var op: Character? = nil
-            var error: URITemplateError? = nil
-            var startCharacher = expression[expression.startIndex]
-            if startCharacher == "%" {
-                if count < 3 {
-                    return (nil, URITemplateError.InvalidOperator)
-                }
-
-                var c1 = expression[advance(expression.startIndex, 1)]
-                var c2 = expression[advance(expression.startIndex, 2)]
-                if find(HEXDIG, c1) == nil {
-                    return (nil, URITemplateError.InvalidOperator)
-                }
-                if find(HEXDIG, c2) == nil {
-                    return (nil, URITemplateError.InvalidOperator)
-                }
-                var str = "%" + c1 + c2
-                str = str.stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
-                op = str[str.startIndex]
-            } else {
-                op = startCharacher
+            var c1 = expression[advance(expression.startIndex, 1)]
+            var c2 = expression[advance(expression.startIndex, 2)]
+            if find(HEXDIG, c1) == nil {
+                return (nil, URITemplateError.InvalidOperator)
             }
-
-            if op != nil {
-                if (BehaviorTable[String(op!)] == nil) {
-                    if (find(VARCHAR, op!) == nil) {
-                        return (nil, URITemplateError.InvalidOperator)
-                    } else {
-                        return (nil, nil)
-                    }
-                }
+            if find(HEXDIG, c2) == nil {
+                return (nil, URITemplateError.InvalidOperator)
             }
-
-            return (op, error)
+            var str = "%" + String(c1) + String(c2)
+            str = str.stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding) ?? ""
+            op = str[str.startIndex]
+        } else {
+            op = startCharacher
         }
 
-        func expandVarSpec(varName: String, modifier: Character?, prefixLength :Int,
+        if op != nil {
+            if (BehaviorTable[String(op!)] == nil) {
+                if (find(VARCHAR, op!) == nil) {
+                    return (nil, URITemplateError.InvalidOperator)
+                } else {
+                    return (nil, nil)
+                }
+            }
+        }
+
+        return (op, error)
+    }
+
+    func expandVarSpec(varName: String, modifier: Character?, prefixLength :Int,
         behavior: Behavior, values: AnyObject) -> String {
             var result = ""
 
@@ -261,10 +240,10 @@ public class URITemplate {
                 }
                 if modifier == ":" && prefixLength < countElements(str) {
                     var prefix = str[str.startIndex ..< advance(str.startIndex, prefixLength)]
-                    result += encodeStringWithBehaviorAllowSet(prefix, behavior.allow)
+                    result += encodeStringWithBehaviorAllowSet(prefix, allow: behavior.allow)
 
                 } else {
-                    result += encodeStringWithBehaviorAllowSet(str, behavior.allow)
+                    result += encodeStringWithBehaviorAllowSet(str, allow: behavior.allow)
                 }
 
             } else {
@@ -285,7 +264,7 @@ public class URITemplate {
                                     result += behavior.ifemp
                                 } else {
                                     result += "="
-                                    result += encodeStringWithBehaviorAllowSet(str!, behavior.allow)
+                                    result += encodeStringWithBehaviorAllowSet(str!, allow: behavior.allow)
 
                                 }
                                 ++count
@@ -315,7 +294,7 @@ public class URITemplate {
                                     result += behavior.ifemp
                                 } else {
                                     result += "="
-                                    result += encodeStringWithBehaviorAllowSet(str!, behavior.allow)
+                                    result += encodeStringWithBehaviorAllowSet(str!, allow: behavior.allow)
                                 }
                                 ++count
                             }
@@ -335,7 +314,7 @@ public class URITemplate {
                                 if count > 0 {
                                     result += behavior.sep
                                 }
-                                result += encodeStringWithBehaviorAllowSet(str!, behavior.allow)
+                                result += encodeStringWithBehaviorAllowSet(str!, allow: behavior.allow)
                                 ++count
                             }
 
@@ -359,7 +338,7 @@ public class URITemplate {
                                 }
                                 result += encodeLiteralString(k)
                                 result += "="
-                                result += encodeStringWithBehaviorAllowSet(str!, behavior.allow)
+                                result += encodeStringWithBehaviorAllowSet(str!, allow: behavior.allow)
                                 ++count
                             }
 
@@ -395,7 +374,7 @@ public class URITemplate {
                             if count > 0 {
                                 result += ","
                             }
-                            result += encodeStringWithBehaviorAllowSet(str!, behavior.allow)
+                            result += encodeStringWithBehaviorAllowSet(str!, allow: behavior.allow)
                             ++count
                         }
 
@@ -417,22 +396,44 @@ public class URITemplate {
                             if count > 0 {
                                 result += ","
                             }
-                            result += encodeStringWithBehaviorAllowSet(k, behavior.allow)
+                            result += encodeStringWithBehaviorAllowSet(k, allow: behavior.allow)
                             result += ","
-                            result += encodeStringWithBehaviorAllowSet(str!, behavior.allow)
+                            result += encodeStringWithBehaviorAllowSet(str!, allow: behavior.allow)
                             ++count
                         }
-
+                        
                     } else {
-
+                        
                     }
                     
                 } // if modifier == "*"
-
+                
             }
             return result
-        }
+    }
+    
 
+/*!
+ * @abstract
+ * Expand a URITemplate
+ *
+ * @param template
+ * The URITemplate to expand
+ *
+ * @param values
+ * The object to provide values when the method expands the URITemplate. 
+ * It can be a Swift Dictionary, a NSDictionary, a NSDictionary subclass or any 
+ * object has method `objectForKey`.
+ * 
+ * @result (result, errors)
+ * result
+ * The expanded URITemplate
+ * errors
+ * An array of tuple (URITemplateError, Int) which represents the errors this method 
+ * recorded in expanding the URITemplate. The first element indicates the type of 
+ * error, the second element indicates the position (index) of the error in the URITemplate.
+ */
+    public func process(template: String, values: AnyObject) -> (String, Array<(URITemplateError, Int)>) {
         var state: State = .ScanningLiteral
         var result = ""
         var pctEncoded = ""
@@ -451,7 +452,7 @@ public class URITemplate {
                     switch countElements(pctEncoded) {
                     case 1:
                         if find(HEXDIG, c) != nil {
-                            pctEncoded += c
+                            pctEncoded += String(c)
                         } else {
                             errors.append((URITemplateError.MalformedPctEncodedInLiteral, index))
                             result += encodeLiteralString(pctEncoded)
@@ -462,7 +463,7 @@ public class URITemplate {
 
                     case 2:
                         if find(HEXDIG, c) != nil {
-                            pctEncoded += c
+                            pctEncoded += String(c)
                             result += pctEncoded
                             state = .ScanningLiteral
                             pctEncoded = ""
@@ -480,15 +481,15 @@ public class URITemplate {
                     }
 
                 } else if c == "%" {
-                    pctEncoded += c
+                    pctEncoded += String(c)
                     state = .ScanningLiteral
 
                 } else if find(UNRESERVED, c) != nil || find(RESERVED, c) != nil {
-                    result += c
+                    result += String(c)
 
                 } else {
                     errors.append((URITemplateError.NonLiteralsCharacterFoundInLiteral, index))
-                    result += c
+                    result += String(c)
                 }
 
             case .ScanningExpression:
@@ -520,7 +521,7 @@ public class URITemplate {
                         var modifier: Character?
                         var prefixLength :Int = 0
                         var str = expression[advance(expression.startIndex, skipCount)..<expression.endIndex]
-                        str = str.stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+                        str = str.stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding) ?? ""
                         var jIndex = 0
                         for (jIndex, j) in enumerate(str) {
                             if j == "," {
@@ -530,7 +531,7 @@ public class URITemplate {
                                 } else {
                                     result += behavior.sep
                                 }
-                                var expanded = expandVarSpec(varName, modifier, prefixLength, behavior, values)
+                                var expanded = expandVarSpec(varName, modifier:modifier, prefixLength:prefixLength, behavior:behavior, values:values)
                                 result += expanded
                                 ++varCount
 
@@ -555,7 +556,7 @@ public class URITemplate {
                                     continue
                                 }
                                 if find(VARCHAR, j) != nil || j == "." {
-                                    varName += j
+                                    varName += String(j)
                                 } else {
                                     eError = .MalformedVarSpec
                                     break;
@@ -593,7 +594,7 @@ public class URITemplate {
                             errors.append((e, ti))
                             let remainingExpression = str[advance(str.startIndex, jIndex)..<str.endIndex]
                             if op != nil {
-                                result = result + "{" + op! + remainingExpression + "}"
+                                result = result + "{" + String(op!) + remainingExpression + "}"
                             } else {
                                 result = result + "{" + remainingExpression + "}"
                             }
@@ -605,13 +606,13 @@ public class URITemplate {
                             } else {
                                 result += behavior.sep
                             }
-                            var expanded = expandVarSpec(varName, modifier, prefixLength, behavior, values)
+                            var expanded = expandVarSpec(varName, modifier: modifier, prefixLength: prefixLength, behavior: behavior, values: values)
                             result += expanded
                         }
                     } // varspec-list
 
                 } else {
-                    expression += c;
+                    expression += String(c);
                 }
 
             default:
