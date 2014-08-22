@@ -24,6 +24,8 @@
 		1648FC6F198BA17C00C5BAE5 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648FC6E198BA17C00C5BAE5 /* Service.swift */; };
 		165866BD1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */; };
 		165866BE1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */; };
+		1695112319A76578008E35D4 /* ValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695112219A76578008E35D4 /* ValueTransformer.swift */; };
+		1695112519A76F65008E35D4 /* DataMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695112419A76F65008E35D4 /* DataMapping.swift */; };
 		16A38181199277550073A600 /* KVOCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A38180199277550073A600 /* KVOCenter.swift */; };
 		16A631F519A630B7000D7B00 /* URITemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648FC6C198B9EF000C5BAE5 /* URITemplate.swift */; };
 		16C5113F198DDBB800698BD5 /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C5113E198DDBB800698BD5 /* ServiceTests.swift */; };
@@ -143,6 +145,8 @@
 		1648FC6C198B9EF000C5BAE5 /* URITemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = URITemplate.swift; path = ../source/URITemplate.swift; sourceTree = "<group>"; };
 		1648FC6E198BA17C00C5BAE5 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Service.swift; path = ../source/Service.swift; sourceTree = "<group>"; };
 		165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkActivityIndicator.swift; path = ../source/NetworkActivityIndicator.swift; sourceTree = "<group>"; };
+		1695112219A76578008E35D4 /* ValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ValueTransformer.swift; path = ../source/contrib/ValueTransformer.swift; sourceTree = "<group>"; };
+		1695112419A76F65008E35D4 /* DataMapping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataMapping.swift; path = ../source/contrib/DataMapping.swift; sourceTree = "<group>"; };
 		16A38180199277550073A600 /* KVOCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KVOCenter.swift; path = ../source/contrib/KVOCenter.swift; sourceTree = "<group>"; };
 		16C5113E198DDBB800698BD5 /* ServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceTests.swift; path = ../../tests/ServiceTests.swift; sourceTree = "<group>"; };
 		16C51140198E160300698BD5 /* Playground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Playground.swift; sourceTree = "<group>"; };
@@ -277,6 +281,8 @@
 			isa = PBXGroup;
 			children = (
 				16A38180199277550073A600 /* KVOCenter.swift */,
+				1695112219A76578008E35D4 /* ValueTransformer.swift */,
+				1695112419A76F65008E35D4 /* DataMapping.swift */,
 			);
 			name = contrib;
 			sourceTree = "<group>";
@@ -420,6 +426,8 @@
 				1613F9E01955AA5800CDD9FD /* Processor.swift in Sources */,
 				16C51143198E163400698BD5 /* FooService.swift in Sources */,
 				1613F9DE1955AA5800CDD9FD /* Error.swift in Sources */,
+				1695112319A76578008E35D4 /* ValueTransformer.swift in Sources */,
+				1695112519A76F65008E35D4 /* DataMapping.swift in Sources */,
 				1613F9BA1955AA2500CDD9FD /* AppDelegate.swift in Sources */,
 				16E51783195A23270015DCB8 /* Cycle+Convenience.swift in Sources */,
 				16E4B970198FD4CA00043667 /* GH.swift in Sources */,
