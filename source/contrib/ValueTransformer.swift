@@ -23,6 +23,7 @@
 
 import Foundation
 
+@objc (ISO8601DateTransformer)
 class ISO8601DateTransformer: NSValueTransformer {
     override class func transformedValueClass() -> AnyClass! {
         return NSDate.self

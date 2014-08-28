@@ -20,15 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window!.rootViewController = UIViewController()
         self.window!.makeKeyAndVisible()
 
-        var dict = NSMutableDictionary(object: "last1", forKey: "lastName")
-        KeyValueObservingCenter.sharedInstance.addObserver(self, keyPath: "lastName",
-        options: .New, context: nil, observed:dict, queue: NSOperationQueue .mainQueue()) {
-            keyPath, observed, change, context in
-            var lastName: AnyObject? = change[NSKeyValueChangeNewKey]
-            var result = lastName as String
-        }
-        dict.setValue("last2", forKey: "lastName")
-
+        var meta = ObjectMappingMeta.metaForName("FooModel")
+        var source = ["Date": "2014-05-28T08:35:37"]
+        var object = NSMutableDictionary()
+        mapObject(object, fromSource: source, withMeta: meta!)
+        println("\(object)")
         return true
     }
 
