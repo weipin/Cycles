@@ -21,10 +21,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window!.makeKeyAndVisible()
 
         var meta = ObjectMappingMeta.metaForName("FooModel")
-        var source = ["Date": "2014-05-28T08:35:37"]
+        var data = ["Date": "2014-05-28T08:35:37"]
         var object = NSMutableDictionary()
-        mapObject(object, fromSource: source, withMeta: meta!)
+        updateObject(object, fromData: data, withMeta: meta!)
         println("\(object)")
+
+        var dict = NSMutableDictionary()
+        updateData(dict, fromObject: object, withMeta: meta!)
+        println("\(dict)")
+
         return true
     }
 

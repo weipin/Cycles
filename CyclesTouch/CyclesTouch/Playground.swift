@@ -132,3 +132,73 @@ import Foundation
 //        println("\(cycle.response.text)")
 //        println("\(cycle.response.object)")
 //    })
+
+//class FooModel: Model {
+//    var date: NSDate {
+//        get {
+//            return self.dict["Date"] as NSDate
+//        }
+//
+//        set {
+//            self.dict["Date"] = newValue
+//        }
+//    }
+//}
+//
+//@objc (FooTransformer)
+//class FooTransformer: ObjectTransformer {
+//    // must override
+//    override class func objectForMapping() -> AnyObject {
+//        return FooModel(dict: Dictionary<String, AnyObject>())
+//    }
+//
+//    // must override
+//    override class func mappingMeta() -> ObjectMappingMeta {
+//        return ObjectMappingMeta.metaForName("FooModel")!
+//    }
+//}
+//
+//@objc (FooListTransformer)
+//class FooListTransformer: ObjectListTransformer {
+//    override class func objectForMapping() -> AnyObject {
+//        return FooModel(dict: Dictionary<String, AnyObject>())
+//    }
+//
+//    override class func mappingMeta() -> ObjectMappingMeta {
+//        return ObjectMappingMeta.metaForName("FooModel")!
+//    }
+//}
+
+//// single date field
+//var meta = ObjectMappingMeta.metaForName("FooModel")
+//var data = ["Date": "2014-05-28T08:35:37"]
+//var object = NSMutableDictionary()
+//updateObject(object, fromData: data, withMeta: meta!)
+//println("\(object)")
+//
+//var dict = NSMutableDictionary()
+//updateData(dict, fromObject: object, withMeta: meta!)
+//println("\(dict)")
+//
+//// object mapping
+//meta = ObjectMappingMeta.metaForName("ContainerModel")
+//var data1 = ["Foo": ["Date": "2014-05-28T08:35:37"]]
+//object = NSMutableDictionary()
+//updateObject(object, fromData: data1, withMeta: meta!)
+//println("\(object)")
+//
+//dict = NSMutableDictionary()
+//updateData(dict, fromObject: object, withMeta: meta!)
+//println("\(dict)")
+//
+//// object list mapping
+//meta = ObjectMappingMeta.metaForName("ContainerModel")
+//var data2 = ["FooList": [["Date": "2014-05-28T08:35:37"], ["Date": "2014-05-29T01:31:31"]]]
+//object = NSMutableDictionary()
+//updateObject(object, fromData: data2, withMeta: meta!)
+//println("\(object)")
+//
+//dict = NSMutableDictionary()
+//updateData(dict, fromObject: object, withMeta: meta!)
+//println("\(dict)")
+

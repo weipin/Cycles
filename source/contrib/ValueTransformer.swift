@@ -23,28 +23,139 @@
 
 import Foundation
 
+
 @objc (ISO8601DateTransformer)
-class ISO8601DateTransformer: NSValueTransformer {
-    override class func transformedValueClass() -> AnyClass! {
-        return NSDate.self
+public class ISO8601DateTransformer: NSValueTransformer {
+    lazy var transformDataFormatter = { () -> NSDateFormatter in
+        var formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
+        return formatter
+    }()
+
+    lazy var reverseTransformDataFormatter = { () -> NSDateFormatter in
+        var formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'"
+        return formatter
+    }()
+
+    override public class func allowsReverseTransformation() -> Bool {
+        return true
     }
 
-    override class func allowsReverseTransformation() -> Bool {
-        return false
-    }
-
-    override func transformedValue(value: AnyObject!) -> AnyObject! {
+    override public func transformedValue(value: AnyObject!) -> AnyObject! {
         var str = value as? String
         if str == nil {
             println("ISO8601Date transforming failed")
             return nil
         }
 
-        var formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
-        var date = formatter.dateFromString(str)
+        var date = self.transformDataFormatter.dateFromString(str)
         
         return date
     }
+
+    override public func reverseTransformedValue(value: AnyObject!) -> AnyObject! {
+        var date = value as? NSDate
+        if date == nil {
+            println("ISO8601Date reverse transforming failed")
+            return nil
+        }
+
+        var str = self.reverseTransformDataFormatter.stringFromDate(date!)
+        return str
+    }
 }
 
+@objc (ObjectTransformer)
+public class ObjectTransformer: NSValueTransformer {
+    public class func dataForMapping() -> AnyObject {
+        return NSMutableDictionary()
+    }
+
+    // must override
+    public class func objectForMapping() -> AnyObject {
+        assert(false)
+        return []
+    }
+
+    // must override
+    public class func mappingMeta() -> ObjectMappingMeta {
+        assert(false)
+        return ObjectMappingMeta(dict: Dictionary<String, AnyObject>())
+    }
+
+    override public class func allowsReverseTransformation() -> Bool {
+        return true
+    }
+
+    override public func transformedValue(value: AnyObject!) -> AnyObject! {
+        let object: AnyObject = self.dynamicType.objectForMapping()
+        let meta = self.dynamicType.mappingMeta()
+        updateObject(object, fromData: value, withMeta: meta)
+
+        return object
+    }
+
+    override public func reverseTransformedValue(value: AnyObject!) -> AnyObject! {
+        let meta = self.dynamicType.mappingMeta()
+        let data: AnyObject = self.dynamicType.dataForMapping()
+        updateData(data, fromObject: value, withMeta: meta)
+
+        return data
+    }
+}
+
+@objc (ObjectListTransformer)
+public class ObjectListTransformer: NSValueTransformer {
+    public class func dataForMapping() -> AnyObject {
+        return NSMutableDictionary()
+    }
+
+    // must override
+    public class func objectForMapping() -> AnyObject {
+        assert(false)
+        return []
+    }
+
+    // must override
+    public class func mappingMeta() -> ObjectMappingMeta {
+        assert(false)
+        return ObjectMappingMeta(dict: Dictionary<String, AnyObject>())
+    }
+
+    override public class func allowsReverseTransformation() -> Bool {
+        return true
+    }
+
+    override public func transformedValue(value: AnyObject!) -> AnyObject! {
+        if let ary = value as? [AnyObject] {
+            let meta = self.dynamicType.mappingMeta()
+            var result = [AnyObject]()
+            for i in ary {
+                let object: AnyObject = self.dynamicType.objectForMapping()
+                updateObject(object, fromData: i, withMeta: meta)
+                result.append(object)
+            }
+
+            return result
+        }
+
+        return nil
+    }
+
+    public override func reverseTransformedValue(value: AnyObject!) -> AnyObject! {
+        if let ary = value as? [AnyObject] {
+            let meta = self.dynamicType.mappingMeta()
+            var result = [AnyObject]()
+            for i in ary {
+                let data: AnyObject = self.dynamicType.dataForMapping()
+                updateData(data, fromObject: i, withMeta: meta)
+                result.append(data)
+            }
+
+            return result
+        }
+
+        return nil
+    }
+}

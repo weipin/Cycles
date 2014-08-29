@@ -30,7 +30,7 @@ enum ObjectMappingKey: String {
     case Transformer = "Transformer"
 }
 
-class ObjectMappingItem {
+public class ObjectMappingItem {
     var dict: Dictionary<String, AnyObject>!
 
     var key: String {
@@ -98,10 +98,10 @@ class ObjectMappingItem {
 
 }
 
-class ObjectMappingMeta {
+public class ObjectMappingMeta {
     var dict: Dictionary<String, AnyObject>!
 
-    class func metaForName(name: String, bundle: NSBundle? = nil) -> ObjectMappingMeta? {
+    public class func metaForName(name: String, bundle: NSBundle? = nil) -> ObjectMappingMeta? {
         let b = bundle ?? NSBundle.mainBundle()
         var URL = b.URLForResource(name, withExtension: "plist")
         if URL == nil {
@@ -129,7 +129,7 @@ class ObjectMappingMeta {
         return meta
     }
 
-    var items: [ObjectMappingItem] {
+    public var items: [ObjectMappingItem] {
         get {
             var value: AnyObject? = self.dict[ObjectMappingKey.Items.toRaw()]
             if value == nil {
@@ -158,12 +158,12 @@ class ObjectMappingMeta {
 
 }
 
-func mapObject(object:AnyObject, fromSource source: AnyObject, withMeta meta: ObjectMappingMeta) {
+public func updateObject(object:AnyObject, fromData data: AnyObject, withMeta meta: ObjectMappingMeta) {
     let items = meta.items
     for item in items {
-        var value: AnyObject! = source.valueForKeyPath(item.path)
+        var value: AnyObject! = data.valueForKeyPath(item.path)
         if value == nil {
-            println("value not found at path \(item.path)")
+            println("value not found in data for path \(item.path)")
             continue
         }
         var newValue: AnyObject! = item.transformer.transformedValue(value)
@@ -173,6 +173,24 @@ func mapObject(object:AnyObject, fromSource source: AnyObject, withMeta meta: Ob
         }
 
         object.setValue(newValue, forKey: item.key)
+    }
+}
+
+public func updateData(data: AnyObject, fromObject object: AnyObject, withMeta meta: ObjectMappingMeta) {
+    let items = meta.items
+    for item in items {
+        var value: AnyObject! = object.valueForKey(item.key)
+        if value == nil {
+            println("value not found in object for key \(item.key)")
+            continue
+        }
+        var newValue: AnyObject! = item.transformer.reverseTransformedValue(value)
+        if newValue == nil {
+            println("value reverse transforming failed for key \(item.key)")
+            continue
+        }
+
+        data.setValue(newValue, forKeyPath: item.path)
     }
 }
 

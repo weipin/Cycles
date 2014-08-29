@@ -26,7 +26,7 @@
 		165866BE1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */; };
 		166D61B919A8E2DC0056BF70 /* FooModel.plist in Resources */ = {isa = PBXBuildFile; fileRef = 166D61B819A8E2DC0056BF70 /* FooModel.plist */; };
 		1695112319A76578008E35D4 /* ValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695112219A76578008E35D4 /* ValueTransformer.swift */; };
-		1695112519A76F65008E35D4 /* ObjectMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695112419A76F65008E35D4 /* ObjectMapping.swift */; };
+		1695112519A76F65008E35D4 /* ModelMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695112419A76F65008E35D4 /* ModelMapping.swift */; };
 		16A38181199277550073A600 /* KVOCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A38180199277550073A600 /* KVOCenter.swift */; };
 		16A631F519A630B7000D7B00 /* URITemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648FC6C198B9EF000C5BAE5 /* URITemplate.swift */; };
 		16C5113F198DDBB800698BD5 /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C5113E198DDBB800698BD5 /* ServiceTests.swift */; };
@@ -39,6 +39,9 @@
 		16C5114F198E484D00698BD5 /* FooTestService_URITemplateNotFound.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C5114B198E484D00698BD5 /* FooTestService_URITemplateNotFound.plist */; };
 		16C51151198E7A2D00698BD5 /* FooTestMoreService.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C51150198E7A2D00698BD5 /* FooTestMoreService.plist */; };
 		16D07506196A21C100045CE0 /* SessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D07505196A21C100045CE0 /* SessionTests.swift */; };
+		16D0DB5619B0BEEE004BD138 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D0DB5519B0BEEE004BD138 /* Model.swift */; };
+		16D0DB5819B0C861004BD138 /* ContainerModel.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16D0DB5719B0C861004BD138 /* ContainerModel.plist */; };
+		16D0DB5A19B0D67E004BD138 /* ObjectMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D0DB5919B0D67E004BD138 /* ObjectMappingTests.swift */; };
 		16E4B970198FD4CA00043667 /* GH.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E4B96F198FD4CA00043667 /* GH.swift */; };
 		16E51783195A23270015DCB8 /* Cycle+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E51782195A23270015DCB8 /* Cycle+Convenience.swift */; };
 		16E51785195A2F990015DCB8 /* Cycle+ConvenienceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */; };
@@ -148,7 +151,7 @@
 		165866BC1965E4E200FC2083 /* NetworkActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkActivityIndicator.swift; path = ../source/NetworkActivityIndicator.swift; sourceTree = "<group>"; };
 		166D61B819A8E2DC0056BF70 /* FooModel.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FooModel.plist; sourceTree = "<group>"; };
 		1695112219A76578008E35D4 /* ValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ValueTransformer.swift; path = ../source/contrib/ValueTransformer.swift; sourceTree = "<group>"; };
-		1695112419A76F65008E35D4 /* ObjectMapping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObjectMapping.swift; path = ../source/contrib/ObjectMapping.swift; sourceTree = "<group>"; };
+		1695112419A76F65008E35D4 /* ModelMapping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModelMapping.swift; path = ../source/contrib/ModelMapping.swift; sourceTree = "<group>"; };
 		16A38180199277550073A600 /* KVOCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KVOCenter.swift; path = ../source/contrib/KVOCenter.swift; sourceTree = "<group>"; };
 		16C5113E198DDBB800698BD5 /* ServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceTests.swift; path = ../../tests/ServiceTests.swift; sourceTree = "<group>"; };
 		16C51140198E160300698BD5 /* Playground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Playground.swift; sourceTree = "<group>"; };
@@ -161,6 +164,9 @@
 		16C5114B198E484D00698BD5 /* FooTestService_URITemplateNotFound.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FooTestService_URITemplateNotFound.plist; sourceTree = "<group>"; };
 		16C51150198E7A2D00698BD5 /* FooTestMoreService.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FooTestMoreService.plist; sourceTree = "<group>"; };
 		16D07505196A21C100045CE0 /* SessionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionTests.swift; path = ../../tests/SessionTests.swift; sourceTree = "<group>"; };
+		16D0DB5519B0BEEE004BD138 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Model.swift; path = ../source/contrib/Model.swift; sourceTree = "<group>"; };
+		16D0DB5719B0C861004BD138 /* ContainerModel.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ContainerModel.plist; sourceTree = "<group>"; };
+		16D0DB5919B0D67E004BD138 /* ObjectMappingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObjectMappingTests.swift; path = ../../Tests/contrib/ObjectMappingTests.swift; sourceTree = "<group>"; };
 		16E4B96F198FD4CA00043667 /* GH.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GH.swift; sourceTree = SOURCE_ROOT; };
 		16E51782195A23270015DCB8 /* Cycle+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Cycle+Convenience.swift"; path = "../source/Cycle+Convenience.swift"; sourceTree = "<group>"; };
 		16E51784195A2F990015DCB8 /* Cycle+ConvenienceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Cycle+ConvenienceTests.swift"; path = "../../tests/Cycle+ConvenienceTests.swift"; sourceTree = "<group>"; };
@@ -221,6 +227,7 @@
 				1613F9B71955AA2500CDD9FD /* Supporting Files */,
 				16C51140198E160300698BD5 /* Playground.swift */,
 				166D61B819A8E2DC0056BF70 /* FooModel.plist */,
+				16D0DB5719B0C861004BD138 /* ContainerModel.plist */,
 			);
 			path = CyclesTouch;
 			sourceTree = "<group>";
@@ -246,6 +253,7 @@
 				16C5113E198DDBB800698BD5 /* ServiceTests.swift */,
 				16F874C4198E8EDB002B642C /* URITemplateTests.swift */,
 				16E964B6199CE04100FA0F76 /* KVOCenterTests.swift */,
+				16D0DB5919B0D67E004BD138 /* ObjectMappingTests.swift */,
 				1613F9C51955AA2500CDD9FD /* Supporting Files */,
 			);
 			path = CyclesTouchTests;
@@ -285,7 +293,8 @@
 			children = (
 				16A38180199277550073A600 /* KVOCenter.swift */,
 				1695112219A76578008E35D4 /* ValueTransformer.swift */,
-				1695112419A76F65008E35D4 /* ObjectMapping.swift */,
+				1695112419A76F65008E35D4 /* ModelMapping.swift */,
+				16D0DB5519B0BEEE004BD138 /* Model.swift */,
 			);
 			name = contrib;
 			sourceTree = "<group>";
@@ -399,6 +408,7 @@
 				1613F9DD1955AA5800CDD9FD /* Cycles.strings in Resources */,
 				16F874C1198E831E002B642C /* FooTestMoreService.plist in Resources */,
 				16C51145198E42AF00698BD5 /* FooService.plist in Resources */,
+				16D0DB5819B0C861004BD138 /* ContainerModel.plist in Resources */,
 				16F874C3198E8734002B642C /* GH.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,7 +441,7 @@
 				16C51143198E163400698BD5 /* FooService.swift in Sources */,
 				1613F9DE1955AA5800CDD9FD /* Error.swift in Sources */,
 				1695112319A76578008E35D4 /* ValueTransformer.swift in Sources */,
-				1695112519A76F65008E35D4 /* ObjectMapping.swift in Sources */,
+				1695112519A76F65008E35D4 /* ModelMapping.swift in Sources */,
 				1613F9BA1955AA2500CDD9FD /* AppDelegate.swift in Sources */,
 				16E51783195A23270015DCB8 /* Cycle+Convenience.swift in Sources */,
 				16E4B970198FD4CA00043667 /* GH.swift in Sources */,
@@ -441,6 +451,7 @@
 				16A38181199277550073A600 /* KVOCenter.swift in Sources */,
 				1613F9E11955AA5800CDD9FD /* Request.swift in Sources */,
 				1613F9DB1955AA5800CDD9FD /* Authentication.swift in Sources */,
+				16D0DB5619B0BEEE004BD138 /* Model.swift in Sources */,
 				1613F9DC1955AA5800CDD9FD /* Cycle.swift in Sources */,
 				1613F9E31955AA5800CDD9FD /* Session.swift in Sources */,
 			);
@@ -451,6 +462,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1613F9EB1955E29200CDD9FD /* CycleTests.swift in Sources */,
+				16D0DB5A19B0D67E004BD138 /* ObjectMappingTests.swift in Sources */,
 				16C5113F198DDBB800698BD5 /* ServiceTests.swift in Sources */,
 				165866BE1965E4E200FC2083 /* NetworkActivityIndicator.swift in Sources */,
 				16F874C5198E8EDB002B642C /* URITemplateTests.swift in Sources */,
