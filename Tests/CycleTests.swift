@@ -156,7 +156,7 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL, taskType: .Download)
         cycle.downloadFileHandler = {(cycle: Cycle, location: NSURL?) in
             XCTAssertNotNil(location)
-            var content = NSString(contentsOfURL: location, encoding: NSUTF8StringEncoding, error: nil)
+            var content = NSString(contentsOfURL: location!, encoding: NSUTF8StringEncoding, error: nil)
             XCTAssertEqual(content, "helloworld")
         }
         cycle.start {(cycle, error) in

@@ -480,7 +480,7 @@ NSURLSessionDataDelegate {
         var data = NSPropertyListSerialization.dataWithPropertyList(dict,
                     format: .XMLFormat_v1_0, options: 0, error:error)
 
-        return data
+        return data!
     }
 
     public func loadPreservedStateFromData(data: NSData, error: NSErrorPointer) -> Bool {
@@ -507,10 +507,10 @@ NSURLSessionDataDelegate {
 
         // parameters
         if self.preservedHTTPQueryParameters.count > 0 {
-            var URLString = request.core.URL.absoluteString
+            var URLString = request.core.URL!.absoluteString
             URLString = MergeParametersToURL(URLString!, self.preservedHTTPQueryParameters)
             if let URL = NSURL.URLWithString(URLString!) {
-                var URLString = request.core.URL.absoluteString
+                var URLString = request.core.URL!.absoluteString
                 request.core.URL = URL
             }
         }

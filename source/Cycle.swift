@@ -55,7 +55,7 @@ public typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> V
  * The URL for the request.
  */
     public var requestURL: NSURL {
-        return self.request.core.URL
+        return self.request.core.URL!
     }
 
 /*!
@@ -265,7 +265,7 @@ public typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> V
                 task = self.session.core.uploadTaskWithRequest(self.request.core, fromData:self.dataToUpload);
             }
             if self.fileToUpload != nil {
-                task = self.session.core.uploadTaskWithRequest(self.request.core, fromFile:self.fileToUpload);
+                task = self.session.core.uploadTaskWithRequest(self.request.core, fromFile:self.fileToUpload!);
             }
         case .Download:
             assert(self.downloadFileHandler != nil);

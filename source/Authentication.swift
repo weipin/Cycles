@@ -191,7 +191,7 @@ public class BasicAuthentication : Authentication {
     public override func canHandleAuthenticationChallenge(challenge: NSURLAuthenticationChallenge,
         cycle: Cycle) -> Bool {
         var method = challenge.protectionSpace.authenticationMethod
-        if (self.Methods as NSArray).containsObject(method) {
+        if (self.Methods as NSArray).containsObject(method!) {
             return true
         }
             
@@ -218,9 +218,9 @@ public class BasicAuthentication : Authentication {
                 preferredStyle: .Alert)
             var OKAction = UIAlertAction(title: OKTitle, style: .Default) {
                 action in
-                var field = alertController.textFields[0] as UITextField
+                var field = alertController.textFields![0] as UITextField
                 var username = field.text
-                field = alertController.textFields[1] as UITextField
+                field = alertController.textFields![1] as UITextField
                 var password = field.text
                 self.username = username
                 self.password = password

@@ -42,19 +42,19 @@ public class ISO8601DateTransformer: NSValueTransformer {
         return true
     }
 
-    override public func transformedValue(value: AnyObject!) -> AnyObject! {
+    override public func transformedValue(value: AnyObject!) -> AnyObject? {
         var str = value as? String
         if str == nil {
             println("ISO8601Date transforming failed")
             return nil
         }
 
-        var date = self.transformDataFormatter.dateFromString(str)
+        var date = self.transformDataFormatter.dateFromString(str!)
         
         return date
     }
 
-    override public func reverseTransformedValue(value: AnyObject!) -> AnyObject! {
+    override public func reverseTransformedValue(value: AnyObject!) -> AnyObject? {
         var date = value as? NSDate
         if date == nil {
             println("ISO8601Date reverse transforming failed")
@@ -88,7 +88,7 @@ public class ObjectTransformer: NSValueTransformer {
         return true
     }
 
-    override public func transformedValue(value: AnyObject!) -> AnyObject! {
+    override public func transformedValue(value: AnyObject!) -> AnyObject? {
         let object: AnyObject = self.dynamicType.objectForMapping()
         let meta = self.dynamicType.mappingMeta()
         updateObject(object, fromData: value, withMeta: meta)
@@ -96,7 +96,7 @@ public class ObjectTransformer: NSValueTransformer {
         return object
     }
 
-    override public func reverseTransformedValue(value: AnyObject!) -> AnyObject! {
+    override public func reverseTransformedValue(value: AnyObject!) -> AnyObject? {
         let meta = self.dynamicType.mappingMeta()
         let data: AnyObject = self.dynamicType.dataForMapping()
         updateData(data, fromObject: value, withMeta: meta)
@@ -127,7 +127,7 @@ public class ObjectListTransformer: NSValueTransformer {
         return true
     }
 
-    override public func transformedValue(value: AnyObject!) -> AnyObject! {
+    override public func transformedValue(value: AnyObject!) -> AnyObject? {
         if let ary = value as? [AnyObject] {
             let meta = self.dynamicType.mappingMeta()
             var result = [AnyObject]()
@@ -143,7 +143,7 @@ public class ObjectListTransformer: NSValueTransformer {
         return nil
     }
 
-    public override func reverseTransformedValue(value: AnyObject!) -> AnyObject! {
+    public override func reverseTransformedValue(value: AnyObject!) -> AnyObject? {
         if let ary = value as? [AnyObject] {
             let meta = self.dynamicType.mappingMeta()
             var result = [AnyObject]()
