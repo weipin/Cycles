@@ -333,7 +333,7 @@ public typealias CycleDownloadFileHander = (cycle: Cycle, location: NSURL?) -> V
 
             if !result {
                 var e = NSError(domain: CycleErrorDomain,
-                    code: CycleErrorCode.PreparationFailure.toRaw(),
+                    code: CycleErrorCode.PreparationFailure.rawValue,
                     userInfo: nil)
                 self.session.cycleDidFinish(self, error: e)
                 return

@@ -39,9 +39,9 @@ class URITemplateTests: XCTestCase {
     }
 
     func testURLTemplate() {
-        var bundle = NSBundle(identifier: TestBundleIdentifier)
+        var bundle = NSBundle(identifier: TestBundleIdentifier)!
         var URL = bundle.URLForResource("URITemplateRFCTests", withExtension: "json")
-        var data = NSData.dataWithContentsOfURL(URL!, options: NSDataReadingOptions(0), error: nil)
+        var data = NSData(contentsOfURL: URL!, options: NSDataReadingOptions(0), error: nil)!
         var dict: NSDictionary! = NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments, error: nil) as NSDictionary
         for (testSuiteName, value) in dict {
             var variables = value["values"]

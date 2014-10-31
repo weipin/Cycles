@@ -185,7 +185,7 @@ public class BasicAuthentication : Authentication {
     }
 
     convenience override init() {
-        return self.init(username: "", password: "")
+        self.init(username: "", password: "")
     }
 
     public override func canHandleAuthenticationChallenge(challenge: NSURLAuthenticationChallenge,
@@ -199,9 +199,8 @@ public class BasicAuthentication : Authentication {
     }
 
     override func createAndUseCredential() {
-        var credential = NSURLCredential.credentialWithUser(self.username,
-                                                            password: self.password,
-                                                            persistence: .None)
+        var credential = NSURLCredential(user: self.username, password: self.password,
+                                         persistence: .None)
         self.completionHandler(disposition: .UseCredential, credential: credential)
     }
 

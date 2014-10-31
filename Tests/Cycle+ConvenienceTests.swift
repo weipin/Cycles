@@ -43,7 +43,7 @@ class CycleConvenienceTests: XCTestCase {
         var URLString = t_("hello")
         Cycle.get(URLString, completionHandler: {(cycle, error) in
             XCTAssertNil(error)
-            XCTAssertEqual(cycle.response.text, "Hello World");
+            XCTAssertEqual(cycle.response.text!, "Hello World");
             XCTAssertEqual(cycle.response!.statusCode!, 200);
             expection.fulfill()
         })
@@ -57,7 +57,7 @@ class CycleConvenienceTests: XCTestCase {
         Cycle.get(URLString, parameters: ["content": ["helloworld"]],
                   completionHandler: {(cycle, error) in
                     XCTAssertNil(error)
-                    XCTAssertEqual(cycle.response.text, "helloworld");
+                    XCTAssertEqual(cycle.response.text!, "helloworld");
                     XCTAssertEqual(cycle.response!.statusCode!, 200);
                     expection.fulfill()
             })
@@ -93,7 +93,7 @@ class CycleConvenienceTests: XCTestCase {
             (cycle, error) in
             XCTAssertNil(error)
 
-            XCTAssertEqual(cycle.response.text, "Hello World")
+            XCTAssertEqual(cycle.response.text!, "Hello World")
             expection.fulfill()
         })
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -106,7 +106,7 @@ class CycleConvenienceTests: XCTestCase {
             downloadFileHandler: {(cycle, location) in
                 XCTAssertNotNil(location)
                 var content = NSString(contentsOfURL: location!, encoding: NSUTF8StringEncoding, error: nil)
-                XCTAssertEqual(content, "helloworld")
+                XCTAssertEqual(content!, "helloworld")
             },
             completionHandler: {(cycle, error) in
                 XCTAssertNil(error)

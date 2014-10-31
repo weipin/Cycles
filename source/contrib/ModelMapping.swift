@@ -36,7 +36,7 @@ public class ObjectMappingItem {
     var key: String {
         get {
             var key: String!
-            let value: AnyObject? = self.dict[ObjectMappingKey.Key.toRaw()]
+            let value: AnyObject? = self.dict[ObjectMappingKey.Key.rawValue]
             if value != nil {
                 key = value as? String
                 if key == nil {
@@ -56,7 +56,7 @@ public class ObjectMappingItem {
     var path: String {
         get {
             var path: String!
-            let value: AnyObject? = self.dict[ObjectMappingKey.Path.toRaw()]
+            let value: AnyObject? = self.dict[ObjectMappingKey.Path.rawValue]
             if value != nil {
                 path = value as? String
                 if path == nil {
@@ -76,7 +76,7 @@ public class ObjectMappingItem {
     var transformer: NSValueTransformer {
         get {
             var transformer: NSValueTransformer?
-            let value: AnyObject? = self.dict[ObjectMappingKey.Transformer.toRaw()]
+            let value: AnyObject? = self.dict[ObjectMappingKey.Transformer.rawValue]
             if value != nil {
                 if let transformerName = value as? String {
                     transformer = NSValueTransformer(forName: transformerName)
@@ -131,7 +131,7 @@ public class ObjectMappingMeta {
 
     public var items: [ObjectMappingItem] {
         get {
-            var value: AnyObject? = self.dict[ObjectMappingKey.Items.toRaw()]
+            var value: AnyObject? = self.dict[ObjectMappingKey.Items.rawValue]
             if value == nil {
                 println("items not found")
                 assert(false)

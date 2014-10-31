@@ -35,7 +35,7 @@ extension Cycle {
         if parameters != nil {
             str = MergeParametersToURL(URLString, parameters!)
         }
-        var URL = NSURL.URLWithString(str)
+        var URL = NSURL(string: str)!
         var cycle = Cycle(requestURL: URL,
                           taskType: CycleType.Data,
                           requestMethod: method,
@@ -213,8 +213,8 @@ extension Cycle {
         if parameters != nil {
             str = MergeParametersToURL(URLString, parameters!)
         }
-        var URL = NSURL.URLWithString(str)
-        var cycle = Cycle(requestURL: URL,
+        var URL = NSURL(string: str)
+        var cycle = Cycle(requestURL: URL!,
                           taskType: CycleType.Upload,
                           requestMethod: "POST")
         if authentications != nil {
@@ -242,8 +242,8 @@ extension Cycle {
         if parameters != nil {
             str = MergeParametersToURL(URLString, parameters!)
         }
-        var URL = NSURL.URLWithString(str)
-        var cycle = Cycle(requestURL: URL,
+        var URL = NSURL(string: str)
+        var cycle = Cycle(requestURL: URL!,
                           taskType: CycleType.Upload,
                           requestMethod: "POST")
         if authentications != nil {
@@ -287,8 +287,8 @@ extension Cycle {
         if parameters != nil {
             str = MergeParametersToURL(URLString, parameters!)
         }
-        var URL = NSURL.URLWithString(str)
-        var cycle = Cycle(requestURL: URL,
+        var URL = NSURL(string: str)
+        var cycle = Cycle(requestURL: URL!,
                           taskType: CycleType.Download,
                           requestMethod: "GET")
         if authentications != nil {

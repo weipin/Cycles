@@ -310,7 +310,7 @@ NSURLSessionDataDelegate {
         }
         if statusFailure {
             var error = NSError(domain: CycleErrorDomain,
-                                code: CycleErrorCode.StatusCodeSeemsToHaveErred.toRaw(),
+                                code: CycleErrorCode.StatusCodeSeemsToHaveErred.rawValue,
                                 userInfo: nil)
             self.cycleDidFinish(cycle, error: error)
             return
@@ -484,7 +484,7 @@ NSURLSessionDataDelegate {
     }
 
     public func loadPreservedStateFromData(data: NSData, error: NSErrorPointer) -> Bool {
-        var options = NSPropertyListReadOptions(NSPropertyListMutabilityOptions.MutableContainersAndLeaves.toRaw()) // TODO: improve me
+        var options = NSPropertyListReadOptions(NSPropertyListMutabilityOptions.MutableContainersAndLeaves.rawValue) // TODO: improve me
         if let dict = NSPropertyListSerialization.propertyListWithData(data,
         options:options, format: nil, error: error) as? NSDictionary {
             if let headers = dict[PreservedHTTPHeadersKey] as? Dictionary<String, String> {
@@ -509,7 +509,7 @@ NSURLSessionDataDelegate {
         if self.preservedHTTPQueryParameters.count > 0 {
             var URLString = request.core.URL!.absoluteString
             URLString = MergeParametersToURL(URLString!, self.preservedHTTPQueryParameters)
-            if let URL = NSURL.URLWithString(URLString!) {
+            if let URL = NSURL(string: URLString!) {
                 var URLString = request.core.URL!.absoluteString
                 request.core.URL = URL
             }

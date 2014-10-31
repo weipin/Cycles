@@ -89,7 +89,7 @@ public func EscapeStringToURLArgumentString(str: String) -> String {
     var s = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
                                                     str as NSString, nil,
                                                     "!*'();:@&=+$,/?%#[]",
-                                                    CFStringBuiltInEncodings.UTF8.toRaw()) as NSString
+                                                    CFStringBuiltInEncodings.UTF8.rawValue) as NSString
     return s
 }
 

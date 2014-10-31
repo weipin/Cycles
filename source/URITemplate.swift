@@ -123,7 +123,7 @@ public class URITemplate {
         var s = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
             string as NSString, charactersToLeaveUnescaped as NSString,
             nil,
-            CFStringBuiltInEncodings.UTF8.toRaw())
+            CFStringBuiltInEncodings.UTF8.rawValue)
         var result = s as NSString
         return result
     }
@@ -139,7 +139,7 @@ public class URITemplate {
             var s = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
                 string as NSString, UNRESERVED as NSString,
                 LEGAL as NSString,
-                CFStringBuiltInEncodings.UTF8.toRaw())
+                CFStringBuiltInEncodings.UTF8.rawValue)
             result = s as NSString
 
         } else if allow == .UR {

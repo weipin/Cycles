@@ -35,7 +35,7 @@ func t_(lastComponent: String) -> String {
 
 func tu_(lastComponent: String) -> NSURL {
     var str = t_(lastComponent)
-    var URL = NSURL.URLWithString(str)
+    var URL = NSURL(string: str)!
 
     return URL
 }

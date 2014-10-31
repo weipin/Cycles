@@ -60,7 +60,7 @@ public class Response {
         return TextProcessor.textEncodingFromResponse(self)
     }()
 
-    public lazy var text: String = {
+    public lazy var text: String? = {
         var encoding = self.textReadEncoding
         if encoding == nil {
             encoding = self.textEncoding

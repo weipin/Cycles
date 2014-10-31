@@ -53,7 +53,7 @@ public class Service: NSObject {
         if (_baseURLString != nil) {
             return _baseURLString!
         }
-        var value: AnyObject? = self.profile[ServiceKey.BaseURL.toRaw()]
+        var value: AnyObject? = self.profile[ServiceKey.BaseURL.rawValue]
         if let str = value as? String {
             return str
         }
@@ -111,12 +111,12 @@ public class Service: NSObject {
             return nil
         }
         var error: NSError?
-        var data = NSData.dataWithContentsOfURL(URL!, options: NSDataReadingOptions(0), error: &error)
+        var data = NSData(contentsOfURL:URL!, options: NSDataReadingOptions(0), error: &error)
         if data == nil {
             println("\(error?.description)");
             return nil
         }
-        return self.profileForData(data)
+        return self.profileForData(data!)
     }
 
     class func profileForData(data: NSData) -> Dictionary<String, AnyObject>? {
@@ -181,12 +181,12 @@ public class Service: NSObject {
         }
 
         var error: NSError?
-        var data = NSData.dataWithContentsOfURL(URL!, options: NSDataReadingOptions(0), error: &error)
+        var data = NSData(contentsOfURL: URL!, options: NSDataReadingOptions(0), error: &error)
         if data == nil {
             println("\(error?.description)");
             return false
         }
-        if let profile = objectClass.profileForData(data) {
+        if let profile = objectClass.profileForData(data!) {
             self.profile = profile
             return true
         }
@@ -205,10 +205,10 @@ public class Service: NSObject {
  */
     public func verifyProfile(profile: Dictionary<String, AnyObject>) -> Bool {
         var names = NSMutableSet()
-        if let value: AnyObject = profile[ServiceKey.Resources.toRaw()] {
+        if let value: AnyObject = profile[ServiceKey.Resources.rawValue] {
             if let resources = value as? [Dictionary<String, String>] {
                 for (index, resource) in enumerate(resources) {
-                    if let name = resource[ServiceKey.Name.toRaw()] {
+                    if let name = resource[ServiceKey.Name.rawValue] {
                         if names.containsObject(name) {
                             println("Error: Malformed Resources (duplicate name) in Service profile (resource index: \(index))!");
                             return false
@@ -220,7 +220,7 @@ public class Service: NSObject {
                         return false
                     }
 
-                    if resource[ServiceKey.URITemplate.toRaw()] == nil {
+                    if resource[ServiceKey.URITemplate.rawValue] == nil {
                         println("Error: Malformed Resources (URL Template not found) in Service profile (resource index: \(index))!");
                         return false
                     }
@@ -242,10 +242,10 @@ public class Service: NSObject {
     public func resourceProfileForName(name: String) -> Dictionary<String, String>? {
         assert(self.profile != nil)
 
-        if let value: AnyObject = profile![ServiceKey.Resources.toRaw()] {
+        if let value: AnyObject = profile![ServiceKey.Resources.rawValue] {
             if let resources = value as? [Dictionary<String, String>] {
                 for resource in resources {
-                    if let n = resource[ServiceKey.Name.toRaw()] {
+                    if let n = resource[ServiceKey.Name.rawValue] {
                         if n == name {
                             return resource
                         }
@@ -310,19 +310,19 @@ public class Service: NSObject {
         }
 
         if let resourceProfile = self.resourceProfileForName(name) {
-            var URITemplate = resourceProfile[ServiceKey.URITemplate.toRaw()]
+            var URITemplate = resourceProfile[ServiceKey.URITemplate.rawValue]
             var part2 = ExpandURITemplate(URITemplate!, values: URIValues)
             var URLString = Service.URLStringByJoiningComponents(self.baseURLString, part2: part2)
 
-            var URL = NSURL.URLWithString(URLString)
+            var URL = NSURL(string: URLString)
             assert(URL != nil)
 
-            var method = resourceProfile[ServiceKey.Method.toRaw()]
+            var method = resourceProfile[ServiceKey.Method.rawValue]
             if method == nil {
                 method = "GET"
             }
 
-            cycle = Cycle(requestURL: URL, taskType: .Data, session: self.session,
+            cycle = Cycle(requestURL: URL!, taskType: .Data, session: self.session,
                 requestMethod: method!, requestObject: requestObject)
             cycle.solicited = solicited
             if identifier != nil {

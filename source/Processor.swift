@@ -127,7 +127,7 @@ public class DataProcessor : Processor {
         } else {
             if error != nil {
                 error.memory = NSError(domain: CycleErrorDomain,
-                    code: CycleErrorCode.ObjectKindNotMatch.toRaw(),
+                    code: CycleErrorCode.ObjectKindNotMatch.rawValue,
                     userInfo: nil)
             }
             return false
@@ -194,7 +194,7 @@ public class TextProcessor : Processor {
         // Content-Type contains "text" (RFC 2616, 3.7.1)
         if charset == nil && contentType != nil {
             if (contentType! as NSString).containsString("text") {
-                var enc = CFStringBuiltInEncodings.ISOLatin1.toRaw()
+                var enc = CFStringBuiltInEncodings.ISOLatin1.rawValue
                 return CFStringConvertEncodingToNSStringEncoding(enc)
             }
         }
@@ -221,7 +221,7 @@ public class TextProcessor : Processor {
         } else {
             if (error != nil) {
                 error.memory = NSError(domain: CycleErrorDomain,
-                    code: CycleErrorCode.ObjectKindNotMatch.toRaw(),
+                    code: CycleErrorCode.ObjectKindNotMatch.rawValue,
                     userInfo: nil)
             }
         }
@@ -269,7 +269,7 @@ public class JSONProcessor : Processor {
         } else {
             if (error != nil) {
                 error.memory = NSError(domain: CycleErrorDomain,
-                    code: CycleErrorCode.ObjectKindNotMatch.toRaw(),
+                    code: CycleErrorCode.ObjectKindNotMatch.rawValue,
                     userInfo: nil)
             }
             return false
@@ -309,7 +309,7 @@ public class FORMProcessor : Processor {
         } else {
             if (error != nil) {
                 error.memory = NSError(domain: CycleErrorDomain,
-                    code: CycleErrorCode.ObjectKindNotMatch.toRaw(),
+                    code: CycleErrorCode.ObjectKindNotMatch.rawValue,
                     userInfo: nil)
             }
             return false

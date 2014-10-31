@@ -44,7 +44,7 @@ class CycleTests: XCTestCase {
 
         cycle.start {(cycle, error) in
             XCTAssertNil(error)
-            XCTAssertEqual(cycle.response.text, "Hello World");
+            XCTAssertEqual(cycle.response.text!, "Hello World");
             XCTAssertEqual(cycle.response!.statusCode!, 200);
             expection.fulfill()
         }
@@ -60,7 +60,7 @@ class CycleTests: XCTestCase {
         cycle.start {(cycle, error) in
             XCTAssertNil(error)
 
-            var enc = CFStringEncoding(CFStringEncodings.EUC_CN.toRaw())
+            var enc = CFStringEncoding(CFStringEncodings.EUC_CN.rawValue)
             var encoding = cycle.response.textEncoding
             XCTAssertTrue(encoding == CFStringConvertEncodingToNSStringEncoding(enc));
             expection.fulfill()
@@ -76,7 +76,7 @@ class CycleTests: XCTestCase {
         cycle.start {(cycle, error) in
             XCTAssertNil(error)
 
-            var enc = CFStringEncoding(CFStringBuiltInEncodings.ISOLatin1.toRaw())
+            var enc = CFStringEncoding(CFStringBuiltInEncodings.ISOLatin1.rawValue)
             var encoding = cycle.response.textEncoding
             XCTAssertTrue(encoding == CFStringConvertEncodingToNSStringEncoding(enc));
             expection.fulfill()
@@ -92,7 +92,7 @@ class CycleTests: XCTestCase {
         cycle.start {(cycle, error) in
             XCTAssertNil(error)
 
-            var enc = CFStringEncoding(CFStringEncodings.GB_18030_2000.toRaw())
+            var enc = CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue)
             var encoding = cycle.response.textEncoding
             XCTAssertTrue(encoding == CFStringConvertEncodingToNSStringEncoding(enc));
             expection.fulfill()
@@ -126,7 +126,7 @@ class CycleTests: XCTestCase {
         cycle.start {(cycle, error) in
             XCTAssertNil(error)
 
-            XCTAssertEqual(cycle.response.text, "Hello World")
+            XCTAssertEqual(cycle.response.text!, "Hello World")
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -134,7 +134,7 @@ class CycleTests: XCTestCase {
 
     func testUploadFileShouldWork() {
         var bundle = NSBundle(identifier: TestBundleIdentifier)
-        var file = bundle.URLForResource("upload", withExtension: "txt")
+        var file = bundle!.URLForResource("upload", withExtension: "txt")
 
         var expection = self.expectationWithDescription("")
         var URL = tu_("dumpupload/")
@@ -144,7 +144,7 @@ class CycleTests: XCTestCase {
         cycle.start {(cycle, error) in
             XCTAssertNil(error)
 
-            XCTAssertEqual(cycle.response.text, "Hello World File")
+            XCTAssertEqual(cycle.response.text!, "Hello World File")
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -157,7 +157,7 @@ class CycleTests: XCTestCase {
         cycle.downloadFileHandler = {(cycle: Cycle, location: NSURL?) in
             XCTAssertNotNil(location)
             var content = NSString(contentsOfURL: location!, encoding: NSUTF8StringEncoding, error: nil)
-            XCTAssertEqual(content, "helloworld")
+            XCTAssertEqual(content!, "helloworld")
         }
         cycle.start {(cycle, error) in
             XCTAssertNil(error)
@@ -191,7 +191,7 @@ class CycleTests: XCTestCase {
         cycle.start {(cycle, error) in
             XCTAssertNil(error)
             XCTAssertEqual(cycle.response.statusCode!, NSInteger(200))
-            XCTAssertEqual(cycle.response.text, "Hello World")
+            XCTAssertEqual(cycle.response.text!, "Hello World")
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -220,7 +220,7 @@ class CycleTests: XCTestCase {
         cycle.start {(cycle, error) in
             XCTAssertNil(error)
             XCTAssertEqual(cycle.response.statusCode!, NSInteger(200))
-            XCTAssertEqual(cycle.response.text, "Hello World")
+            XCTAssertEqual(cycle.response.text!, "Hello World")
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -304,7 +304,7 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL, session: session)
         cycle.start { (cycle, error) in
             XCTAssertNil(error)
-            XCTAssertTrue((cycle.response.text as NSString).containsString("HTTP_X_CYCLES_HEADER=a reserved HTTP header"))
+            XCTAssertTrue((cycle.response.text! as NSString).containsString("HTTP_X_CYCLES_HEADER=a reserved HTTP header"))
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -318,7 +318,7 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL, session: session)
         cycle.start { (cycle, error) in
             XCTAssertNil(error)
-            XCTAssertTrue((cycle.response.text as NSString).containsString("QUERY_STRING=k1=v1&k2=v2"))
+            XCTAssertTrue((cycle.response.text! as NSString).containsString("QUERY_STRING=k1=v1&k2=v2"))
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
@@ -342,8 +342,8 @@ class CycleTests: XCTestCase {
         var cycle = Cycle(requestURL: URL, session: session2)
         cycle.start { (cycle, error) in
             XCTAssertNil(error)
-            XCTAssertTrue((cycle.response.text as NSString).containsString("HTTP_X_CYCLES_HEADER=a reserved HTTP header"))
-            XCTAssertTrue((cycle.response.text as NSString).containsString("QUERY_STRING=k1=v1a&k1=v1b&k2=v2"))
+            XCTAssertTrue((cycle.response.text! as NSString).containsString("HTTP_X_CYCLES_HEADER=a reserved HTTP header"))
+            XCTAssertTrue((cycle.response.text! as NSString).containsString("QUERY_STRING=k1=v1a&k1=v1b&k2=v2"))
             expection.fulfill()
         }
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)

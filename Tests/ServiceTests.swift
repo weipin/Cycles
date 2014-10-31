@@ -72,7 +72,7 @@ class ServiceBasicTests: XCTestCase {
     }
 
     func testVerifyProfileShouldWork() {
-        var bundle = NSBundle(identifier: TestBundleIdentifier)
+        var bundle = NSBundle(identifier: TestBundleIdentifier)!
         var URL = bundle.URLForResource("FooTestService", withExtension: "plist")
         var service = FooTestService()
         XCTAssertTrue(service.updateProfileFromLocalFile(URL: URL))
@@ -80,7 +80,7 @@ class ServiceBasicTests: XCTestCase {
     }
 
     func testVerifyProfileShouldFailForDuplicateName() {
-        var bundle = NSBundle(identifier: TestBundleIdentifier)
+        var bundle = NSBundle(identifier: TestBundleIdentifier)!
         var URL = bundle.URLForResource("FooTestService_DuplicateName", withExtension: "plist")
         var service = FooTestService()
         XCTAssertTrue(service.updateProfileFromLocalFile(URL: URL))
@@ -88,7 +88,7 @@ class ServiceBasicTests: XCTestCase {
     }
 
     func testVerifyProfileShouldFailForNameNotFound() {
-        var bundle = NSBundle(identifier: TestBundleIdentifier)
+        var bundle = NSBundle(identifier: TestBundleIdentifier)!
         var URL = bundle.URLForResource("FooTestService_NameNotFound", withExtension: "plist")
         var service = FooTestService()
         XCTAssertTrue(service.updateProfileFromLocalFile(URL: URL))
@@ -96,7 +96,7 @@ class ServiceBasicTests: XCTestCase {
     }
 
     func testVerifyProfileShouldFailForNoResources() {
-        var bundle = NSBundle(identifier: TestBundleIdentifier)
+        var bundle = NSBundle(identifier: TestBundleIdentifier)!
         var URL = bundle.URLForResource("FooTestService_NoResources", withExtension: "plist")
         var service = FooTestService()
         XCTAssertTrue(service.updateProfileFromLocalFile(URL: URL))
@@ -104,7 +104,7 @@ class ServiceBasicTests: XCTestCase {
     }
 
     func testVerifyProfileShouldFailForURITemplateNotFound() {
-        var bundle = NSBundle(identifier: TestBundleIdentifier)
+        var bundle = NSBundle(identifier: TestBundleIdentifier)!
         var URL = bundle.URLForResource("FooTestService_URITemplateNotFound", withExtension: "plist")
         var service = FooTestService()
         XCTAssertTrue(service.updateProfileFromLocalFile(URL: URL))
@@ -131,7 +131,7 @@ class ServiceHTTPTests: XCTestCase {
             URIValues: ["content": "hello world"])
         cycle.start {(cycle, error) in
             XCTAssertNil(error)
-            XCTAssertEqual(cycle.response.text, "hello world");
+            XCTAssertEqual(cycle.response.text!, "hello world");
             XCTAssertEqual(cycle.response!.statusCode!, 200);
             expection.fulfill()
         }
@@ -156,7 +156,7 @@ class ServiceHTTPTests: XCTestCase {
         XCTAssertFalse(cycle1 === cycle2)
         cycle2.start {(cycle, error) in
             XCTAssertNil(error)
-            XCTAssertEqual(cycle.response.text, "hello 2");
+            XCTAssertEqual(cycle.response.text!, "hello 2");
             XCTAssertEqual(cycle.response!.statusCode!, 200);
             expection.fulfill()
         }
@@ -182,7 +182,7 @@ class ServiceHTTPTests: XCTestCase {
         XCTAssertTrue(cycle1 === cycle2)
         cycle2.start {(cycle, error) in
             XCTAssertNil(error)
-            XCTAssertEqual(cycle.response.text, "hello 1");
+            XCTAssertEqual(cycle.response.text!, "hello 1");
             XCTAssertEqual(cycle.response!.statusCode!, 200);
             expection.fulfill()
         }
@@ -196,7 +196,7 @@ class ServiceHTTPTests: XCTestCase {
         var cycle = service.cycleForResource("hello", URIValues: ["content": "hello world"])
         cycle.start {(cycle, error) in
             XCTAssertNil(error)
-            XCTAssertEqual(cycle.response.text, "hello world");
+            XCTAssertEqual(cycle.response.text!, "hello world");
             XCTAssertEqual(cycle.response!.statusCode!, 200);
             expection.fulfill()
         }
@@ -209,7 +209,7 @@ class ServiceHTTPTests: XCTestCase {
         var cycle = service.requestResourceWithIdentifer("hello", identifier: "test_task",
             URIValues: ["content": "hello world"], completionHandler: {(cycle, error) in
                 XCTAssertNil(error)
-                XCTAssertEqual(cycle.response.text, "hello world");
+                XCTAssertEqual(cycle.response.text!, "hello world");
                 XCTAssertEqual(cycle.response!.statusCode!, 200);
                 expection.fulfill()
             })
@@ -222,7 +222,7 @@ class ServiceHTTPTests: XCTestCase {
         var cycle = service.requestResource("hello",
             URIValues: ["content": "hello world"], completionHandler: {(cycle, error) in
                 XCTAssertNil(error)
-                XCTAssertEqual(cycle.response.text, "hello world");
+                XCTAssertEqual(cycle.response.text!, "hello world");
                 XCTAssertEqual(cycle.response!.statusCode!, 200);
                 expection.fulfill()
             })
@@ -284,7 +284,7 @@ class ServiceHTTPMoreTests: XCTestCase {
         service.requestResource("postdata", requestObject: data,
             completionHandler: { (cycle, error) in
                 XCTAssertNil(error)
-                XCTAssertEqual(cycle.response.text, "hello world")
+                XCTAssertEqual(cycle.response.text!, "hello world")
                 expection.fulfill()
             })
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
