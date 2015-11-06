@@ -31,12 +31,12 @@ extension Cycle {
     authentications: [Authentication]? = nil,
     solicited: Bool = false,
     completionHandler: CycleCompletionHandler) -> Cycle {
-        var str = URLString
+        var str: String = URLString.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
         if parameters != nil {
             str = MergeParametersToURL(URLString, parameters!)
         }
-        var URL = NSURL(string: str)!
-        var cycle = Cycle(requestURL: URL,
+        var URL = NSURL(string: str)
+        var cycle = Cycle(requestURL: URL!,
                           taskType: CycleType.Data,
                           requestMethod: method,
                           requestObject: requestObject,

@@ -50,6 +50,11 @@ class CycleConvenienceTests: XCTestCase {
 
         self.waitForExpectationsWithTimeout(Timeout, handler: nil)
     }
+    
+//    TODO
+    func testGETWithCyrillicShouldWork() {
+        
+    }
 
     func testGETWithParametersShouldWork() {
         var expection = self.expectationWithDescription("")

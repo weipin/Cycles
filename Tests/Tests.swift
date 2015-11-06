@@ -28,6 +28,10 @@ let TestBundleIdentifier = "com.cocoahope.CyclesTests"
 
 func t_(lastComponent: String) -> String {
     let base = "http://127.0.0.1:8000/test/"
+
+    //  TODO
+    //  Cyrillic url like: http://uk.wikipedia.org//w/api.php?format=json&action=query&titles=Головна_сторінка&prop=revisions&rvprop=content&rawcontinue
+    
     var str = base + lastComponent
 
     return str
